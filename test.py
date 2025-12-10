@@ -3,6 +3,7 @@ import numpy as np
 from PIL import Image
 import tensorflow as tf
 from sklearn.metrics import confusion_matrix
+import re
 
 MODEL_PATH = "model.keras"
 IMAGE_FOLDER = "test/"
@@ -11,6 +12,11 @@ IMG_SIZE = (224, 224)
 
 # Load Keras model
 model = tf.keras.models.load_model(MODEL_PATH)
+
+def numeric_key(filename):
+    # Extract the first number in filename for sorting
+    nums = re.findall(r'\d+', filename)
+    return int(nums[0]) if nums else float('inf')
 
 def predict_image(img_path):
     img = Image.open(img_path).convert("RGB")
@@ -21,16 +27,13 @@ def predict_image(img_path):
 
     output = model.predict(arr, verbose=0)[0]
 
-    # If model output is shape (1,) → binary classification
     pred = 1 if output[0] > 0.5 else 0
     return pred
-
 
 def run_folder(folder):
     y_true = []
     y_pred = []
 
-    # Adjust these to match folder names inside test/
     label_map = {"no_water": 0, "water": 1}
 
     for root, _, files in os.walk(folder):
@@ -40,19 +43,23 @@ def run_folder(folder):
 
         true_label = label_map[folder_name]
 
-        for filename in files:
-            if filename.lower().endswith((".png", ".jpg", ".jpeg")):
-                path = os.path.join(root, filename)
+        # Sort files numerically
+        image_files = sorted(
+            [f for f in files if f.lower().endswith((".png", ".jpg", ".jpeg"))],
+            key=numeric_key
+        )
 
-                pred = predict_image(path)
+        for filename in image_files:
+            path = os.path.join(root, filename)
 
-                y_true.append(true_label)
-                y_pred.append(pred)
+            pred = predict_image(path)
 
-                print(f"{path}: true {true_label}, predicted {pred}")
+            y_true.append(true_label)
+            y_pred.append(pred)
+
+            print(f"{path}: true {true_label}, predicted {pred}")
 
     return y_true, y_pred
-
 
 if __name__ == "__main__":
     y_true, y_pred = run_folder(IMAGE_FOLDER)
