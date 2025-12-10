@@ -80,7 +80,12 @@ history = model.fit(
     validation_data=valid_data,
     epochs=5
 )
-
+tf.keras.callbacks.EarlyStopping(
+    monitor='val_loss',
+    patience=3,
+    verbose=1,
+    start_from_epoch=3
+)
 model.save("model.keras")
 test_loss, test_acc = model.evaluate(test_data)
 print("Test accuracy:", test_acc)
