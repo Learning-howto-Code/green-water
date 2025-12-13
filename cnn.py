@@ -58,7 +58,7 @@ data_augmentation = tf.keras.Sequential([
 ], name="data_augmentation")
 
 model = Sequential([
-    layers.Input(shape=(224, 224, 3)),   # define input once
+    layers.Input(shape=(224, 224, 1)),   # define input once
     data_augmentation,
     layers.Conv2D(16, (3,3), activation='relu'),
     layers.MaxPooling2D(),
@@ -77,7 +77,7 @@ model.compile(
 history = model.fit(
     train_data,
     validation_data=valid_data,
-    epochs=5
+    epochs=50
 )
 tf.keras.callbacks.EarlyStopping(
     monitor='val_loss',
