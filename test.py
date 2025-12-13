@@ -19,7 +19,7 @@ def numeric_key(filename):
     return int(nums[0]) if nums else float('inf')
 
 def predict_image(img_path):
-    img = Image.open(img_path).convert("grayscale")
+    img = Image.open(img_path).convert("L")
     img = img.resize(IMG_SIZE)
 
     arr = np.array(img, dtype=np.float32) / 255.0
