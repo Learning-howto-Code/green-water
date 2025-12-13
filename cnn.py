@@ -24,11 +24,13 @@ batch_size = 32
 image_size = (224, 224)
 class_mode = 'binary'
 
+# Data Generators
 train_data = datagen.flow_from_directory(
     train_path,
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
+    color_mode='grayscale',
     seed=42
 )
 
@@ -37,6 +39,7 @@ valid_data = datagen.flow_from_directory(
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
+    color_mode='grayscale',
     seed=42
 )
 test_data = datagen.flow_from_directory(
@@ -44,18 +47,14 @@ test_data = datagen.flow_from_directory(
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
+    color_mode='grayscale',
     seed=42
 )
 data_augmentation = tf.keras.Sequential([
-    # layers.RandomFlip("horizontal"),
-    # layers.RandomRotation(0.1),
     layers.RandomZoom(0.1),
-    layers.RandomTranslation(0.1, 0.1),
-    layers.RandomBrightness(factor=0.1),
-    layers.RandomContrast(0.1),
-    # layers.GaussianNoise(0.1),nnao 
-    # layers.Resizing(256, 256),
-    # layers.Resizing(224, 224),
+    layers.RandomTranslation(0, 0.25),
+    layers.RandomCrop(0.1, 0.25),
+    layers.RandomFlip("horizontal_and_vertical"),
 ], name="data_augmentation")
 
 model = Sequential([
