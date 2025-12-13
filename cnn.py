@@ -53,7 +53,7 @@ test_data = datagen.flow_from_directory(
 data_augmentation = tf.keras.Sequential([
     layers.RandomZoom(0.1),
     layers.RandomTranslation(0, 0.25),
-    layers.RandomCrop(0.1, 0.25),
+    layers.RandomZoom(height_factor=(-0.2, 0.2), width_factor=(-0.2, 0.2)),#randomyl zooms, alt to cropping
     layers.RandomFlip("horizontal_and_vertical"),
 ], name="data_augmentation")
 
@@ -83,7 +83,8 @@ tf.keras.callbacks.EarlyStopping(
     monitor='val_loss',
     patience=3,
     verbose=1,
-    start_from_epoch=3
+    start_from_epoch=3,
+    min_delta=0.01,
 )
 model.save("model.keras")
 test_loss, test_acc = model.evaluate(test_data)
