@@ -29,7 +29,7 @@ train_data = datagen.flow_from_directory(
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
-    color_mode='RGB',
+    color_mode='rgb',
     seed=42
 )
 
@@ -38,7 +38,7 @@ valid_data = datagen.flow_from_directory(
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
-    color_mode='RGB',
+    color_mode='rgb',
     seed=42
 )
 # test_data = datagen.flow_from_directory(
