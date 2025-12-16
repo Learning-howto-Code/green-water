@@ -10,17 +10,16 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-path_to_folder = "/Users/jakehopkins/Downloads/if_water"
-# Filepaths
 
+# Filepaths
 train_path= "//Users/abrahamhopkins/Downloads/Jakes_Model/if_water/train"
 val_path= "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/val"
-test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/test"
+# test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/test"
 
 
 datagen= ImageDataGenerator(rescale=1./255)
 #prepares imgs for training
-batch_size = 32
+batch_size = 364
 image_size = (224, 224)
 class_mode = 'binary'
 
@@ -42,14 +41,14 @@ valid_data = datagen.flow_from_directory(
     color_mode='grayscale',
     seed=42
 )
-test_data = datagen.flow_from_directory(
-    test_path,
-    batch_size=batch_size,
-    target_size=image_size,
-    class_mode=class_mode,
-    color_mode='grayscale',
-    seed=42
-)
+# test_data = datagen.flow_from_directory(
+#     test_path,
+#     batch_size=batch_size,
+#     target_size=image_size,
+#     class_mode=class_mode,
+#     color_mode='grayscale',
+#     seed=42
+# )
 data_augmentation = tf.keras.Sequential([
     layers.RandomZoom(0.1),
     layers.RandomTranslation(0, 0.25),
@@ -59,7 +58,7 @@ data_augmentation = tf.keras.Sequential([
 
 model = Sequential([
     layers.Input(shape=(224, 224, 1)),   # define input once
-    data_augmentation,
+    # data_augmentation,
     layers.Conv2D(16, (3,3), activation='relu'),
     layers.MaxPooling2D(),
     layers.Conv2D(32, (3,3), activation='relu'),
@@ -87,5 +86,5 @@ tf.keras.callbacks.EarlyStopping(
     min_delta=0.01,
 )
 model.save("model.keras")
-test_loss, test_acc = model.evaluate(test_data)
-print("Test accuracy:", test_acc)
+# test_loss, test_acc = model.evaluate(test_data)
+# print("Test accuracy:", test_acc)
