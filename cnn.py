@@ -19,7 +19,7 @@ val_path= "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/val"
 
 datagen= ImageDataGenerator(rescale=1./255)
 #prepares imgs for training
-batch_size = 364
+batch_size = 32
 image_size = (224, 224)
 class_mode = 'binary'
 
@@ -85,6 +85,7 @@ tf.keras.callbacks.EarlyStopping(
     start_from_epoch=3,
     min_delta=0.01,
 )
-model.save("model.keras")
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+model.save(f"model_{timestamp}.keras")
 # test_loss, test_acc = model.evaluate(test_data)
 # print("Test accuracy:", test_acc)
