@@ -15,7 +15,7 @@ path_to_folder = "/Users/jakehopkins/Downloads/if_water"
 
 train_path= "//Users/abrahamhopkins/Downloads/Jakes_Model/if_water/train"
 val_path= "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/val"
-test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/train"
+test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/test"
 
 
 datagen= ImageDataGenerator(rescale=1./255)
@@ -60,7 +60,7 @@ layers.RandomContrast(0.1),
 
 model = Sequential([
 layers.Input(shape=(224, 224, 3)),   # define input once
-data_augmentation,
+# data_augmentation,
 layers.Conv2D(16, (3,3), activation='relu'),
 layers.MaxPooling2D(),
 layers.Conv2D(32, (3,3), activation='relu'),
