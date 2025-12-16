@@ -29,7 +29,7 @@ train_data = datagen.flow_from_directory(
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
-    color_mode='grayscale',
+    color_mode='RGB',
     seed=42
 )
 
@@ -38,7 +38,7 @@ valid_data = datagen.flow_from_directory(
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
-    color_mode='grayscale',
+    color_mode='RGB',
     seed=42
 )
 # test_data = datagen.flow_from_directory(
@@ -57,7 +57,7 @@ data_augmentation = tf.keras.Sequential([
 ], name="data_augmentation")
 
 model = Sequential([
-    layers.Input(shape=(224, 224, 1)),   # define input once
+    layers.Input(shape=(224, 224, 3)),   # define input once
     # data_augmentation,
     layers.Conv2D(16, (3,3), activation='relu'),
     layers.MaxPooling2D(),

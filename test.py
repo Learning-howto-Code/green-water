@@ -19,11 +19,10 @@ def numeric_key(filename):
     return int(nums[0]) if nums else float('inf')
 
 def predict_image(img_path):
-    img = Image.open(img_path).convert("L")
+    img = Image.open(img_path).convert("RGB")
     img = img.resize(IMG_SIZE)
 
     arr = np.array(img, dtype=np.float32) / 255.0
-    arr = np.expand_dims(arr, axis=-1)  # add channel dimension
     arr = np.expand_dims(arr, axis=0)   # add batch dimension
 
 
