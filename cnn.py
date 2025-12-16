@@ -9,6 +9,7 @@ from keras.preprocessing import image
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from datetime import datetime
 
 
 # Filepaths
@@ -58,13 +59,14 @@ data_augmentation = tf.keras.Sequential([
 
 model = Sequential([
     layers.Input(shape=(224, 224, 3)),   # define input once
-    # data_augmentation,
+    data_augmentation,
     layers.Conv2D(16, (3,3), activation='relu'),
     layers.MaxPooling2D(),
     layers.Conv2D(32, (3,3), activation='relu'),
     layers.MaxPooling2D(),
     layers.Flatten(),
     layers.Dense(64, activation='relu'),
+    layers.Dropout(0.5),
     layers.Dense(1, activation='sigmoid')
 ])
 
@@ -73,17 +75,18 @@ model.compile(
     loss='binary_crossentropy',
     metrics=['accuracy']
 )
-history = model.fit(
-    train_data,
-    validation_data=valid_data,
-    epochs=5
-)
-tf.keras.callbacks.EarlyStopping(
+early_stopping = tf.keras.callbacks.EarlyStopping(
     monitor='val_loss',
     patience=3,
     verbose=1,
     start_from_epoch=3,
     min_delta=0.01,
+)
+history = model.fit(
+    train_data,
+    validation_data=valid_data,
+    epochs=5,
+    callbacks=[early_stopping]
 )
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 model.save(f"model_{timestamp}.keras")
