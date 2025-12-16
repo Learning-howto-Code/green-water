@@ -15,7 +15,7 @@ path_to_folder = "/Users/jakehopkins/Downloads/if_water"
 
 train_path= "//Users/abrahamhopkins/Downloads/Jakes_Model/if_water/train"
 val_path= "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/val"
-test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/train"
+test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/test"
 
 
 datagen= ImageDataGenerator(rescale=1./255)
@@ -77,7 +77,7 @@ model.compile(
 history = model.fit(
     train_data,
     validation_data=valid_data,
-    epochs=50
+    epochs=5
 )
 tf.keras.callbacks.EarlyStopping(
     monitor='val_loss',
