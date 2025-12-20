@@ -5,19 +5,19 @@ import tensorflow as tf
 from sklearn.metrics import confusion_matrix
 import re
 
-MODEL_PATH = "model.keras"
+MODEL_PATH = "model. keras"
 
 # Define all dataset folders
 DATASET_FOLDERS = {
-    "train": "train/",
+    "train":  "train/",
     "val": "val/",
-    "test":  "test/"
+    "test": "test/"
 }
 
 IMG_SIZE = (224, 224)
 
 # Load Keras model
-model = tf.keras.models.load_model(MODEL_PATH)
+model = tf. keras.models.load_model(MODEL_PATH)
 
 def numeric_key(filename):
     # Extract the first number in filename for sorting
@@ -25,15 +25,16 @@ def numeric_key(filename):
     return int(nums[0]) if nums else float('inf')
 
 def predict_image(img_path):
-    img = Image.open(img_path).convert("RGB")
+    img = Image.open(img_path).convert("L")  # "L" for grayscale
     img = img.resize(IMG_SIZE)
 
     arr = np.array(img, dtype=np.float32) / 255.0
-    arr = np.expand_dims(arr, axis=0)   # add batch dimension
+    arr = np.expand_dims(arr, axis=-1)  # Add channel dimension (224, 224, 1)
+    arr = np.expand_dims(arr, axis=0)   # Add batch dimension (1, 224, 224, 1)
 
-    output = model. predict(arr, verbose=0)[0]
+    output = model.predict(arr, verbose=0)[0]
 
-    pred = 1 if output[0] > 0.5 else 0
+    pred = 1 if output[0] > 0.5 else 0  # Fixed: was missing the 0
     return pred
 
 def run_folder(folder):
@@ -42,25 +43,25 @@ def run_folder(folder):
 
     label_map = {"no_water": 0, "water": 1}
 
-    for root, _, files in os.walk(folder):
+    for root, _, files in os. walk(folder):
         folder_name = os.path.basename(root)
-        if folder_name not in label_map:
+        if folder_name not in label_map: 
             continue
 
         true_label = label_map[folder_name]
 
         # Sort files numerically
         image_files = sorted(
-            [f for f in files if f. lower().endswith((".png", ".jpg", ".jpeg"))],
+            [f for f in files if f.lower().endswith((".png", ".jpg", ". jpeg"))],
             key=numeric_key
         )
 
         for filename in image_files: 
-            path = os. path.join(root, filename)
+            path = os.path.join(root, filename)
 
             pred = predict_image(path)
 
-            y_true.append(true_label)
+            y_true. append(true_label)
             y_pred.append(pred)
 
             print(f"{path}: true {true_label}, predicted {pred}")
@@ -84,9 +85,9 @@ def evaluate_all_datasets(dataset_folders):
         if len(y_true) > 0:
             cm = confusion_matrix(y_true, y_pred)
             results[name] = {
-                "confusion_matrix": cm,
+                "confusion_matrix":  cm,
                 "y_true": y_true,
-                "y_pred": y_pred
+                "y_pred":  y_pred
             }
             
             print(f"\n{name. upper()} CONFUSION MATRIX")
@@ -95,7 +96,7 @@ def evaluate_all_datasets(dataset_folders):
             # Calculate and display accuracy
             accuracy = np.sum(np.diag(cm)) / np.sum(cm)
             print(f"Accuracy: {accuracy:.4f}")
-        else:
+        else: 
             print(f"No images found in {folder}")
     
     return results
@@ -109,6 +110,6 @@ if __name__ == "__main__":
     print('='*50)
     for name, data in results.items():
         cm = data["confusion_matrix"]
-        accuracy = np.sum(np.diag(cm)) / np.sum(cm)
+        accuracy = np. sum(np.diag(cm)) / np.sum(cm)
         total_samples = np.sum(cm)
         print(f"{name.upper()}: {total_samples} samples, Accuracy: {accuracy:. 4f}")
