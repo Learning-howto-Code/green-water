@@ -10,25 +10,27 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-path_to_folder = "/Users/jakehopkins/Downloads/if_water"
-# Filepaths
 
+# Filepaths
 train_path= "//Users/abrahamhopkins/Downloads/Jakes_Model/if_water/train"
 val_path= "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/val"
-test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/test"
+# test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/test"
 
 
 datagen= ImageDataGenerator(rescale=1./255)
 #prepares imgs for training
+batch_size = 364
 batch_size = 32
 image_size = (224, 224)
 class_mode = 'binary'
 
+# Data Generators
 train_data = datagen.flow_from_directory(
 train_path,
 batch_size=batch_size,
 target_size=image_size,
 class_mode=class_mode,
+color_mode='grayscale',
 seed=42
 )
 
@@ -37,29 +39,26 @@ val_path,
 batch_size=batch_size,
 target_size=image_size,
 class_mode=class_mode,
+color_mode='grayscale',
 seed=42
 )
-test_data = datagen.flow_from_directory(
-test_path,
-batch_size=batch_size,
-target_size=image_size,
-class_mode=class_mode,
-seed=42
-)
+# test_data = datagen.flow_from_directory(
+#     test_path,
+#     batch_size=batch_size,
+#     target_size=image_size,
+#     class_mode=class_mode,
+#     color_mode='grayscale',
+#     seed=42
+# )
 data_augmentation = tf.keras.Sequential([
-# layers.RandomFlip("horizontal"),
-# layers.RandomRotation(0.1),
 layers.RandomZoom(0.1),
-layers.RandomTranslation(0.1, 0.1),
-layers.RandomBrightness(factor=0.1),
-layers.RandomContrast(0.1),
-# layers.GaussianNoise(0.1),nnao 
-# layers.Resizing(256, 256),
-# layers.Resizing(224, 224),
+layers.RandomTranslation(0, 0.25),
+layers.RandomZoom(height_factor=(-0.2, 0.2), width_factor=(-0.2, 0.2)),#randomyl zooms, alt to cropping
+layers.RandomFlip("horizontal_and_vertical"),
 ], name="data_augmentation")
 
 model = Sequential([
-layers.Input(shape=(224, 224, 3)),   # define input once
+layers.Input(shape=(224, 224, 1)),   # define input once
 # data_augmentation,
 layers.Conv2D(16, (3,3), activation='relu'),
 layers.MaxPooling2D(),
@@ -80,13 +79,15 @@ train_data,
 validation_data=valid_data,
 epochs=5
 )
-
 tf.keras.callbacks.EarlyStopping(
-    monitor='val_loss',
-    patience=3,
-    verbose=1,
-    start_from_epoch=3
+monitor='val_loss',
+patience=3,
+verbose=1,
+start_from_epoch=3,
+min_delta=0.01,
 )
 model.save("model.keras")
-test_loss, test_acc = model.evaluate(test_data)
-print("Test accuracy:", test_acc)
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+model.save(f"model_{timestamp}.keras")
+# test_loss, test_acc = model.evaluate(test_data)
+# print("Test accuracy:", test_acc)
