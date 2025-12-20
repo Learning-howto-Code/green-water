@@ -13,27 +13,36 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 # Filepaths
-train_path= "//Users/abrahamhopkins/Downloads/Jakes_Model/if_water/train"
+train_paths=[ "//Users/abrahamhopkins/Downloads/Jakes_Model/if_water/train", "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/prod_train"] #trying adding prod data to train
+
 val_path= "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/val"
 test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/test"
 
 
 datagen= ImageDataGenerator(rescale=1./255)
-#prepares imgs for training
 batch_size = 364
 batch_size = 32
 image_size = (224, 224)
 class_mode = 'binary'
 
 # Data Generators
-train_data = datagen.flow_from_directory(
-train_path,
-batch_size=batch_size,
-target_size=image_size,
-class_mode=class_mode,
-color_mode='grayscale',
-seed=42
-)
+train_datasets = []
+for path in train_paths: 
+    ds = tf.keras. utils.image_dataset_from_directory(
+        path,
+        batch_size=batch_size,
+        image_size=image_size,
+        color_mode='grayscale',
+        label_mode='binary',
+        seed=42
+    )
+    train_datasets.append(ds)
+
+train_data = train_datasets[0]
+for ds in train_datasets[1:]:
+    train_data = train_data.concatenate(ds)
+train_data = train_data.map(lambda x, y: (x / 255.0, y))
+
 
 valid_data = datagen.flow_from_directory(
 val_path,
