@@ -14,7 +14,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 # Filepaths
 train_path= "//Users/abrahamhopkins/Downloads/Jakes_Model/if_water/train"
 val_path= "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/val"
-# test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/test"
+test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/test"
 
 
 datagen= ImageDataGenerator(rescale=1./255)
@@ -42,14 +42,14 @@ class_mode=class_mode,
 color_mode='grayscale',
 seed=42
 )
-# test_data = datagen.flow_from_directory(
-#     test_path,
-#     batch_size=batch_size,
-#     target_size=image_size,
-#     class_mode=class_mode,
-#     color_mode='grayscale',
-#     seed=42
-# )
+test_data = datagen.flow_from_directory(
+    test_path,
+    batch_size=batch_size,
+    target_size=image_size,
+    class_mode=class_mode,
+    color_mode='grayscale',
+    seed=42
+)
 data_augmentation = tf.keras.Sequential([
 layers.RandomZoom(0.1),
 layers.RandomTranslation(0, 0.25),
