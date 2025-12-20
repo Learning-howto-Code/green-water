@@ -6,7 +6,13 @@ from sklearn.metrics import confusion_matrix
 import re
 
 MODEL_PATH = "model.keras"
-IMAGE_FOLDER = "test/"
+
+# Define all dataset folders
+DATASET_FOLDERS = {
+    "train": "train/",
+    "val": "val/",
+    "test":  "test/"
+}
 
 IMG_SIZE = (224, 224)
 
@@ -25,8 +31,7 @@ def predict_image(img_path):
     arr = np.array(img, dtype=np.float32) / 255.0
     arr = np.expand_dims(arr, axis=0)   # add batch dimension
 
-
-    output = model.predict(arr, verbose=0)[0]
+    output = model. predict(arr, verbose=0)[0]
 
     pred = 1 if output[0] > 0.5 else 0
     return pred
@@ -46,12 +51,12 @@ def run_folder(folder):
 
         # Sort files numerically
         image_files = sorted(
-            [f for f in files if f.lower().endswith((".png", ".jpg", ".jpeg"))],
+            [f for f in files if f. lower().endswith((".png", ".jpg", ".jpeg"))],
             key=numeric_key
         )
 
-        for filename in image_files:
-            path = os.path.join(root, filename)
+        for filename in image_files: 
+            path = os. path.join(root, filename)
 
             pred = predict_image(path)
 
@@ -62,9 +67,48 @@ def run_folder(folder):
 
     return y_true, y_pred
 
-if __name__ == "__main__":
-    y_true, y_pred = run_folder(IMAGE_FOLDER)
+def evaluate_all_datasets(dataset_folders):
+    results = {}
+    
+    for name, folder in dataset_folders.items():
+        if not os.path.exists(folder):
+            print(f"\nWarning: {folder} does not exist, skipping {name} dataset.")
+            continue
+            
+        print(f"\n{'='*50}")
+        print(f"Evaluating {name. upper()} dataset: {folder}")
+        print('='*50)
+        
+        y_true, y_pred = run_folder(folder)
+        
+        if len(y_true) > 0:
+            cm = confusion_matrix(y_true, y_pred)
+            results[name] = {
+                "confusion_matrix": cm,
+                "y_true": y_true,
+                "y_pred": y_pred
+            }
+            
+            print(f"\n{name. upper()} CONFUSION MATRIX")
+            print(cm)
+            
+            # Calculate and display accuracy
+            accuracy = np.sum(np.diag(cm)) / np.sum(cm)
+            print(f"Accuracy: {accuracy:.4f}")
+        else:
+            print(f"No images found in {folder}")
+    
+    return results
 
-    cm = confusion_matrix(y_true, y_pred)
-    print("\nCONFUSION MATRIX")
-    print(cm)
+if __name__ == "__main__":
+    results = evaluate_all_datasets(DATASET_FOLDERS)
+    
+    # Print summary
+    print(f"\n{'='*50}")
+    print("SUMMARY")
+    print('='*50)
+    for name, data in results.items():
+        cm = data["confusion_matrix"]
+        accuracy = np.sum(np.diag(cm)) / np.sum(cm)
+        total_samples = np.sum(cm)
+        print(f"{name.upper()}: {total_samples} samples, Accuracy: {accuracy:. 4f}")
