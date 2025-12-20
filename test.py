@@ -25,16 +25,16 @@ def numeric_key(filename):
     return int(nums[0]) if nums else float('inf')
 
 def predict_image(img_path):
-    img = Image.open(img_path).convert("L")  # "L" for grayscale
+    img = Image.open(img_path).convert("L")  # Convert to grayscale (1 channel)
     img = img.resize(IMG_SIZE)
 
     arr = np.array(img, dtype=np.float32) / 255.0
-    arr = np.expand_dims(arr, axis=-1)  # Add channel dimension (224, 224, 1)
-    arr = np.expand_dims(arr, axis=0)   # Add batch dimension (1, 224, 224, 1)
+    arr = np.expand_dims(arr, axis=-1)  # Add channel dimension:  (224, 224) -> (224, 224, 1)
+    arr = np.expand_dims(arr, axis=0)   # Add batch dimension:  (224, 224, 1) -> (1, 224, 224, 1)
 
-    output = model.predict(arr, verbose=0)[0]
+    output = model. predict(arr, verbose=0)[0]
 
-    pred = 1 if output[0] > 0.5 else 0  # Fixed: was missing the 0
+    pred = 1 if output[0] > 0.5 else 0
     return pred
 
 def run_folder(folder):
