@@ -5,7 +5,7 @@ import tensorflow as tf
 from sklearn.metrics import confusion_matrix
 import re
 
-MODEL_PATH = "model. keras"
+MODEL_PATH = "model_with_prod_lots_of_aug20251220_140845.keras"
 
 # Define all dataset folders
 DATASET_FOLDERS = {
