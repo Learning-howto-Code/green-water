@@ -9,8 +9,8 @@ MODEL_PATH = "model. keras"
 
 # Define all dataset folders
 DATASET_FOLDERS = {
-    "train":  "train/",
-    "val": "val/",
+    # "train":  "train/",
+    # "val": "val/",
     "test": "test/"
 }
 

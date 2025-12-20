@@ -52,9 +52,9 @@ test_data = datagen.flow_from_directory(
     seed=42
 )
 data_augmentation = tf.keras.Sequential([
-layers.RandomZoom(0.1),
-layers.RandomTranslation(0, 0.25),
-layers.RandomZoom(height_factor=(-0.2, 0.2), width_factor=(-0.2, 0.2)),#randomyl zooms, alt to cropping
+layers.RandomZoom(0.25),
+layers.RandomTranslation(0, 0.4),
+layers.RandomZoom(height_factor=(-0.4, 0.4), width_factor=(-0.2, 0.2)),#randomyl zooms, alt to cropping
 layers.RandomFlip("horizontal_and_vertical"),
 ], name="data_augmentation")
 
