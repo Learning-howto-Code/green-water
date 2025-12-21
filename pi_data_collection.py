@@ -3,9 +3,10 @@ from time import sleep, strftime, time
 from pi5neo import Pi5Neo
 import os
 import cv2
-
+from tqdm import tqdm
 # Image folder
 img_folder = "/home/jake/Downloads/if_water/no_water"
+Frames=1000
 
 # SPI setup for NeoPixel
 SPI_DEVICE = '/dev/spidev0.0'
@@ -26,14 +27,12 @@ def take_pic():
     print("waited 2 sec") #cam is now ready
     frame_count=0
     start_time = time()
-    while frame_count < 1000:  #takes images for 20 seconds
+    for frame_count in tqdm(range(1,Frames+1)):  #takes images for 20 seconds
         frame = picam2.capture_array()  #uses capture array funtion instead
-        frame_count += 1
-        
         filename = f"{img_folder}/img_{strftime('%Y%m%d_%H%M%S')}_{frame_count}.jpg"
         cv2.imwrite(filename, frame)
 
-    print("Captured", frame_count, "frames in", round(time()-start_time, 2), "seconds")
+    print("Captured", Frames, "frames in", round(time()-start_time, 2), "seconds")
 
 
 
