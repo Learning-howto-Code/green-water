@@ -87,7 +87,7 @@ metrics=['accuracy']
 history = model.fit(
 train_data,
 validation_data=valid_data,
-epochs=5
+epochs=8
 )
 tf.keras.callbacks.EarlyStopping(
 monitor='val_loss',
@@ -96,8 +96,8 @@ verbose=1,
 start_from_epoch=3,
 min_delta=0.01,
 )
-model.save("model.keras")
+
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-model.save(f"model_{timestamp}.keras")
+model.save(f"model_with_prod_lots_of_aug{timestamp}.keras")
 # test_loss, test_acc = model.evaluate(test_data)
 # print("Test accuracy:", test_acc)
