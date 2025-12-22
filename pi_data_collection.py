@@ -27,7 +27,7 @@ def take_pic():
     print("waited 2 sec") #cam is now ready
     frame_count=0
     start_time = time()
-    for frame_count in tqdm(range(1,Frames+1)):  #takes images for 20 seconds
+    for frame_count in tqdm(range(1,Frames+1),desc="Capturing", unit="img"):  #takes images for 20 seconds
         frame = picam2.capture_array()  #uses capture array funtion instead
         filename = f"{img_folder}/img_{strftime('%Y%m%d_%H%M%S')}_{frame_count}.jpg"
         cv2.imwrite(filename, frame)
