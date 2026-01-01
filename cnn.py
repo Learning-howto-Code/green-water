@@ -13,14 +13,13 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 # Filepaths
-train_paths=[ "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/pi_data/train"] #trying adding prod data to train
+train_paths=[ "/Users/jakehopkins/Downloads/if_water/pi_data/train"] #trying adding prod data to train
 
-val_path= "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/pi_data/val"
-# test_path="/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/test"
+val_path= "/Users/jakehopkins/Downloads/if_water/pi_data/val"
+test_path="/Users/jakehopkins/Downloads/if_water/pi_data/test"
 
 
 datagen= ImageDataGenerator(rescale=1./255)
-batch_size = 364
 batch_size = 32
 image_size = (224, 224)
 class_mode = 'binary'
@@ -52,14 +51,14 @@ class_mode=class_mode,
 color_mode='grayscale',
 seed=42
 )
-# test_data = datagen.flow_from_directory(
-#     test_path,
-#     batch_size=batch_size,
-#     target_size=image_size,
-#     class_mode=class_mode,
-#     color_mode='grayscale',
-#     seed=42
-# )
+test_data = datagen.flow_from_directory(
+    test_path,
+    batch_size=batch_size,
+    target_size=image_size,
+    class_mode=class_mode,
+    color_mode='grayscale',
+    seed=42
+)
 data_augmentation = tf.keras.Sequential([
 layers.RandomZoom(0.25),
 layers.RandomTranslation(0, 0.4),
@@ -67,17 +66,6 @@ layers.RandomZoom(height_factor=(-0.4, 0.4), width_factor=(-0.2, 0.2)),#randomyl
 layers.RandomFlip("horizontal_and_vertical"),
 ], name="data_augmentation")
 
-model = Sequential([
-layers.Input(shape=(224, 224, 1)),   # define input once
-# data_augmentation,
-layers.Conv2D(16, (3,3), activation='relu'),
-layers.MaxPooling2D(),
-layers.Conv2D(32, (3,3), activation='relu'),
-layers.MaxPooling2D(),
-layers.Flatten(),
-layers.Dense(64, activation='relu'),
-layers.Dense(1, activation='sigmoid')
-])
 
 model.compile(
 optimizer='adam',
@@ -86,18 +74,18 @@ metrics=['accuracy']
 )
 history = model.fit(
 train_data,
+verbose=0,
 validation_data=valid_data,
 epochs=8
 )
 tf.keras.callbacks.EarlyStopping(
 monitor='val_loss',
 patience=3,
-verbose=1,
 start_from_epoch=3,
 min_delta=0.01,
 )
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-model.save(f"pi_data_model{timestamp}.keras")
-# test_loss, test_acc = model.evaluate(test_data)
-# print("Test accuracy:", test_acc)
+model.save(f"testing{timestamp}.keras")
+test_loss, test_acc = model.evaluate(test_data)
+print("Test accuracy:", test_acc)

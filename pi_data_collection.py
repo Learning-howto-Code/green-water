@@ -5,7 +5,7 @@ import os
 import cv2
 from tqdm import tqdm
 # Image folder
-img_folder = "/home/jake/Downloads/if_water/no_water"
+img_folder = "/home/jake/Downloads/if_water/pi_data/test/water"
 Frames=1000
 
 # SPI setup for NeoPixel
@@ -19,7 +19,7 @@ def take_pic():
     neo.update_strip() #sets color
     print("light on")
     picam2 = Picamera2()
-    config = picam2.create_still_configuration(main={"size": (1280, 720)}, lores={"size": (640, 480)}, display="lores")
+    config = picam2.create_video_configuration(main={"size": (640, 360)}, lores={"size": (640, 480)}, display="lores")
     picam2.configure(config) #sets configuration
     picam2.start()
     print("activated cam")

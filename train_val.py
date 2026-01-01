@@ -39,3 +39,4 @@ def move_split(train_dir, val_dir, val_ratio=0.15):
     print(f"Val count:       {len(os.listdir(val_dir))}")
 
 move_split(train_dir, val_dir)
+
