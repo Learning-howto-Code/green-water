@@ -5,14 +5,15 @@ import tensorflow as tf
 from sklearn.metrics import confusion_matrix
 import re
 
-MODEL_PATH = input("enter file path")
-MODEL_PATH= str(MODEL_PATH)
+# MODEL_PATH = input("enter file path")
+# MODEL_PATH= str(MODEL_PATH)
+MODEL_PATH= "testing20260107_170021.keras"
 
 # Define all dataset folders
 DATASET_FOLDERS = {
-    # "train":  "train/",
-    # "val": "val/",
-    "test": "test/"
+    # "train":  "pi_data/train/",
+    # "val": "pi_data/val/",
+    "test": "pi_data/test/"
 }
 
 IMG_SIZE = (224, 224)
@@ -26,17 +27,15 @@ def numeric_key(filename):
     return int(nums[0]) if nums else float('inf')
 
 def predict_image(img_path):
-    img = Image.open(img_path).convert("L")  # Convert to grayscale (1 channel)
+    img = Image.open(img_path).convert("RGB")  # Convert to RGB
     img = img.resize(IMG_SIZE)
 
-    arr = np.array(img, dtype=np.float32) / 255.0
-    arr = np.expand_dims(arr, axis=-1)  # Add channel dimension:  (224, 224) -> (224, 224, 1)
-    arr = np.expand_dims(arr, axis=0)   # Add batch dimension:  (224, 224, 1) -> (1, 224, 224, 1)
+    arr = np.array(img, dtype=np.float32) / 255.0  # Shape is (224, 224, 3)
+    arr = np.expand_dims(arr, axis=0)   # Add batch dimension: (224, 224, 3) -> (1, 224, 224, 3)
 
     output = model. predict(arr, verbose=0)[0]
 
-    pred = 1 if output[0] > 0.5 else 0
-    return pred
+    return output
 
 def run_folder(folder):
     y_true = []
@@ -63,10 +62,8 @@ def run_folder(folder):
             pred = predict_image(path)
 
             y_true. append(true_label)
-            y_pred.append(pred)
-
+            y_pred.append(np.round(pred))
             print(f"{path}: true {true_label}, predicted {pred}")
-
     return y_true, y_pred
 
 def evaluate_all_datasets(dataset_folders):
@@ -82,13 +79,12 @@ def evaluate_all_datasets(dataset_folders):
         print('='*50)
         
         y_true, y_pred = run_folder(folder)
-        
         if len(y_true) > 0:
             cm = confusion_matrix(y_true, y_pred)
             results[name] = {
                 "confusion_matrix":  cm,
                 "y_true": y_true,
-                "y_pred":  y_pred
+                "y_pred": y_pred
             }
             
             print(f"\n{name. upper()} CONFUSION MATRIX")

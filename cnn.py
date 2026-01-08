@@ -13,7 +13,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 # Filepaths
-train_paths=[ "/Users/jakehopkins/Downloads/if_water/pi_data/train"] #trying adding prod data to train
+train_paths="/Users/jakehopkins/Downloads/if_water/pi_data/train"
 
 val_path= "/Users/jakehopkins/Downloads/if_water/pi_data/val"
 test_path="/Users/jakehopkins/Downloads/if_water/pi_data/test"
@@ -25,30 +25,20 @@ image_size = (224, 224)
 class_mode = 'binary'
 
 # Data Generators
-train_datasets = []
-for path in train_paths: 
-    ds = tf.keras. utils.image_dataset_from_directory(
-        path,
-        batch_size=batch_size,
-        image_size=image_size,
-        color_mode='grayscale',
-        label_mode='binary',
-        seed=42
-    )
-    train_datasets.append(ds)
-
-train_data = train_datasets[0]
-for ds in train_datasets[1:]:
-    train_data = train_data.concatenate(ds)
-train_data = train_data.map(lambda x, y: (x / 255.0, y))
-
-
+train_data = datagen.flow_from_directory(
+    train_paths,
+    batch_size=batch_size,
+    target_size=image_size,
+    class_mode=class_mode,
+    color_mode='rgb',
+    seed=42
+)
 valid_data = datagen.flow_from_directory(
 val_path,
 batch_size=batch_size,
 target_size=image_size,
 class_mode=class_mode,
-color_mode='grayscale',
+color_mode='rgb',
 seed=42
 )
 test_data = datagen.flow_from_directory(
@@ -56,7 +46,7 @@ test_data = datagen.flow_from_directory(
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
-    color_mode='grayscale',
+    color_mode='rgb',
     seed=42
 )
 data_augmentation = tf.keras.Sequential([
@@ -66,6 +56,17 @@ layers.RandomZoom(height_factor=(-0.4, 0.4), width_factor=(-0.2, 0.2)),#randomyl
 layers.RandomFlip("horizontal_and_vertical"),
 ], name="data_augmentation")
 
+model = Sequential([
+layers.Input(shape=(224, 224, 3)),   # define input once
+# data_augmentation,
+layers.Conv2D(16, (3,3), activation='relu'),
+layers.MaxPooling2D(),
+layers.Conv2D(32, (3,3), activation='relu'),
+layers.MaxPooling2D(),
+layers.Flatten(),
+layers.Dense(64, activation='relu'),
+layers.Dense(1, activation='sigmoid')
+])
 
 model.compile(
 optimizer='adam',
@@ -74,7 +75,7 @@ metrics=['accuracy']
 )
 history = model.fit(
 train_data,
-verbose=0,
+verbose=1,
 validation_data=valid_data,
 epochs=8
 )
