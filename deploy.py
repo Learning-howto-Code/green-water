@@ -41,9 +41,14 @@ def take_pic():
     interpreter.invoke()
     # gets prediciton
     prediction = interpreter.get_tensor(output_details[0]["index"])
+    # Extract the single float value from the nested array
     prediction = prediction[0][0]
-    print(prediction)
-    return prediction
+
+    # Print the raw value formatted to 8 decimal places for readability
+    print(f"{prediction:.8f}")
+
+    # Return the rounded value (0 or 1) for the main loop
+    return round(prediction)
 
 x = 0
 while x < 5:
