@@ -41,7 +41,7 @@ def take_pic():
     interpreter.invoke()
     # gets prediciton
     prediction = interpreter.get_tensor(output_details[0]["index"])
-    print(prediction)
+    print(prediction[0][0])
     return prediction
 
 x = 0
