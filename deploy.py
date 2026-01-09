@@ -11,7 +11,7 @@ import json
 
 file="logs.json"
 with open(file, "w") as f:
-            json.dump([], f)
+            json.dump(["start"], f)
 
 interpreter = tflite.Interpreter(model_path="model.tflite")
 interpreter.allocate_tensors()
@@ -61,14 +61,14 @@ while x < 100:
     prediction = take_pic()
     x += 1
     data = None  # Initialize data to None at the start of the loop
-    if prediction >= 0.7 and not water_on:
+    if prediction >= 0.6:
         water_on = True
         data = {
             "water_starts": True,
             "Time": time.strftime("%Y-%m-%d %H:%M:%S")
         }
         print("Water Started")
-    elif prediction <= 0.3 and water_on:
+    elif prediction <= 0.4:
         water_on = False
         data = { # data for json
             "water_stops": True,
