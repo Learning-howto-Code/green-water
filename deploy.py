@@ -56,9 +56,10 @@ while x < 100:
     sleep(0.2)
     prediction = take_pic()
     x += 1
-    if prediction>=0.7 and water_on==False:
-        water_on=True
-        data={
+    data = None  # Initialize data to None at the start of the loop
+    if prediction >= 0.7 and not water_on:
+        water_on = True
+        data = {
             "water_starts": True,
             "water_stops": False,
             "Time": time.strftime("%Y-%m-%d %H:%M:%S")
@@ -73,7 +74,7 @@ while x < 100:
         }
         print("Water Stopped")
     else:
-        print("either no data or model not confident")
+        print("Either no data to log or model not confident enough.")
 
     # If there is new data, append it to the log file
     if data:
@@ -82,8 +83,8 @@ while x < 100:
                 logs = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             logs = []
-    logs.append(data)
-    with open(file, "w")as f:
-        json.dump(logs, f, indent=4)
+        logs.append(data)
+        with open(file, "w") as f:
+            json.dump(logs, f, indent=4)
 neo.fill_strip(0, 0, 0)
 neo.update_strip()  # commit/send to LEDs
