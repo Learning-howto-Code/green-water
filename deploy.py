@@ -5,9 +5,13 @@ import numpy as np
 import cv2
 import tflite_runtime.interpreter as tflite
 import sys
+import os
 from pi5neo import Pi5Neo
 import json
+
 file="logs.json"
+with open(file, "w") as f:
+            json.dump([], f)
 
 interpreter = tflite.Interpreter(model_path="model.tflite")
 interpreter.allocate_tensors()
@@ -64,7 +68,7 @@ while x < 100:
             "Time": time.strftime("%Y-%m-%d %H:%M:%S")
         }
         print("Water Started")
-    elif prediction <= 0.2 and water_on:
+    elif prediction <= 0.3 and water_on:
         water_on = False
         data = { # data for json
             "water_stops": True,
