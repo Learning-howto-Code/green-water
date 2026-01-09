@@ -1,11 +1,13 @@
 from picamera2 import Picamera2
 from time import sleep
+import time
 import numpy as np
 import cv2
 import tflite_runtime.interpreter as tflite
 import sys
 from pi5neo import Pi5Neo
-
+import json
+file="logs.json"
 
 interpreter = tflite.Interpreter(model_path="model.tflite")
 interpreter.allocate_tensors()
@@ -46,12 +48,37 @@ def take_pic():
 
     # Print the raw value formatted to 8 decimal places for readability
     print(f"{prediction:.8f}")
+    return prediction
+water_on= False
+if prediction>=0.7 and water_on==False:
+    water_on=True
+    data={
+        "water_starts": True,
+        "water_stops": False,
+        "Time": time.strftime("%Y-%m-%d %H:%M:%S")
+    }
+    print("Water Started")
+if prediction<=0.3 and water_on==True:
+    water_on=False
+    data={
+        "water_starts": False,
+        "water_stops": True,
+        "Time": time.strftime("%Y-%m-%d %H:%M:%S")
+    }
+    print("Water Stopped")
+else:
+     print("either no data or model not confident")
 
-    # Return the rounded value (0 or 1) for the main loop
-    return round(prediction)
-
+try: 
+    with open(file, "r")as f:
+        logs = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+        logs = []
+logs.append(data)
+with open(file, "w")as f:
+        json.dump(logs, f, indent=4)
 x = 0
-while x < 5:
+while x < 100:
     sleep(0.2)
     take_pic()
     x += 1
