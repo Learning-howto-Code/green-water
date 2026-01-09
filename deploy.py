@@ -57,18 +57,16 @@ while x < 100:
     prediction = take_pic()
     x += 1
     data = None  # Initialize data to None at the start of the loop
-    if prediction <= 0.7 and not water_on:
+    if prediction >= 0.7 and not water_on:
         water_on = True
         data = {
             "water_starts": True,
-            "water_stops": False,
             "Time": time.strftime("%Y-%m-%d %H:%M:%S")
         }
         print("Water Started")
-    elif prediction >= 0.3 and water_on:
+    elif prediction <= 0.2 and water_on:
         water_on = False
         data = { # data for json
-            "water_starts": False,
             "water_stops": True,
             "Time": time.strftime("%Y-%m-%d %H:%M:%S")
         }
