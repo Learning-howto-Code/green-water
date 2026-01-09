@@ -1,0 +1,17 @@
+[
+    {
+        "water_starts": true,
+        "water_stops": false,
+        "Time": "current_time"
+    },
+    {
+        "water_starts": true,
+        "water_stops": false,
+        "Time": "current_time"
+    },
+    {
+        "water_starts": true,
+        "water_stops": false,
+        "Time": "current_time"
+    }
+]
