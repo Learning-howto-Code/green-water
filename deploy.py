@@ -8,6 +8,8 @@ import sys
 import os
 from pi5neo import Pi5Neo
 import json
+import subprocess
+import psutil
 
 file="logs.json"
 with open(file, "w") as f:
@@ -54,13 +56,24 @@ def take_pic():
     print(f"{prediction:.8f}")
     return prediction
 water_on= False
-
-x = 0
-while x < 100:
+def hardware_data():
+    cpu_temp = subprocess.check_output(["vcgencmd", "measure_temp"]).decode("UTF-8") # to 8 decimal points
+    cpu_usage = psutil.cpu_percent(interval=1) # measures full cpu load avg'd over one sec
+    ram = psutil.virtual_memory()
+    used = ram.used / 1024**2 # outputs used ram in MB
+    throtled = subprocess.check_output(["vcgencmd", "get_throttled"]).decode("UTF-8") #VCGENMD is the pi os system, if non zero pi is throttling
+    print (f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | Throttled: {throtled.strip()}")
+    return cpu_temp, cpu_usage, used, throtled
+x= 0
+while x < 100: # runs model 10 times
     sleep(0.2)
+    start = time.perf_counter()
     prediction = take_pic()
+    end = time.perf_counter()
+    print ((end-start)*1000) #acounts for data aquisition and infernce, which seems more usefull
     x += 1
     data = None  # Initialize data to None at the start of the loop
+    # bucket logic
     if prediction >= 0.6:
         water_on = True
         data = {
@@ -78,15 +91,15 @@ while x < 100:
     else:
         print("Either no data to log or model not confident enough.")
 
-    # If there is new data, append it to the log file
+# logs data
     if data:
-        try:
-            with open(file, "r") as f:
-                logs = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            logs = []
+        with open(file, "r") as f:
+            logs = json.load(f)
+            logs = [] # wipes file at run time for testing
         logs.append(data)
         with open(file, "w") as f:
-            json.dump(logs, f, indent=4)
+            json.dump(logs, f, indent=4) # adds current log
+    if x % 10 == 0: # runs the hardware logs every 2 seconds
+        hardware_data()
 neo.fill_strip(0, 0, 0)
-neo.update_strip()  # commit/send to LEDs
+neo.update_strip()  # send to LEDs
