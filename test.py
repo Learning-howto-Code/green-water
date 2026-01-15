@@ -1,112 +1,26 @@
-import os
+from picamera2 import Picamera2
+from time import sleep
+import time
 import numpy as np
-from PIL import Image
-import tensorflow as tf
-from sklearn.metrics import confusion_matrix
-import re
+import cv2
+import tflite_runtime.interpreter as tflite
+import sys
+import os
+from pi5neo import Pi5Neo
+import json
+import subprocess
+import psutil
 
-# MODEL_PATH = input("enter file path")
-# MODEL_PATH= str(MODEL_PATH)
-MODEL_PATH= "testing20260107_170021.keras"
-
-# Define all dataset folders
-DATASET_FOLDERS = {
-    # "train":  "pi_data/train/",
-    # "val": "pi_data/val/",
-    "test": "pi_data/test/"
-}
-
-IMG_SIZE = (224, 224)
-
-# Load Keras model
-model = tf. keras.models.load_model(MODEL_PATH)
-
-def numeric_key(filename):
-    # Extract the first number in filename for sorting
-    nums = re.findall(r'\d+', filename)
-    return int(nums[0]) if nums else float('inf')
-
-def predict_image(img_path):
-    img = Image.open(img_path).convert("RGB")  # Convert to RGB
-    img = img.resize(IMG_SIZE)
-
-    arr = np.array(img, dtype=np.float32) / 255.0  # Shape is (224, 224, 3)
-    arr = np.expand_dims(arr, axis=0)   # Add batch dimension: (224, 224, 3) -> (1, 224, 224, 3)
-
-    output = model. predict(arr, verbose=0)[0]
-
-    return output
-
-def run_folder(folder):
-    y_true = []
-    y_pred = []
-
-    label_map = {"no_water": 0, "water": 1}
-
-    for root, _, files in os. walk(folder):
-        folder_name = os.path.basename(root)
-        if folder_name not in label_map: 
-            continue
-
-        true_label = label_map[folder_name]
-
-        # Sort files numerically
-        image_files = sorted(
-            [f for f in files if f.lower().endswith((".png", ".jpg", ". jpeg"))],
-            key=numeric_key
-        )
-
-        for filename in image_files: 
-            path = os.path.join(root, filename)
-
-            pred = predict_image(path)
-
-            y_true. append(true_label)
-            y_pred.append(np.round(pred))
-            print(f"{path}: true {true_label}, predicted {pred}")
-    return y_true, y_pred
-
-def evaluate_all_datasets(dataset_folders):
-    results = {}
-    
-    for name, folder in dataset_folders.items():
-        if not os.path.exists(folder):
-            print(f"\nWarning: {folder} does not exist, skipping {name} dataset.")
-            continue
-            
-        print(f"\n{'='*50}")
-        print(f"Evaluating {name. upper()} dataset: {folder}")
-        print('='*50)
-        
-        y_true, y_pred = run_folder(folder)
-        if len(y_true) > 0:
-            cm = confusion_matrix(y_true, y_pred)
-            results[name] = {
-                "confusion_matrix":  cm,
-                "y_true": y_true,
-                "y_pred": y_pred
-            }
-            
-            print(f"\n{name. upper()} CONFUSION MATRIX")
-            print(cm)
-            
-            # Calculate and display accuracy
-            accuracy = np.sum(np.diag(cm)) / np.sum(cm)
-            print(f"Accuracy: {accuracy:.4f}")
-        else: 
-            print(f"No images found in {folder}")
-    
-    return results
-
-if __name__ == "__main__":
-    results = evaluate_all_datasets(DATASET_FOLDERS)
-    
-    # Print summary
-    print(f"\n{'='*50}")
-    print("SUMMARY")
-    print('='*50)
-    for name, data in results.items():
-        cm = data["confusion_matrix"]
-        accuracy = np. sum(np.diag(cm)) / np.sum(cm)
-        total_samples = np.sum(cm)
-        print(f"{name.upper()}: {total_samples} samples, Accuracy: {accuracy:. 4f}")
+def hardware_data(): # will only run on pi, due to how systems pull the data
+    cpu_temp = subprocess.check_output(["vcgencmd", "measure_temp"]).decode("UTF-8") # to 8 decimal points
+    cpu_usage = psutil.cpu_percent(interval=1) # measures full cpu load avg'd over one sec
+    ram = psutil.virtual_memory()
+    used = ram.used / 1024**2 # outputs used ram in MB
+    throtled = subprocess.check_output(["vcgencmd", "get_throttled"]).decode("UTF-8") #VCGENMD is the pi os system, if non zero pi is throttling
+    print (f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | Throttled: {throtled.strip()}")
+    return cpu_temp, cpu_usage, used, throtled
+x = 0 
+for x in range(100):
+    hardware_data()
+    sleep(1)
+    x += 1
