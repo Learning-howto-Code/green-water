@@ -10,6 +10,7 @@ from pi5neo import Pi5Neo
 import json
 import subprocess
 import psutil
+fps=5
 
 file="logs.json"
 with open(file, "w") as f:
@@ -56,17 +57,17 @@ def take_pic():
     print(f"{prediction:.8f}")
     return prediction
 water_on= False
-def hardware_data():
+def hardware_data(): # will only run on pi, due to how systems pull the data
     cpu_temp = subprocess.check_output(["vcgencmd", "measure_temp"]).decode("UTF-8") # to 8 decimal points
     cpu_usage = psutil.cpu_percent(interval=1) # measures full cpu load avg'd over one sec
     ram = psutil.virtual_memory()
     used = ram.used / 1024**2 # outputs used ram in MB
     throtled = subprocess.check_output(["vcgencmd", "get_throttled"]).decode("UTF-8") #VCGENMD is the pi os system, if non zero pi is throttling
-    print (f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | Throttled: {throtled.strip()}")
+    print (f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | FPS: {fps} Throttled: {throtled.strip()}")
     return cpu_temp, cpu_usage, used, throtled
 x= 0
 while x < 100: # runs model 10 times
-    sleep(0.2)
+    sleep(1/fps)
     start = time.perf_counter()
     prediction = take_pic()
     end = time.perf_counter()
