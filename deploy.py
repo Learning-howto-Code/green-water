@@ -50,7 +50,7 @@ def take_pic():
     istart = time.perf_counter()
     interpreter.invoke()
     iend = time.perf_counter()
-    print(f"inference latency {(iend - istart) * 1000} ms")
+    # print(f"inference latency {(iend - istart) * 1000} ms")
     # gets prediciton
     prediction = interpreter.get_tensor(output_details[0]["index"])
     # Extract the single float value from the nested array
@@ -75,6 +75,12 @@ while x < 100: # runs model 10 times
     prediction = take_pic()
     fend = time.perf_counter()
     print (f"full latency {(fend-fstart)*1000} ms") #acounts for data aquisition and infernce, which seems more usefull
+    
+    # Check for camera backup
+    completed_requests = picam2.completed_requests
+    if completed_requests and completed_requests[-1].get_metadata().get("QueueDuration", 0) > 100000:
+        print("Warning: Camera buffer is backing up!")
+
     x += 1
     data = None  # Initialize data to None at the start of the loop
     # bucket logic
