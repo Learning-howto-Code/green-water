@@ -71,7 +71,7 @@ while x < 100: # runs model 10 times
     start = time.perf_counter()
     prediction = take_pic()
     end = time.perf_counter()
-    print ((end-start)*1000) #acounts for data aquisition and infernce, which seems more usefull
+    print (f"latency {(end-start)*1000} ms") #acounts for data aquisition and infernce, which seems more usefull
     x += 1
     data = None  # Initialize data to None at the start of the loop
     # bucket logic
