@@ -47,7 +47,10 @@ def take_pic():
     # Add batch dimension → (1, 224, 224, 3)
     img = np.expand_dims(img, axis=0)
     interpreter.set_tensor(input_details[0]["index"], img)
+    istart = time.perf_counter()
     interpreter.invoke()
+    iend = time.perf_counter()
+    print(f"inference latency {(iend - istart) * 1000} ms")
     # gets prediciton
     prediction = interpreter.get_tensor(output_details[0]["index"])
     # Extract the single float value from the nested array
@@ -68,10 +71,10 @@ def hardware_data(): # will only run on pi, due to how systems pull the data
 x= 0
 while x < 100: # runs model 10 times
     sleep(1/fps)
-    start = time.perf_counter()
+    fstart = time.perf_counter()
     prediction = take_pic()
-    end = time.perf_counter()
-    print (f"latency {(end-start)*1000} ms") #acounts for data aquisition and infernce, which seems more usefull
+    fend = time.perf_counter()
+    print (f"full latency {(fend-fstart)*1000} ms") #acounts for data aquisition and infernce, which seems more usefull
     x += 1
     data = None  # Initialize data to None at the start of the loop
     # bucket logic
