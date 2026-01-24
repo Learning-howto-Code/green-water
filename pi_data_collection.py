@@ -6,7 +6,7 @@ import cv2
 from tqdm import tqdm
 # Image folder
 img_folder = "/home/jake/Downloads/if_water/Clean_Dirty/food"
-Frames=5000
+Frames=1
 
 # SPI setup for NeoPixel
 SPI_DEVICE = '/dev/spidev0.0'
@@ -29,6 +29,7 @@ def take_pic():
     start_time = time()
     for frame_count in tqdm(range(1,Frames+1),desc="Capturing", unit="img"):  #takes images for 20 seconds
         frame = picam2.capture_array()  #uses capture array funtion instead
+        frame= cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
         filename = f"{img_folder}/img_{strftime('%Y%m%d_%H%M%S')}_{frame_count}.jpg"
         cv2.imwrite(filename, frame)
 
