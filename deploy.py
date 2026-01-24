@@ -10,7 +10,7 @@ from pi5neo import Pi5Neo
 import json
 import subprocess
 import psutil
-fps=5
+fps=30
 
 file="logs.json"
 with open(file, "w") as f:
@@ -69,7 +69,7 @@ def hardware_data(): # will only run on pi, due to how systems pull the data
     print (f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | FPS: {fps} Throttled: {throtled.strip()}")
     return cpu_temp, cpu_usage, used, throtled
 x= 0
-while x < 100: # runs model 10 times
+while x < 1000000000: # runs model 10 times
     sleep(1/fps)
     fstart = time.perf_counter()
     prediction = take_pic()

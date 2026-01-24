@@ -5,8 +5,8 @@ import os
 import cv2
 from tqdm import tqdm
 # Image folder
-img_folder = "/home/jake/Downloads/if_water/pi_data/test/water"
-Frames=1000
+img_folder = "/home/jake/Downloads/if_water/Clean_Dirty/food"
+Frames=5000
 
 # SPI setup for NeoPixel
 SPI_DEVICE = '/dev/spidev0.0'
@@ -15,11 +15,11 @@ pin = 30
 neo = Pi5Neo(SPI_DEVICE, pin, SPI_SPEED_KHZ)
  
 def take_pic():
-    neo.fill_strip(10, 10, 10) #sets LED's to white and a little dimmer
+    neo.fill_strip(180, 255, 255) #sets LED's to white and a little dimmer
     neo.update_strip() #sets color
     print("light on")
     picam2 = Picamera2()
-    config = picam2.create_video_configuration(main={"size": (640, 360)}, lores={"size": (640, 480)}, display="lores")
+    config = picam2.create_video_configuration(main={"size": (640, 360)}, lores={"size": (640, 360)}, display="lores")
     picam2.configure(config) #sets configuration
     picam2.start()
     print("activated cam")
