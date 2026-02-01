@@ -1,3 +1,10 @@
+"""""
+- Should load clean dirty model
+- turn on cam and light
+- run infernece loop, with output as 1 of 4 classes
+- log to json file what the state, duration, timestamp, and tag that connects to images logged
+"""""
+
 from picamera2 import Picamera2
 from time import sleep
 import time
@@ -21,7 +28,6 @@ interpreter.allocate_tensors()
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
-#sets up cam
 picam2 = Picamera2()
 config = picam2.create_video_configuration(main={"size": (224, 224)}, buffer_count=4)
 picam2.configure(config)
@@ -47,9 +53,7 @@ def take_pic():
     # Add batch dimension → (1, 224, 224, 3)
     img = np.expand_dims(img, axis=0)
     interpreter.set_tensor(input_details[0]["index"], img)
-    istart = time.perf_counter()
     interpreter.invoke()
-    iend = time.perf_counter()
     # print(f"inference latency {(iend - istart) * 1000} ms")
     # gets prediciton
     prediction = interpreter.get_tensor(output_details[0]["index"])

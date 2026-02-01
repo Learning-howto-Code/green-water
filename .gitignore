@@ -5,3 +5,6 @@ README_move_fraction.md
 /train/*
 /test/*
 venv/
+/Clean_Dirty/
+pi_data/
+phone_data/

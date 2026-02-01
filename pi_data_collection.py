@@ -5,9 +5,9 @@ import os
 import cv2
 from tqdm import tqdm
 # Image folder
-img_folder = "/home/jake/Downloads/if_water/Clean_Dirty/food"
+img_folder = "/home/jake/Downloads/if_water/Clean_Dirty/no_water"
 
-Frames=6000
+Frames=3500
 brightness=1
 
 # SPI setup for NeoPixel

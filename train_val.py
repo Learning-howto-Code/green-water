@@ -3,13 +3,13 @@ import random
 import shutil
 
 # Set your paths here
-train_dir = "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/pi_data/train/water"
-val_dir   = "/Users/abrahamhopkins/Downloads/Jakes_Model/if_water/pi_data/val/water"
-
+train_dir = "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/train/clean"
+val_dir   = "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/test/clean"
+val_ratio = 0.25
 # Allowed image extensions
 IMG_EXT = (".jpg", ".jpeg", ".png")
 
-def move_split(train_dir, val_dir, val_ratio=0.15):
+def move_split(train_dir, val_dir, val_ratio=val_ratio):
     os.makedirs(val_dir, exist_ok=True)
 
     # List only image files
