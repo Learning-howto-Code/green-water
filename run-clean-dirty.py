@@ -4,12 +4,12 @@ import sys
 import cv2
 import os
 import json
-import tflite_runtime.interpreter as tf
+import tflite_runtime.interpreter as tflite
 from PIL import Image
 from pi5neo import Pi5Neo
 from picamera2 import Picamera2
 
-model = "/Users/jakehopkins/Downloads/if_water/clean_dirty_data_aug20260130_105338.keras"
+model = "clean_dirty.tflite"
 file = "logs.json"
 test= [3,2,1]
 order = ["clean", "food", "no_water", "toilet"]
@@ -28,17 +28,17 @@ neo = Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
 
 neo.fill_strip(255, 255, 255)
 neo.update_strip()  # commit/send to LEDs
+time.sleep(0.5)
 
 def prediciton():
-    x = 1
+    x = 5
     global img, img_array,frame, pred
     frame = picam2.capture_array()
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
-    cv2.imwrite(f"ID#{x}.jpg", frame)
-    x += 1
+    cv2.imwrite(f"ID#{x}.jpg", img)
     img = cv2.resize(img, (224, 224))
 
-    interpreter = tf.lite.Interpreter(model_path=model)
+    interpreter = tflite.Interpreter(model_path=model)
     interpreter.allocate_tensors()
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
@@ -107,3 +107,6 @@ prediciton()
 if pred != previous_prediction: # logic for when to run the logging funtion
     log(pred)
     previous_prediction = pred
+time.sleep(0.5)
+neo.fill_strip(0, 0, 0)
+neo.update_strip()  # commit/send to LEDs
