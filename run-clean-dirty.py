@@ -26,16 +26,16 @@ SPI_SPEED_KHZ = 800 #speed of SPI protocol
 
 neo = Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
 
-neo.fill_strip(255, 255, 255)
+neo.fill_strip(220, 240, 120)
 neo.update_strip()  # commit/send to LEDs
+time.sleep(0.5)
 
 def prediciton():
-    x = 1
     global img, img_array,frame, pred
     frame = picam2.capture_array()
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
-    cv2.imwrite(f"ID#{x}.jpg", frame)
-    x += 1
+    cv2.imwrite(f"ID#{x}.jpg", img)
+
     img = cv2.resize(img, (224, 224))
 
     interpreter = tf.lite.Interpreter(model_path=model)
@@ -107,3 +107,6 @@ prediciton()
 if pred != previous_prediction: # logic for when to run the logging funtion
     log(pred)
     previous_prediction = pred
+time.sleep(0.5)
+neo.fill_strip(0, 0, 0)
+neo.update_strip()  # commit/send to LEDs
