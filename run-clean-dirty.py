@@ -17,7 +17,7 @@ img_dir = "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/test"  # Directory 
 
 #hardware setup
 picam2 = Picamera2()
-config = picam2.create_video_configuration(main={"size": (224, 224)}, buffer_count=4)
+config = picam2.create_video_configuration(main={"size": (640, 360)}, buffer_count=4)
 picam2.configure(config)
 picam2.start()
 
@@ -29,13 +29,14 @@ neo = Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
 neo.fill_strip(255, 255, 255)
 neo.update_strip()  # commit/send to LEDs
 
-def prediciton(img_path):
+def prediciton():
+    x = 1
     global img, img_array,frame, pred
     frame = picam2.capture_array()
-    cv2.imwrite(f"ID#{ID}", frame)
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
+    cv2.imwrite(f"ID#{x}.jpg", frame)
+    x += 1
     img = cv2.resize(img, (224, 224))
-    picam2.save_
 
     interpreter = tf.lite.Interpreter(model_path=model)
     interpreter.allocate_tensors()
@@ -53,7 +54,6 @@ def prediciton(img_path):
 
     prediction = np.argmax(prediction)
     pred = order[prediction]
-    print(f"{img_path}: {pred} {prediction}")
     return pred
 
 current_pred = None
@@ -102,7 +102,7 @@ def log(pred):
 # Get all images from directory and process them
 
 previous_prediction = None
-prediciton(img)
+prediciton()
     
 if pred != previous_prediction: # logic for when to run the logging funtion
     log(pred)
