@@ -4,7 +4,7 @@ import sys
 import cv2
 import os
 import json
-import tensorflow as tf
+import tflite_runtime.interpreter as tf
 from PIL import Image
 from pi5neo import Pi5Neo
 from picamera2 import Picamera2
@@ -30,7 +30,7 @@ neo.fill_strip(255, 255, 255)
 neo.update_strip()  # commit/send to LEDs
 
 def prediciton(img_path):
-    global img, img_array,frame
+    global img, img_array,frame, pred
     frame = picam2.capture_array()
     cv2.imwrite(f"ID#{ID}", frame)
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
@@ -59,28 +59,28 @@ def prediciton(img_path):
 current_pred = None
 start = time.time()
 def log(pred):
+    global current_pred, start, time_on, start_time, ID
 
     water_status= str(pred) # returns string of prediction, like clean, food, etc.
     print(water_status)
     now = time.time() 
-    global current_pred, start, time_on, start_time, ID
-    if current_pred == None:
+    
+    if current_pred == None: # run time condition
         current_pred = pred
         start_time = time.time()
         return 
-    if pred == current_pred:
-        run_length += 1
-    if pred != current_pred:
+    
+    if pred != current_pred: #runs when prediction changes, gets time from
         time_on = now - start_time
         current_pred = pred
-        start_time = now
+        start_time = time.time() #rests start time
     time_on = np.round(time_on, 3) # rounds to 2 numbers after the decimal
-    # gets old data and adds it to list
-    try:
-        with open(file, "r") as f:
+
+    try: 
+        with open(file, "r") as f: #gets highest ID number
             old = json.load(f)
             ID = [e["ID"] for e in old if isinstance(e, dict) and "ID" in e]
-            ID = max(ID) + 1 if ID else 1
+            ID = max(ID) + 1 if ID else 1 # first run condition
     except(json.JSONDecodeError):
         old = []
         ID = 1
@@ -102,9 +102,8 @@ def log(pred):
 # Get all images from directory and process them
 
 previous_prediction = None
-
-result = prediciton(img)
+prediciton(img)
     
-if result != previous_prediction:
-    log(result)
-    previous_prediction = result
+if pred != previous_prediction: # logic for when to run the logging funtion
+    log(pred)
+    previous_prediction = pred
