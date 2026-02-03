@@ -30,10 +30,12 @@ neo.fill_strip(255, 255, 255)
 neo.update_strip()  # commit/send to LEDs
 
 def prediciton(img_path):
-    global img, img_array
+    global img, img_array,frame
     frame = picam2.capture_array()
+    cv2.imwrite(f"ID#{ID}", frame)
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
     img = cv2.resize(img, (224, 224))
+    picam2.save_
 
     interpreter = tf.lite.Interpreter(model_path=model)
     interpreter.allocate_tensors()
@@ -61,7 +63,7 @@ def log(pred):
     water_status= str(pred) # returns string of prediction, like clean, food, etc.
     print(water_status)
     now = time.time() 
-    global current_pred, start, time_on, start_time
+    global current_pred, start, time_on, start_time, ID
     if current_pred == None:
         current_pred = pred
         start_time = time.time()
