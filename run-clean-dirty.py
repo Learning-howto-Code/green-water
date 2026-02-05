@@ -10,7 +10,7 @@ from PIL import Image
 from pi5neo import Pi5Neo
 from picamera2 import Picamera2
 
-seconds = 5 #how long to run the script for.
+seconds = int(5) #how long to run the script for.
 
 
 model = "clean_dirty.tflite"
