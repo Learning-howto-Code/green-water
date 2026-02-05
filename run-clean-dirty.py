@@ -44,7 +44,7 @@ def prediciton():
     global img, img_array,frame, pred
     frame = picam2.capture_array()
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
-    timestamp = time.strftime("%d-%H%- M%- S- MS")
+    timestamp = time.strftime("%d-%H%-M%-S-%f")
     img_name = f"ID#{ID}, {timestamp}.jpg"
     cv2.imwrite(img_name, img)
     img = cv2.resize(img, (224, 224))
