@@ -29,14 +29,23 @@ neo = Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
 neo.fill_strip(220, 240, 120)
 neo.update_strip()  # commit/send to LEDs
 time.sleep(0.5)
-
+def get_ID():
+    global ID
+    try: 
+        with open(file, "r") as f: #gets highest ID number
+            old = json.load(f)
+            ID = [e["ID"] for e in old if isinstance(e, dict) and "ID" in e]
+            ID = max(ID) + 1 if ID else 1 # first run condition
+    except(json.JSONDecodeError):
+        old = []
+        ID = 1
 def prediciton():
     x = 5
     global img, img_array,frame, pred
     frame = picam2.capture_array()
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
-    time = time.strftime("%d-%H%- M%- S- MS")
-    img_name = f"ID#{ID}, {time}.jpg"
+    timestamp = time.strftime("%d-%H%- M%- S- MS")
+    img_name = f"ID#{ID}, {timestamp}.jpg"
     cv2.imwrite(img_name, img)
     img = cv2.resize(img, (224, 224))
 
@@ -61,6 +70,7 @@ def prediciton():
 current_pred = None
 start = time.time()
 def log(pred):
+
     global current_pred, start, time_on, start_time, ID
 
     water_status= str(pred) # returns string of prediction, like clean, food, etc.
@@ -78,14 +88,14 @@ def log(pred):
         start_time = time.time() #rests start time
     time_on = np.round(time_on, 3) # rounds to 2 numbers after the decimal
 
-    try: 
-        with open(file, "r") as f: #gets highest ID number
-            old = json.load(f)
-            ID = [e["ID"] for e in old if isinstance(e, dict) and "ID" in e]
-            ID = max(ID) + 1 if ID else 1 # first run condition
-    except(json.JSONDecodeError):
-        old = []
-        ID = 1
+    # try: 
+    #     with open(file, "r") as f: #gets highest ID number
+    #         old = json.load(f)
+    #         ID = [e["ID"] for e in old if isinstance(e, dict) and "ID" in e]
+    #         ID = max(ID) + 1 if ID else 1 # first run condition
+    # except(json.JSONDecodeError):
+    #     old = []
+    #     ID = 1
 
 # edge case for empty file
     if not isinstance(old, list): 
@@ -104,6 +114,7 @@ def log(pred):
 # Get all images from directory and process them
 
 previous_prediction = None
+get_ID()
 prediciton()
     
 if pred != previous_prediction: # logic for when to run the logging funtion
