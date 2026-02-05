@@ -11,8 +11,8 @@ MODEL_PATH = "/Users/jakehopkins/Downloads/if_water/clean_dirty.tflite"
 # Define all dataset folders
 DATASET_FOLDERS = {
      #"train":  "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/train",
-     "val": "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/val",
-    #"test": "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/val"
+     #"val": "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/val",
+    "test": "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/test"
 }
 
 IMG_SIZE = (224, 224)

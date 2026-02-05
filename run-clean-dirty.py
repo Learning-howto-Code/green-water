@@ -35,7 +35,9 @@ def prediciton():
     global img, img_array,frame, pred
     frame = picam2.capture_array()
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
-    cv2.imwrite(f"ID#{x}.jpg", img)
+    time = time.strftime("%d-%H%- M%- S- MS")
+    img_name = f"ID#{ID}, {time}.jpg"
+    cv2.imwrite(img_name, img)
     img = cv2.resize(img, (224, 224))
 
     interpreter = tflite.Interpreter(model_path=model)
