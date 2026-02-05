@@ -10,11 +10,12 @@ from PIL import Image
 from pi5neo import Pi5Neo
 from picamera2 import Picamera2
 
+seconds = 5 #how long to run the script for.
+
+
 model = "clean_dirty.tflite"
 file = "logs.json"
-test= [3,2,1]
 order = ["clean", "food", "no_water", "toilet"]
-img_dir = "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/test"  # Directory with images
 
 #hardware setup
 picam2 = Picamera2()
@@ -46,7 +47,7 @@ def prediciton():
     frame = picam2.capture_array()
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    img_name = f"ID#{ID}, {timestamp}.jpg"
+    img_name = f"logged_data/ID#{ID}, {timestamp}.jpg"
     cv2.imwrite(img_name, img)
     img = cv2.resize(img, (224, 224))
 
@@ -115,8 +116,9 @@ def log(pred):
 # Get all images from directory and process them
 
 previous_prediction = None
-get_ID()
-prediciton()
+for x in seconds*30:
+    get_ID()
+    prediciton()
     
 if pred != previous_prediction: # logic for when to run the logging funtion
     log(pred)
