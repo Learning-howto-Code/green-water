@@ -46,7 +46,8 @@ def prediciton():
     global img, img_array,frame, pred
     frame = picam2.capture_array()
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
+
     img_name = f"logged_data/ID#{ID}, {timestamp}.jpg"
     cv2.imwrite(img_name, img)
     img = cv2.resize(img, (224, 224))
@@ -116,7 +117,7 @@ def log(pred):
 # Get all images from directory and process them
 
 previous_prediction = None
-for x in range(seconds*30): # loops for set amount of seconds, 0.5s per loop
+for x in range(seconds*30): #for 30 fps
     get_ID()
     prediciton()
     
