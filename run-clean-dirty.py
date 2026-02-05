@@ -116,7 +116,7 @@ def log(pred):
 # Get all images from directory and process them
 
 previous_prediction = None
-for x in seconds*30:
+for x in range(seconds*30): # loops for set amount of seconds, 0.5s per loop
     get_ID()
     prediciton()
     
