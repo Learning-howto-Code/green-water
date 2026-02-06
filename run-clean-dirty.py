@@ -10,7 +10,7 @@ from PIL import Image
 from pi5neo import Pi5Neo
 from picamera2 import Picamera2
 
-seconds = int(5) #how long to run the script for.
+seconds = int(20) #how long to run the script for.
 
 
 model = "clean_dirty.tflite"
@@ -31,6 +31,7 @@ neo = Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
 neo.fill_strip(220, 240, 120)
 neo.update_strip()  # commit/send to LEDs
 time.sleep(0.5)
+
 def get_ID():
     global ID
     try: 
@@ -42,7 +43,6 @@ def get_ID():
         old = []
         ID = 1
 def prediciton():
-    x = 5
     global img, img_array,frame, pred
     frame = picam2.capture_array()
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
@@ -64,9 +64,9 @@ def prediciton():
     interpreter.set_tensor(input_details[0]["index"], img_array)
     interpreter.invoke()
     prediction = interpreter.get_tensor(output_details[0]["index"])
-    # prediction = [round(x, 2) for x in prediction[0]]
+    prediction = [round(x, 2) for x in prediction[0]]
 
-    # prediction = np.argmax(prediction)
+    prediction = np.argmax(prediction)
     pred = order[prediction]
     return pred
 
@@ -102,7 +102,7 @@ def log(pred):
 
 # edge case for empty file
     if not isinstance(old, list): 
-        old = test
+        old = []
 
     old.append({ # adds new data onto end of old data list
         "water_status": water_status,
