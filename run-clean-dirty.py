@@ -64,6 +64,8 @@ def prediciton():
     interpreter.set_tensor(input_details[0]["index"], img_array)
     interpreter.invoke()
     prediction = interpreter.get_tensor(output_details[0]["index"])
+    pred_int = prediction
+    print(pred_int)
     prediction = [round(x, 2) for x in prediction[0]]
 
     prediction = np.argmax(prediction)
