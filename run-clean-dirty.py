@@ -65,6 +65,7 @@ def prediciton():
     interpreter.invoke()
     prediction = interpreter.get_tensor(output_details[0]["index"])
     pred_int = prediction
+    pred_int = np.round(pred_int, 2)
     print(pred_int)
     prediction = [round(x, 2) for x in prediction[0]]
 
