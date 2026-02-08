@@ -65,7 +65,7 @@ def prediciton():
     interpreter.invoke()
     prediction = interpreter.get_tensor(output_details[0]["index"])
     pred_int = prediction
-    pred_int = np.round(pred_int, 4)
+    pred_int = np.round(pred_int, 4) #rounds pred_int to 4 points
     print(pred_int)
     prediction = [round(x, 2) for x in prediction[0]]
 
@@ -94,14 +94,14 @@ def log(pred):
         start_time = time.time() #rests start time
     time_on = np.round(time_on, 3) # rounds to 2 numbers after the decimal
 
-    # try: 
-    #     with open(file, "r") as f: #gets highest ID number
-    #         old = json.load(f)
-    #         ID = [e["ID"] for e in old if isinstance(e, dict) and "ID" in e]
-    #         ID = max(ID) + 1 if ID else 1 # first run condition
-    # except(json.JSONDecodeError):
-    #     old = []
-    #     ID = 1
+    try: 
+        with open(file, "r") as f: #gets highest ID number
+            old = json.load(f)
+            ID = [e["ID"] for e in old if isinstance(e, dict) and "ID" in e]
+            ID = max(ID) + 1 if ID else 1 # first run condition
+    except(json.JSONDecodeError):
+        old = []
+        ID = 1
 
 # edge case for empty file
     if not isinstance(old, list): 
@@ -120,11 +120,12 @@ def log(pred):
 # Get all images from directory and process them
 
 previous_prediction = None
+get_ID()
 for x in range(seconds*30): #for 30 fps
-    get_ID()
     prediciton()
     if pred != previous_prediction: # logic for when to run the logging funtion
         log(pred)
+        print(pred)
         previous_prediction = pred
 time.sleep(0.5)
 neo.fill_strip(0, 0, 0)
