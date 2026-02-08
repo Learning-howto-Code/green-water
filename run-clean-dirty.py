@@ -65,7 +65,7 @@ def prediciton():
     interpreter.invoke()
     prediction = interpreter.get_tensor(output_details[0]["index"])
     pred_int = prediction
-    pred_int = np.round(pred_int, 2)
+    pred_int = np.round(pred_int, 4)
     print(pred_int)
     prediction = [round(x, 2) for x in prediction[0]]
 
@@ -123,10 +123,9 @@ previous_prediction = None
 for x in range(seconds*30): #for 30 fps
     get_ID()
     prediciton()
-    
-if pred != previous_prediction: # logic for when to run the logging funtion
-    log(pred)
-    previous_prediction = pred
+    if pred != previous_prediction: # logic for when to run the logging funtion
+        log(pred)
+        previous_prediction = pred
 time.sleep(0.5)
 neo.fill_strip(0, 0, 0)
 neo.update_strip()  # commit/send to LEDs
