@@ -30,7 +30,7 @@ datagen = ImageDataGenerator(rescale=1.0/255)
 # Data Generators
 data_aug = ImageDataGenerator( #data aug generator
     rotation_range=5,
-    width_shift_range=0.1,
+    width_shift_range=0.1, 
     height_shift_range=0.1,
     zoom_range=0.1,
     horizontal_flip=True,
@@ -82,7 +82,7 @@ history = model.fit(
 train_data,
 verbose=1,
 validation_data=valid_data,
-epochs=3
+epochs=8
 )
 tf.keras.callbacks.EarlyStopping(
 monitor='val_loss',
