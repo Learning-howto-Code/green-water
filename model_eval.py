@@ -40,12 +40,12 @@ def plot(history, timestamp):
 
 # Confusion matrix on test set
 def matrix(model, test_data):
-    # Extract true labels and predictions from tf.data.Dataset
+    # Extract true labels and predictions from ImageDataGenerator
     y_true = []
     y_pred_probs = []
     
     for images, labels in test_data:
-        y_true.extend(labels.numpy())
+        y_true.extend(labels)  # Remove .numpy()
         predictions = model.predict(images, verbose=0)
         y_pred_probs.extend(predictions)
     

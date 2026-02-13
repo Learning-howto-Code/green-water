@@ -10,59 +10,51 @@ from keras.preprocessing import image
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import cv2 as cv
+import os
 
 epochs = 3
-# Filepaths
-paths="/Users/jakehopkins/Downloads/if_water/food_clean/"
+def diffs():
+    dir = "/Users/jakehopkins/Downloads/if_water/food_clean/train/clean"
+    files= len(os.listdir(dir))
+    for i in range(files):
+        files=os.listdir(dir)
+        print(files[:10])
 
+
+# Data Generators
+paths="/Users/jakehopkins/Downloads/if_water/food_clean/"
 datagen= ImageDataGenerator(rescale=1./255)
 batch_size = 32
 image_size = (224, 224)
 class_mode = 'binary'
 
-data_aug = ImageDataGenerator( #data aug generator
-    rescale=1./255,
-    rotation_range=5,
-    width_shift_range=0.1, 
-    height_shift_range=0.1,
-    zoom_range=0.1,
-    horizontal_flip=True,
-    vertical_flip=True,
-)
-
-train_data = tf.keras.utils.image_dataset_from_directory(
-    directory = paths + "train/",
+train_data = datagen.flow_from_directory(
+    directory= paths + "train",
     batch_size=batch_size,
-    image_size=image_size,
-    label_mode=class_mode,
+    target_size=image_size,
+    class_mode=class_mode,
     color_mode='rgb',
-    shuffle=True,
     seed=42
 )
-valid_data = tf.keras.utils.image_dataset_from_directory(
-    directory = paths + "val/",
+print(f"filepaths: {train_data.filenames[:10]}")
+valid_data = datagen.flow_from_directory(
+    directory= paths + "val",
     batch_size=batch_size,
-    image_size=image_size,
-    label_mode=class_mode,
+    target_size=image_size,
+    class_mode=class_mode,
     color_mode='rgb',
-    shuffle=True,
     seed=42
 )
-test_data = tf.keras.utils.image_dataset_from_directory(
-    directory = paths +"test/",
+test_data = datagen.flow_from_directory(
+    directory= paths + "test",
     batch_size=batch_size,
-    image_size=image_size,
-    label_mode=class_mode,
+    target_size=image_size,
+    class_mode=class_mode,
     color_mode='rgb',
-    shuffle=True,
     seed=42
 )
 
-AUTOTUNE = tf.data.AUTOTUNE
-
-train_ds = train_data.cache().prefetch(AUTOTUNE)
-val_ds   = valid_data.cache().prefetch(AUTOTUNE)
-test_ds  = test_data.cache().prefetch(AUTOTUNE)
 model = Sequential([
 layers.Input(shape=(224, 224, 3)),   # define input once
 layers.Conv2D(16, (3,3), activation='relu'),
