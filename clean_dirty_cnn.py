@@ -12,15 +12,14 @@ from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import cv2 as cv
 import os
+import json
+
+with open("delta.json") as f:
+    data = json.load(f)
+    data = {item["filepath"]: item["diff"] for item in data}
+    print(data["/Users/jakehopkins/Downloads/if_water/food_clean/train/food/00662_img_20260124_130741_659.jpg"])
 
 epochs = 3
-def diffs():
-    dir = "/Users/jakehopkins/Downloads/if_water/food_clean/train/clean"
-    files= len(os.listdir(dir))
-    for i in range(files):
-        files=os.listdir(dir)
-        print(files[:10])
-
 
 # Data Generators
 paths="/Users/jakehopkins/Downloads/if_water/food_clean/"
