@@ -10,52 +10,102 @@ from keras.preprocessing import image
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-import cv2 as cv
 import os
 import json
+from tensorflow.keras.utils import Sequence, load_img, img_to_array
 
 with open("delta.json") as f:
-    data = json.load(f)
-    data = {item["filepath"]: item["diff"] for item in data}
-    print(data["/Users/jakehopkins/Downloads/if_water/food_clean/train/food/00662_img_20260124_130741_659.jpg"])
+    diff_map = json.load(f)
+    diff_map = {item["filepath"]: item["diff"] for item in diff_map}
 
 epochs = 3
 
 # Data Generators
 paths="/Users/jakehopkins/Downloads/if_water/food_clean/"
-datagen= ImageDataGenerator(rescale=1./255)
+train_datagen = ImageDataGenerator(rescale=1./255)
+eval_datagen = ImageDataGenerator(rescale=1./255)
 batch_size = 32
 image_size = (224, 224)
 class_mode = 'binary'
 
-train_data = datagen.flow_from_directory(
+
+class DiffSequence(Sequence):
+    def __init__(self, filepaths, labels, diff_map, datagen, batch_size, image_size, shuffle=True):
+        self.filepaths = np.array(filepaths)
+        self.labels = np.array(labels)
+        self.diff_map = diff_map
+        self.datagen = datagen
+        self.batch_size = batch_size
+        self.image_size = image_size
+        self.shuffle = shuffle
+        self.indexes = np.arange(len(self.filepaths))
+        if self.shuffle:
+            np.random.shuffle(self.indexes)
+
+    def __len__(self):
+        return int(np.ceil(len(self.filepaths) / self.batch_size))
+
+    def __getitem__(self, idx):
+        batch_indexes = self.indexes[idx * self.batch_size:(idx + 1) * self.batch_size]
+        batch_paths = self.filepaths[batch_indexes]
+        batch_labels = self.labels[batch_indexes]
+
+        images = []
+        for path in batch_paths:
+            img = load_img(path, target_size=self.image_size)
+            arr = img_to_array(img).astype("float32")
+            if self.datagen is not None:
+                arr = self.datagen.random_transform(arr)
+                arr = self.datagen.standardize(arr)
+            else:
+                arr = arr / 255.0
+
+            diff = float(self.diff_map.get(path, 0.0))
+            diff_channel = np.full((*self.image_size, 1), diff, dtype=np.float32)
+            arr = np.concatenate([arr, diff_channel], axis=-1)
+            images.append(arr)
+
+        return np.array(images), np.array(batch_labels)
+
+    def on_epoch_end(self):
+        if self.shuffle:
+            np.random.shuffle(self.indexes)
+
+train_base = eval_datagen.flow_from_directory(
     directory= paths + "train",
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
     color_mode='rgb',
+    shuffle=False,
     seed=42
 )
-print(f"filepaths: {train_data.filenames[:10]}")
-valid_data = datagen.flow_from_directory(
+valid_base = eval_datagen.flow_from_directory(
     directory= paths + "val",
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
     color_mode='rgb',
+    shuffle=False,
     seed=42
 )
-test_data = datagen.flow_from_directory(
+test_base = eval_datagen.flow_from_directory(
     directory= paths + "test",
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
     color_mode='rgb',
+    shuffle=False,
     seed=42
 )
 
+train_data = DiffSequence(train_base.filepaths, train_base.classes, diff_map, train_datagen, batch_size, image_size, shuffle=True)
+valid_data = DiffSequence(valid_base.filepaths, valid_base.classes, diff_map, eval_datagen, batch_size, image_size, shuffle=False)
+test_data = DiffSequence(test_base.filepaths, test_base.classes, diff_map, eval_datagen, batch_size, image_size, shuffle=False)
+
+
 model = Sequential([
-layers.Input(shape=(224, 224, 3)),   # define input once
+layers.Input(shape=(224, 224, 4)),   # define input once (RGB + diff)
 layers.Conv2D(16, (3,3), activation='relu'),
 layers.Dropout(0.2),
 layers.MaxPooling2D(),
