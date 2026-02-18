@@ -1,9 +1,7 @@
 import datetime
 import time
 import numpy as np
-import sys
-import cv2
-import os
+import cv2 as cv
 import json
 import tflite_runtime.interpreter as tflite
 from PIL import Image
@@ -33,6 +31,7 @@ neo.update_strip()  # commit/send to LEDs
 time.sleep(0.5)
 
 def get_ID():
+
     global ID
     try: 
         with open(file, "r") as f: #gets highest ID number
@@ -42,15 +41,31 @@ def get_ID():
     except(json.JSONDecodeError):
         old = []
         ID = 1
+old = None
 def prediciton():
+    old = img
+
     global img, img_array,frame, pred
     frame = picam2.capture_array()
-    img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
+    img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
 
     img_name = f"logged_data/ID#{ID}, {timestamp}.jpg"
-    cv2.imwrite(img_name, img)
-    img = cv2.resize(img, (224, 224))
+    cv.imwrite(img_name, img)
+    img = cv.resize(img, (224, 224))
+
+    if old is None:
+        old_file = img_name
+    new_file = img_name
+
+    old_img = cv.imread(old_file)
+            
+    new_img = cv.imread(new_file)
+
+    diff = cv.absdiff(old_img, new_img)
+    diff = np.average(diff)
+
+    old_file = new_file
 
     interpreter = tflite.Interpreter(model_path=model)
     interpreter.allocate_tensors()
@@ -58,7 +73,10 @@ def prediciton():
     output_details = interpreter.get_output_details()
     
     # Load and preprocess image
+    diff = np.full((224,224,), diff, dtype=np.float32)
+  # Add diff as an additional channel
     img_array = np.array(img, dtype=np.float32) / 255.0
+    img_array = np.dstack((img, diff))
     img_array = np.expand_dims(img_array, axis=0)
 
     interpreter.set_tensor(input_details[0]["index"], img_array)
@@ -75,8 +93,9 @@ def prediciton():
 
 current_pred = None
 start = time.time()
-def log(pred):
 
+    
+def log(pred):
     global current_pred, start, time_on, start_time, ID
 
     water_status= str(pred) # returns string of prediction, like clean, food, etc.
@@ -122,6 +141,7 @@ def log(pred):
 previous_prediction = None
 get_ID()
 for x in range(seconds*30): #for 30 fps
+    get_diff()
     prediciton()
     if pred != previous_prediction: # logic for when to run the logging funtion
         log(pred)

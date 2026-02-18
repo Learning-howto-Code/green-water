@@ -3,7 +3,7 @@ import numpy as np
 import os
 import json
 
-with open("delta.json") as f:
+with open("delta3.json") as f:
     data = json.load(f)
     data = {item["filepath"]: item["diff"] for item in data}
     print(data["/Users/jakehopkins/Downloads/if_water/food_clean/train/food/00662_img_20260124_130741_659.jpg"])
@@ -11,8 +11,8 @@ with open("delta.json") as f:
 def diffs():
     global new_filepath, diff
     old_data = []
-    if os.path.exists("delta.json"):
-        with open("delta.json", "r") as f:
+    if os.path.exists("delta3.json"): # gets current data from file
+        with open("delta3.json", "r") as f:
             try:
                 loaded = json.load(f)
                 old_data = loaded if isinstance(loaded, list) else [] # test case for empty file
@@ -45,6 +45,6 @@ def diffs():
                 "filepath": new_filepath,
                 "diff": float(diff)
             })
-    with open("delta.json", "w") as f:
+    with open("delta3.json", "w") as f:
         json.dump(old_data, f, indent=2)
 # diffs()

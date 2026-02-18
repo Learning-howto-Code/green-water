@@ -18,18 +18,26 @@ with open("delta.json") as f:
     diff_map = json.load(f)
     diff_map = {item["filepath"]: item["diff"] for item in diff_map}
 
-epochs = 3
+epochs = 1
 
 # Data Generators
 paths="/Users/jakehopkins/Downloads/if_water/food_clean/"
-train_datagen = ImageDataGenerator(rescale=1./255)
+train_datagen = ImageDataGenerator(
+    rescale=1./255,
+    rotation_range=40,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    )
 eval_datagen = ImageDataGenerator(rescale=1./255)
 batch_size = 32
 image_size = (224, 224)
 class_mode = 'binary'
 
 
-class DiffSequence(Sequence):
+class DiffSequence(Sequence): # custom data gen
     def __init__(self, filepaths, labels, diff_map, datagen, batch_size, image_size, shuffle=True):
         self.filepaths = np.array(filepaths)
         self.labels = np.array(labels)
@@ -136,11 +144,12 @@ min_delta=0.01,
 )
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-model.save(f"testing{timestamp}.keras")
+model.save(f"binary_aug{timestamp}.keras")
 test_loss, test_acc = model.evaluate(test_data)
 print("Test accuracy:", test_acc)
 
 #runs eval from other file to keep training script clean
-from model_eval import plot, matrix
+from model_eval import plot, matrix, precision_recall
 plot(history, timestamp)
 matrix(model, test_data)
+precision_recall(model, test_data)
