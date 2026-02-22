@@ -1,7 +1,7 @@
 [
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/test/clean/img_20260125_113927_11.jpg",
-    "diff": 3.110290798611111
+    "diff": 3.071080729166667
   },
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/test/clean/img_20260125_113927_12.jpg",
@@ -2973,7 +2973,7 @@
   },
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/test/food/00002_img_20260124_130013_3.jpg",
-    "diff": 25.53374421296296
+    "diff": 25.536261574074075
   },
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/test/food/00004_img_20260124_130720_9.jpg",
@@ -6009,7 +6009,7 @@
   },
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/train/clean/img_20260125_113927_1.jpg",
-    "diff": 0.9407899305555556
+    "diff": 0.0
   },
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/train/clean/img_20260125_113927_10.jpg",
@@ -14937,7 +14937,7 @@
   },
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/train/food/00000_img_20260124_130012_2.jpg",
-    "diff": 25.532838541666667
+    "diff": 25.536018518518517
   },
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/train/food/00006_img_20260124_130720_30.jpg",
@@ -24053,7 +24053,7 @@
   },
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/val/clean/img_20260125_113928_20.jpg",
-    "diff": 2.553152488425926
+    "diff": 2.516060474537037
   },
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/val/clean/img_20260125_113928_22.jpg",
@@ -26153,7 +26153,7 @@
   },
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/val/food/00001_img_20260124_130012_1.jpg",
-    "diff": 25.532805266203702
+    "diff": 25.535753761574075
   },
   {
     "filepath": "/Users/jakehopkins/Downloads/if_water/food_clean/val/food/00003_img_20260124_130720_8.jpg",

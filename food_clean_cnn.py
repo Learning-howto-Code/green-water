@@ -1,24 +1,25 @@
 # ignore errors in the imports
 #SSH at (venv) Abrahams-MacBook-Pro:if_water abrahamhopkins$ 
+import random
 import numpy as np
-import matplotlib.pyplot as plt
-import keras
 from keras.layers import *
 from keras.models import *
 from datetime import datetime
-from keras.preprocessing import image
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-import os
 import json
 from tensorflow.keras.utils import Sequence, load_img, img_to_array
 
-with open("delta.json") as f:
+np.random.seed(42)
+tf.random.set_seed(42)
+random.seed(42)
+
+with open("delta3.json") as f:
     diff_map = json.load(f)
     diff_map = {item["filepath"]: item["diff"] for item in diff_map}
 
-epochs = 1
+epochs = 25
 
 # Data Generators
 paths="/Users/jakehopkins/Downloads/if_water/food_clean/"
@@ -79,7 +80,7 @@ class DiffSequence(Sequence): # custom data gen
         if self.shuffle:
             np.random.shuffle(self.indexes)
 
-train_base = eval_datagen.flow_from_directory(
+train_base = train_datagen.flow_from_directory(
     directory= paths + "train",
     batch_size=batch_size,
     target_size=image_size,
@@ -126,21 +127,24 @@ layers.Dense(1, activation='sigmoid')
 ])
 
 model.compile(
-optimizer='adam',
+optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001),
 loss='binary_crossentropy',
 metrics=['accuracy']
 )
-history = model.fit(
-train_data,
-verbose=1,
-validation_data=valid_data,
-epochs=epochs
+early_stop = tf.keras.callbacks.EarlyStopping(
+    monitor='val_loss',
+    patience=3,
+    start_from_epoch=3,
+    min_delta=0.01,
+    restore_best_weights=True
 )
-tf.keras.callbacks.EarlyStopping(
-monitor='val_loss',
-patience=3,
-start_from_epoch=3,
-min_delta=0.01,
+
+history = model.fit(
+    train_data,
+    verbose=1,
+    validation_data=valid_data,
+    epochs=epochs,
+    callbacks=[early_stop]
 )
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

@@ -13,7 +13,6 @@ seconds = int(20) #how long to run the script for.
 
 model = "clean_dirty.tflite"
 file = "logs.json"
-order = ["clean", "food", "no_water", "toilet"]
 
 #hardware setup
 picam2 = Picamera2()
@@ -87,9 +86,8 @@ def prediciton():
     print(pred_int)
     prediction = [round(x, 2) for x in prediction[0]]
 
-    prediction = np.argmax(prediction)
-    pred = order[prediction]
-    return pred
+    # prediction = np.argmax(prediction)
+    # pred = order[prediction]
 
 current_pred = None
 start = time.time()
