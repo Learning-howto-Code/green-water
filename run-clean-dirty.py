@@ -50,13 +50,12 @@ def prediciton():
     img_name = f"logged_data/ID#{ID}, {timestamp}.jpg"
     cv.imwrite(img_name, img)
     img = cv.resize(img, (224, 224))
-
+    old = img
     if old is None:
         old_file = img_name
     new_file = img_name
 
     #diff calculation
-    old = img
     old_img = cv.imread(old_file)     
     new_img = cv.imread(new_file)
     diff = cv.absdiff(old_img, new_img)
