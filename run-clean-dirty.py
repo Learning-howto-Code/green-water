@@ -11,7 +11,7 @@ from picamera2 import Picamera2
 seconds = int(20) #how long to run the script for.
 
 
-model = "clean_dirty.tflite"
+model = "food_clean.tflite"
 file = "logs.json"
 
 #hardware setup
