@@ -43,7 +43,6 @@ def get_ID():
 old = None
 def prediciton():
     global img, img_array,frame, pred
-    old = img
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
@@ -57,6 +56,7 @@ def prediciton():
     new_file = img_name
 
     #diff calculation
+    old = img
     old_img = cv.imread(old_file)     
     new_img = cv.imread(new_file)
     diff = cv.absdiff(old_img, new_img)
