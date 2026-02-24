@@ -15,7 +15,7 @@ np.random.seed(42)
 tf.random.set_seed(42)
 random.seed(42)
 
-with open("delta3.json") as f:
+with open("delta.json") as f:
     diff_map = json.load(f)
     diff_map = {item["filepath"]: item["diff"] for item in diff_map}
 

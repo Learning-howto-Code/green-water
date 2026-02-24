@@ -57,13 +57,11 @@ def prediciton():
         old_file = img_name
     new_file = img_name
 
-    old_img = cv.imread(old_file)
-            
+    #diff calculation
+    old_img = cv.imread(old_file)     
     new_img = cv.imread(new_file)
-
     diff = cv.absdiff(old_img, new_img)
     diff = np.average(diff)
-
     old_file = new_file
 
     interpreter = tflite.Interpreter(model_path=model)
@@ -85,9 +83,10 @@ def prediciton():
     pred_int = np.round(pred_int, 4) #rounds pred_int to 4 points
     print(pred_int)
     prediction = [round(x, 2) for x in prediction[0]]
-
-    # prediction = np.argmax(prediction)
-    # pred = order[prediction]
+    if pred_int < 0.5:
+        pred = "clean"
+    if pred_int >= 0.5:
+        pred = "dirty"
 
 current_pred = None
 start = time.time()
@@ -139,7 +138,6 @@ def log(pred):
 previous_prediction = None
 get_ID()
 for x in range(seconds*30): #for 30 fps
-    get_diff()
     prediciton()
     if pred != previous_prediction: # logic for when to run the logging funtion
         log(pred)
