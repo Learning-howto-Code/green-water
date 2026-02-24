@@ -42,9 +42,8 @@ def get_ID():
         ID = 1
 old = None
 def prediciton():
-    old = img
-
     global img, img_array,frame, pred
+    old = img
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
@@ -63,6 +62,7 @@ def prediciton():
     diff = cv.absdiff(old_img, new_img)
     diff = np.average(diff)
     old_file = new_file
+    
 
     interpreter = tflite.Interpreter(model_path=model)
     interpreter.allocate_tensors()
