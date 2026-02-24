@@ -80,13 +80,12 @@ def prediciton():
     prediction = interpreter.get_tensor(output_details[0]["index"])
     pred_int = prediction
     pred_int = np.round(pred_int, 4) #rounds pred_int to 4 points
-    print(pred_int)
     prediction = [round(x, 2) for x in prediction[0]]
-    if pred_int < 0.5:
+    if pred_int > 0.5:
         pred = "clean"
-    if pred_int >= 0.5:
+    if pred_int <= 0.5:
         pred = "dirty"
-
+    print(pred_int, pred)
 current_pred = None
 start = time.time()
 
