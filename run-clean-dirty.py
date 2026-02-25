@@ -42,7 +42,7 @@ def get_ID():
         ID = 1
 old = None
 def if_water():
-    global img, img_array,frame, pred
+    global img, img_array,frame, pred, old_file
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
@@ -82,15 +82,15 @@ def food_clean():
 
     img_name = f"logged_data/ID#{ID}, {timestamp}.jpg"
     img = cv.resize(img, (224, 224))
-    old_file = img
+    
     if old is None:
-        old_file = img_name
-    new_file = img_name
+        old_file = img
+    new_file = img
 
     #diff calculation
-    old_img = cv.imread(old_file)     
+    old = cv.imread(old_file )     
     new_img = cv.imread(new_file)
-    diff = cv.absdiff(old_img, new_img)
+    diff = cv.absdiff(old, new_img)
     diff = np.average(diff)
     old_file = new_file
     
