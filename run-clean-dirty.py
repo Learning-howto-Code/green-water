@@ -42,7 +42,7 @@ def get_ID():
         ID = 1
 old = None
 def if_water():
-    global img, img_array,frame, pred, old_file
+    global img, img_array,frame, pred
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
@@ -81,7 +81,7 @@ def food_clean():
 
     img = cv.resize(img, (224, 224))
 
-    if old is None:
+    if old_file is None:
         old_file = img
     new_file = img
 
