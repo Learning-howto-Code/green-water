@@ -40,7 +40,7 @@ def get_ID():
     except(json.JSONDecodeError):
         old = []
         ID = 1
-old = None
+old_file = None
 def if_water():
     global img, img_array,frame, pred
     frame = picam2.capture_array()
