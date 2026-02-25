@@ -40,7 +40,7 @@ def get_ID():
     except(json.JSONDecodeError):
         old = []
         ID = 1
-old_file = None
+
 def if_water():
     global img, img_array,frame, pred
     frame = picam2.capture_array()
@@ -70,11 +70,11 @@ def if_water():
     if pred_int <= 0.5:
         pred = "no water"
     print(pred_int, pred)
-
+old_file = None
 current_pred = None
 start = time.time()
 def food_clean():
-    global img, img_array,frame, pred
+    global img, img_array,frame, pred, old_file
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
 
