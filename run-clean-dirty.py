@@ -172,7 +172,8 @@ def log(pred):
 previous_prediction = None
 get_ID()
 for x in range(seconds*30): #for 30 fps
-    prediciton()
+    if_water()
+    food_clean()
     if pred != previous_prediction: # logic for when to run the logging funtion
         log(pred)
         print(pred)
