@@ -1,5 +1,6 @@
 import datetime
 import time
+from xxlimited import foo
 import numpy as np
 import cv2 as cv
 import json
@@ -74,7 +75,7 @@ old_file = None
 current_pred = None
 start = time.time()
 def food_clean():
-    global img, img_array,frame, pred, old_file, food_pred
+    global img, img_array,frame, pred, old_file
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
 
@@ -115,6 +116,7 @@ def food_clean():
         food_pred = "clean"
     if pred_int <= 0.5:
         food_pred = "dirty"
+    return food_pred
 current_pred = None
 start = time.time()
 
@@ -166,6 +168,7 @@ previous_prediction = None
 get_ID()
 for x in range(seconds*30): #for 30 fps
     if_water()
+    food_pred = food_clean()
     print(pred, food_pred)
     if food_pred != previous_prediction: # logic for when to run the logging funtion
         log(food_pred)
