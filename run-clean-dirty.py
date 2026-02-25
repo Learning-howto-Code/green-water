@@ -69,12 +69,12 @@ def if_water():
         pred = "water"
     if pred_int <= 0.5:
         pred = "no water"
-    print(pred_int, pred)
+    return pred_int, pred
 old_file = None
 current_pred = None
 start = time.time()
 def food_clean():
-    global img, img_array,frame, pred, old_file
+    global img, img_array,frame, pred, old_file, food_pred
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
 
@@ -112,10 +112,9 @@ def food_clean():
     pred_int = np.round(pred_int, 4) #rounds pred_int to 4 points
     prediction = [round(x, 2) for x in prediction[0]]
     if pred_int > 0.5:
-        pred = "clean"
+        food_pred = "clean"
     if pred_int <= 0.5:
-        pred = "dirty"
-    print(pred_int, pred)
+        food_pred = "dirty"
 current_pred = None
 start = time.time()
 
@@ -167,11 +166,11 @@ previous_prediction = None
 get_ID()
 for x in range(seconds*30): #for 30 fps
     if_water()
-    food_clean()
-    if pred != previous_prediction: # logic for when to run the logging funtion
-        log(pred)
-        print(pred)
-        previous_prediction = pred
+    print(pred, food_pred)
+    if food_pred != previous_prediction: # logic for when to run the logging funtion
+        log(food_pred)
+        print(food_pred)
+        previous_prediction = food_pred
 time.sleep(0.5)
 neo.fill_strip(0, 0, 0)
 neo.update_strip()  # commit/send to LEDs
