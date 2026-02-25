@@ -10,8 +10,8 @@ from picamera2 import Picamera2
 
 seconds = int(20) #how long to run the script for.
 
-
-model = "food_clean.tflite"
+if_water_model = "if_water.tflite"
+food_clean_model = "food_clean.tflite"
 file = "logs.json"
 
 #hardware setup
@@ -41,7 +41,7 @@ def get_ID():
         old = []
         ID = 1
 old = None
-def prediciton():
+def if_water():
     global img, img_array,frame, pred
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
@@ -49,6 +49,42 @@ def prediciton():
 
     img_name = f"logged_data/ID#{ID}, {timestamp}.jpg"
     cv.imwrite(img_name, img)
+    img = cv.resize(img, (224, 224))
+    old_file = img
+    if old is None:
+        old_file = img_name
+    new_file = img_name
+
+
+    interpreter = tflite.Interpreter(model_path=if_water_model)
+    interpreter.allocate_tensors()
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+    
+    img_array = np.array(img, dtype=np.float32) / 255.0
+
+    interpreter.set_tensor(input_details[0]["index"], img_array)
+    interpreter.invoke()
+    prediction = interpreter.get_tensor(output_details[0]["index"])
+    pred_int = prediction
+    pred_int = np.round(pred_int, 4) #rounds pred_int to 4 points
+    prediction = [round(x, 2) for x in prediction[0]]
+    if pred_int > 0.5:
+        pred = "water"
+    if pred_int <= 0.5:
+        pred = "no water"
+    print(pred_int, pred)
+
+current_pred = None
+start = time.time()
+
+def food_clean():
+    global img, img_array,frame, pred
+    frame = picam2.capture_array()
+    img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
+
+    img_name = f"logged_data/ID#{ID}, {timestamp}.jpg"
     img = cv.resize(img, (224, 224))
     old_file = img
     if old is None:
@@ -63,7 +99,7 @@ def prediciton():
     old_file = new_file
     
 
-    interpreter = tflite.Interpreter(model_path=model)
+    interpreter = tflite.Interpreter(model_path=food_clean_model)
     interpreter.allocate_tensors()
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
