@@ -50,11 +50,6 @@ def if_water():
     img_name = f"logged_data/ID#{ID}, {timestamp}.jpg"
     cv.imwrite(img_name, img)
     img = cv.resize(img, (224, 224))
-    old_file = img
-    if old is None:
-        old_file = img_name
-    new_file = img_name
-
 
     interpreter = tflite.Interpreter(model_path=if_water_model)
     interpreter.allocate_tensors()
@@ -62,7 +57,8 @@ def if_water():
     output_details = interpreter.get_output_details()
     
     img_array = np.array(img, dtype=np.float32) / 255.0
-
+    img_array = np.expand_dims(img_array, axis=0)  # (1, 224, 224, 3)
+    
     interpreter.set_tensor(input_details[0]["index"], img_array)
     interpreter.invoke()
     prediction = interpreter.get_tensor(output_details[0]["index"])
