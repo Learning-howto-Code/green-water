@@ -86,9 +86,9 @@ def food_clean():
     new_file = img
 
     #diff calculation
-    old = cv.imread(old_file )     
+    # old = cv.imread(old_file )     
     new_img = cv.imread(new_file)
-    diff = cv.absdiff(old, new_img)
+    diff = cv.absdiff(old_file, new_img)
     diff = np.average(diff)
     old_file = new_file
     
