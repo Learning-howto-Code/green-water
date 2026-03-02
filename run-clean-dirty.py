@@ -171,7 +171,7 @@ for x in range(seconds*30): #for 30 fps
     if_water()
     food_pred_int = food_clean()
     food_pred = food_clean()
-    print(f"{pred_int}  |   {food_pred_int}")
+    print(f"{pred}{pred_int}  |   {food_pred_int}")
     if food_pred != previous_prediction: # logic for when to run the logging funtion
         log(food_pred_int)
         print(food_pred_int)
