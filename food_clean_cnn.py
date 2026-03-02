@@ -153,7 +153,7 @@ test_loss, test_acc = model.evaluate(test_data)
 print("Test accuracy:", test_acc)
 
 #runs eval from other file to keep training script clean
-from model_eval import plot, matrix, precision_recall
+from utils import plot, matrix, precision_recall
 plot(history, timestamp)
 matrix(model, test_data)
 precision_recall(model, test_data)

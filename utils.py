@@ -96,6 +96,9 @@ def precision_recall(model, test_data):
     plt.show()
     plt.close()
 def diffs():
+
+    
+
     global new_filepath, diff
     old_data = []
     if os.path.exists("delta.json"):
@@ -133,4 +136,36 @@ def diffs():
                 "diff": float(diff)
             })
     with open("delta.json", "w") as f:
-        json.dump(old_data, f, indent=2)    
+        json.dump(old_data, f, indent=2)   
+
+def prod_plot():
+    with open("logs.json") as f:
+        data = json.load(f)
+    
+    timestamps = []
+    water_states = []
+    times_on = []
+    
+    for entry in data:
+        if isinstance(entry, dict) and "timestamp" in entry and "water_status" in entry:
+            timestamps.append(entry["timestamp"])
+            water_states.append(entry["water_status"])
+            times_on.append(float(entry["time_on"]))
+    
+    # Create figure
+    plt.figure(figsize=(12, 6))
+    
+    # Convert states to numeric values for plotting
+    state_values = [1 if state == "water" else 0 for state in water_states]
+    
+    # Plot as step function
+    plt.step(range(len(state_values)), state_values, where='mid', linewidth=2, marker='o')
+    plt.xlabel('Observation')
+    plt.ylabel('Water State')
+    plt.title('Water State Changes Over Time')
+    plt.yticks([0, 1], ['No Water', 'Water'])
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+    plt.close()
+

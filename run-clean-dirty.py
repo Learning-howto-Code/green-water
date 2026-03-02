@@ -43,12 +43,12 @@ def get_ID():
         ID = 1
 
 def if_water():
-    global img, img_array,frame, pred
+    global img, img_array,frame, pred, pred_int
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
 
-    img_name = f"logged_data/ID#{ID}, {timestamp}.jpg"
+    img_name = f"logged_data/both_models/ID#{ID}, {timestamp}.jpg"
     cv.imwrite(img_name, img)
     img = cv.resize(img, (224, 224))
 
@@ -112,11 +112,12 @@ def food_clean():
     pred_int = prediction
     pred_int = np.round(pred_int, 4) #rounds pred_int to 4 points
     prediction = [round(x, 2) for x in prediction[0]]
+    food_pred_int = prediction
     if pred_int > 0.5:
         food_pred = "clean"
     if pred_int <= 0.5:
         food_pred = "dirty"
-    return food_pred
+    return food_pred, food_pred_int
 current_pred = None
 start = time.time()
 
@@ -168,11 +169,12 @@ previous_prediction = None
 get_ID()
 for x in range(seconds*30): #for 30 fps
     if_water()
+    food_pred_int = food_clean()
     food_pred = food_clean()
-    print(pred, food_pred)
+    print(f"{pred_int}  |   {food_pred_int}")
     if food_pred != previous_prediction: # logic for when to run the logging funtion
-        log(food_pred)
-        print(food_pred)
+        log(food_pred_int)
+        print(food_pred_int)
         previous_prediction = food_pred
 time.sleep(0.5)
 neo.fill_strip(0, 0, 0)
