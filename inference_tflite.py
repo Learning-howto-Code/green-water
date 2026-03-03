@@ -14,7 +14,7 @@ if_water_model = "if_water.tflite"
 food_clean_model = "food_clean.tflite"
 file = "logs.json"
 
-img_path = "ID#1, 2026-03-02-16-31-49-197.jpg"
+img_path = "/logged_data/both_models/ID#1, 2026-03-02-16-31-49-197.jpg"
 
 def if_water():
     global img, img_array,frame, pred, pred_int, img_path
