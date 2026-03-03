@@ -68,13 +68,13 @@ def get_next_id():
 
 def capture_frame(frame_id):
     """Capture a frame, save it, return the resized 224x224 image."""
-    frame = picam2.capture_array()  # Picamera2 gives RGB already
+    frame = picam2.capture_array()  # Picamera2 video config gives XRGB (4ch)
+    frame = cv.cvtColor(frame, cv.COLOR_BGRA2BGR)  # drop alpha, convert to 3ch BGR
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") \
         + f"-{datetime.datetime.now().microsecond // 1000:03d}"
-    # save as BGR for cv.imwrite (it expects BGR)
-    cv.imwrite(f"{IMG_DIR}/ID#{frame_id}, {timestamp}.jpg",
-               cv.cvtColor(frame, cv.COLOR_RGB2BGR))
-    return cv.resize(frame, (224, 224))
+    cv.imwrite(f"{IMG_DIR}/ID#{frame_id}, {timestamp}.jpg", frame)
+    img = cv.cvtColor(frame, cv.COLOR_BGR2RGB)  # RGB for models
+    return cv.resize(img, (224, 224))
 
 
 def run_if_water(img):
