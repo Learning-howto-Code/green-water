@@ -6,6 +6,9 @@ import json
 import tflite_runtime.interpreter as tflite
 from picamera2 import Picamera2
 from pi5neo import Pi5Neo
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 # --- Config ---
 SECONDS = 20
@@ -44,6 +47,11 @@ old_frame = None
 current_pred = None
 start_time = None
 time_on = 0
+
+# --- Plot data ---
+water_confs = []
+food_confs = []
+timestamps = []
 
 
 def get_next_id():
@@ -149,6 +157,10 @@ for _ in range(SECONDS * FPS):
     water_label, water_conf = run_if_water(img)
     food_label, food_conf, old_frame = run_food_clean(img, old_frame)
 
+    water_confs.append(water_conf)
+    food_confs.append(food_conf)
+    timestamps.append(len(water_confs))
+
     print(f"{water_label} ({water_conf})  |  {food_label} ({food_conf})")
 
     if food_label != previous_food:
@@ -156,6 +168,21 @@ for _ in range(SECONDS * FPS):
         previous_food = food_label
 
     frame_id += 1
+
+# --- Plot predictions ---
+fig, ax = plt.subplots(figsize=(12, 5))
+ax.plot(timestamps, water_confs, label="Water", linewidth=1.5)
+ax.plot(timestamps, food_confs, label="Food/Clean", linewidth=1.5)
+ax.axhline(y=0.5, color='gray', linestyle='--', alpha=0.5, label="Threshold")
+ax.set_xlabel("Frame")
+ax.set_ylabel("Confidence")
+ax.set_ylim(-0.05, 1.05)
+ax.set_title("Model Predictions Over Time")
+ax.legend()
+ax.grid(True, alpha=0.3)
+fig.tight_layout()
+fig.savefig("predictions.png", dpi=150)
+print("Plot saved to predictions.png")
 
 # --- Cleanup ---
 time.sleep(0.5)
