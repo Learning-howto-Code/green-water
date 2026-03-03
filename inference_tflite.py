@@ -5,6 +5,7 @@ import cv2 as cv
 import json
 import tflite_runtime.interpreter as tflite
 from PIL import Image
+import os
 
 
 seconds = int(20) #how long to run the script for.
@@ -16,7 +17,7 @@ file = "logs.json"
 img_path = "ID#1, 2026-03-02-16-31-49-197.jpg"
 
 def if_water():
-    global img, img_array,frame, pred, pred_int
+    global img, img_array,frame, pred, pred_int, img_path
 
     img = cv.imread(img_path)
     img = cv.resize(img, (224, 224))
@@ -44,7 +45,9 @@ old_file = None
 current_pred = None
 start = time.time()
 def food_clean():
-    global img, img_array,frame, pred, old_file
+    global img, img_array,frame, pred, old_file, img_path
+    if not os.path.exists(img_path):
+        raise FileNotFoundError(f"Image not found: {os.path.abspath(img_path)}")
 
     img = cv.imread(img_path)
     img = cv.resize(img, (224, 224))
