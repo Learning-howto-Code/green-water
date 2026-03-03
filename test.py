@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 # --- Config ---
 SECONDS = 20
 FPS = 30
+DIFF_LOOKBACK = 3  # match training: compare against frame N-3
 IF_WATER_MODEL = "if_water.tflite"
 FOOD_CLEAN_MODEL = "food_clean.tflite"
 LOG_FILE = "logs.json"
@@ -43,7 +44,7 @@ food_input = food_interp.get_input_details()
 food_output = food_interp.get_output_details()
 
 # --- State ---
-old_frame = None
+frame_history = []  # stores last DIFF_LOOKBACK frames
 current_pred = None
 start_time = None
 time_on = 0
@@ -67,12 +68,13 @@ def get_next_id():
 
 def capture_frame(frame_id):
     """Capture a frame, save it, return the resized 224x224 image."""
-    frame = picam2.capture_array()
-    img = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
+    frame = picam2.capture_array()  # Picamera2 gives RGB already
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") \
         + f"-{datetime.datetime.now().microsecond // 1000:03d}"
-    cv.imwrite(f"{IMG_DIR}/ID#{frame_id}, {timestamp}.jpg", img)
-    return cv.resize(img, (224, 224))
+    # save as BGR for cv.imwrite (it expects BGR)
+    cv.imwrite(f"{IMG_DIR}/ID#{frame_id}, {timestamp}.jpg",
+               cv.cvtColor(frame, cv.COLOR_RGB2BGR))
+    return cv.resize(frame, (224, 224))
 
 
 def run_if_water(img):
@@ -88,12 +90,15 @@ def run_if_water(img):
     return label, conf
 
 
-def run_food_clean(img, prev_frame):
-    """Run food_clean model with diff channel. Returns (label, confidence, current_frame)."""
-    if prev_frame is None:
-        prev_frame = img
+def run_food_clean(img):
+    """Run food_clean model with diff channel using frame history lookback."""
+    # compare against the frame from DIFF_LOOKBACK steps ago (like training)
+    if len(frame_history) >= DIFF_LOOKBACK:
+        old_img = frame_history[-DIFF_LOOKBACK]
+    else:
+        old_img = img
 
-    diff_val = np.average(cv.absdiff(prev_frame, img))
+    diff_val = np.average(cv.absdiff(old_img, img))
     diff_channel = np.full((224, 224), diff_val, dtype=np.float32)
 
     img_array = np.array(img, dtype=np.float32) / 255.0
@@ -106,7 +111,7 @@ def run_food_clean(img, prev_frame):
     conf = round(float(pred[0][0]), 4)
     # folders: clean/ = 0, food/ = 1
     label = "food" if conf > 0.5 else "clean"
-    return label, conf, img  # return img as next prev_frame
+    return label, conf
 
 
 def log_prediction(water_label, food_label, food_conf, frame_id):
@@ -155,7 +160,8 @@ for _ in range(SECONDS * FPS):
     img = capture_frame(frame_id)
 
     water_label, water_conf = run_if_water(img)
-    food_label, food_conf, old_frame = run_food_clean(img, old_frame)
+    food_label, food_conf = run_food_clean(img)
+    frame_history.append(img)
 
     water_confs.append(water_conf)
     food_confs.append(food_conf)
