@@ -3,18 +3,18 @@ import time
 import numpy as np
 import cv2 as cv
 import json
-import tflite_runtime.interpreter as tflite
+from tensorflow.lite.python import interpreter as tflite
 from PIL import Image
 import os
 
-
+img_path="/Users/jakehopkins/Downloads/ID#1, 2026-03-02-16-24-52-298.jpg"
 seconds = int(20) #how long to run the script for.
 
 if_water_model = "if_water.tflite"
 food_clean_model = "food_clean.tflite"
 file = "logs.json"
 
-img_path = "/logged_data/both_models/ID#1, 2026-03-02-16-31-49-197.jpg"
+
 
 def if_water():
     global img, img_array,frame, pred, pred_int, img_path
@@ -84,11 +84,11 @@ def food_clean():
     pred_int = np.round(pred_int, 4) #rounds pred_int to 4 points
     prediction = [round(x, 2) for x in prediction[0]]
     food_pred_int = prediction
-    if pred_int > 0.5:
+    if pred_int < 0.5:
         food_pred = "clean"
-    if pred_int <= 0.5:
+    if pred_int >= 0.5:
         food_pred = "dirty"
-    return food_pred_int
+    return food_pred_int, food_pred
 current_pred = None
 start = time.time()
 
@@ -96,5 +96,6 @@ start = time.time()
 
 previous_prediction = None
 food_number=food_clean()
+food_pred=food_clean()
 water_number=if_water()
-
+print (f"water prediction: {water_number} ({pred})  |   food prediction: {food_number}")
