@@ -1,6 +1,5 @@
 import datetime
 import time
-from xxlimited import foo
 import numpy as np
 import cv2 as cv
 import json

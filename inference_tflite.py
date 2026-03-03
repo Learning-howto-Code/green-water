@@ -1,150 +1,97 @@
-import os
+import datetime
+import time
 import numpy as np
+import cv2 as cv
+import json
+import tflite_runtime.interpreter as tflite
 from PIL import Image
-import tensorflow as tf
-from sklearn.metrics import confusion_matrix
-import re
-
-# MODEL_PATH = input("enter file path")
-# MODEL_PATH= str(MODEL_PATH)
-MODEL_PATH = "/Users/jakehopkins/Downloads/if_water/clean_dirty.tflite"
-# Define all dataset folders
-DATASET_FOLDERS = {
-     #"train":  "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/train",
-     #"val": "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/val",
-    "test": "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/test"
-}
-
-IMG_SIZE = (224, 224)
-
-# Load Keras model
-interpreter = tf.lite.Interpreter(model_path=MODEL_PATH)
-interpreter.allocate_tensors()
-
-def numeric_key(filename):
-    # Extract the first number in filename for sorting
-    nums = re.findall(r'\d+', filename)
-    return int(nums[0]) if nums else float('inf')
-
-def _input_mode():
-    # Infer expected input channels from the model input shape
-    input_details = interpreter.get_input_details()
-    shape = input_details[0]['shape']
-    channels = shape[-1] if isinstance(shape, (list, tuple)) else 3
-    if channels == 1:
-        return "L"  # grayscale
-    return "RGB"
 
 
-def predict_image(img_path):
-    img = Image.open(img_path).convert(_input_mode())
-    img = img.resize(IMG_SIZE)
+seconds = int(20) #how long to run the script for.
 
-    arr = np.array(img, dtype=np.float32) / 255.0
-    if arr.ndim == 2:
-        arr = np.expand_dims(arr, axis=-1)
-    arr = np.expand_dims(arr, axis=0)
+if_water_model = "if_water.tflite"
+food_clean_model = "food_clean.tflite"
+file = "logs.json"
 
+img_path = "ID#1, 2026-03-02-16-31-49-197.jpg"
+
+def if_water():
+    global img, img_array,frame, pred, pred_int
+
+    img = cv.imread(img_path)
+    img = cv.resize(img, (224, 224))
+
+    interpreter = tflite.Interpreter(model_path=if_water_model)
+    interpreter.allocate_tensors()
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
-
-    interpreter.set_tensor(input_details[0]['index'], arr)
+    
+    img_array = np.array(img, dtype=np.float32) / 255.0
+    img_array = np.expand_dims(img_array, axis=0)  # (1, 224, 224, 3)
+    
+    interpreter.set_tensor(input_details[0]["index"], img_array)
     interpreter.invoke()
-    output = interpreter.get_tensor(output_details[0]['index'])[0]
-    return output
+    prediction = interpreter.get_tensor(output_details[0]["index"])
+    pred_int = prediction
+    pred_int = np.round(pred_int, 4) #rounds pred_int to 4 points
+    prediction = [round(x, 2) for x in prediction[0]]
+    if pred_int > 0.5:
+        pred = "water"
+    if pred_int <= 0.5:
+        pred = "no water"
+    return prediction, 
+old_file = None
+current_pred = None
+start = time.time()
+def food_clean():
+    global img, img_array,frame, pred, old_file
 
-def _get_label_map(root_folder):
-    class_names = sorted(
-        [
-            d
-            for d in os.listdir(root_folder)
-            if os.path.isdir(os.path.join(root_folder, d))
-        ]
-    )
-    return {name: idx for idx, name in enumerate(class_names)}, class_names
+    img = cv.imread(img_path)
+    img = cv.resize(img, (224, 224))
 
+    if old_file is None:
+        old_file = img
+    new_file = img
 
-def run_folder(folder, label_map):
-    y_true = []
-    y_pred = []
-
-    for root, _, files in os. walk(folder):
-        print("Walking:", root)
-        folder_name = os.path.basename(root)
-        if folder_name not in label_map: 
-            continue
-
-        true_label = label_map[folder_name]
-
-        # Sort files numerically
-        image_files = sorted(
-            [f for f in files if f.lower().endswith((".png", ".jpg", ".jpeg"))],
-            key=numeric_key
-        )
-        if len(image_files) == 0:
-            print(f"WARNING: No images loaded for class '{folder_name}'")
-        for filename in image_files: 
-            path = os.path.join(root, filename)
-
-            pred = predict_image(path)
-            pred_idx = int(np.argmax(pred))
-
-            pred_str = np.array2string(
-                pred,
-                precision=6,
-                floatmode="fixed",
-                suppress_small=True
-            )
-
-            y_true.append(true_label)
-            y_pred.append(pred_idx)
-            print(f"{path}: true {true_label}, predicted {pred_str}")
-    return y_true, y_pred
-
-def evaluate_all_datasets(dataset_folders):
-    results = {}
+    #diff calculation
+    # old = cv.imread(old_file )     
+    #new_img = cv.imread(new_file)
+    diff = cv.absdiff(old_file, new_file)
+    diff = np.average(diff)
+    old_file = new_file
+    print(f"diff is {diff} out 255")
     
-    label_map, class_names = _get_label_map(next(iter(dataset_folders.values())))
 
-    for name, folder in dataset_folders.items():
-        if not os.path.exists(folder):
-            print(f"\nWarning: {folder} does not exist, skipping {name} dataset.")
-            continue
-            
-        print(f"\n{'='*50}")
-        print(f"Evaluating {name. upper()} dataset: {folder}")
-        print('='*50)
-        
-        y_true, y_pred = run_folder(folder, label_map)
-        if len(y_true) > 0:
-            cm = confusion_matrix(y_true, y_pred, labels=list(range(len(class_names))))
-            results[name] = {
-                "confusion_matrix":  cm,
-                "y_true": y_true,
-                "y_pred": y_pred
-            }
-            
-            print(f"\n{name. upper()} CONFUSION MATRIX")
-            print(cm)
-            print(f"Class order: {class_names}")
-            
-            # Calculate and display accuracy
-            accuracy = np.sum(np.diag(cm)) / np.sum(cm)
-            print(f"Accuracy: {accuracy:.4f}")
-        else: 
-            print(f"No images found in {folder}")
+    interpreter = tflite.Interpreter(model_path=food_clean_model)
+    interpreter.allocate_tensors()
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
     
-    return results
+    # Load and preprocess image
+    diff = np.full((224,224,), diff, dtype=np.float32)
+  # Add diff as an additional channel
+    img_array = np.array(img, dtype=np.float32) / 255.0
+    img_array = np.dstack((img, diff))
+    img_array = np.expand_dims(img_array, axis=0)
 
-if __name__ == "__main__":
-    results = evaluate_all_datasets(DATASET_FOLDERS)
-    
-    # Print summary
-    print(f"\n{'='*50}")
-    print("SUMMARY")
-    print('='*50)
-    for name, data in results.items():
-        cm = data["confusion_matrix"]
-        accuracy = np. sum(np.diag(cm)) / np.sum(cm)
-        total_samples = np.sum(cm)
-        print(f"{name.upper()}: {total_samples} samples, Accuracy: {accuracy:.4f}")
+    interpreter.set_tensor(input_details[0]["index"], img_array)
+    interpreter.invoke()
+    prediction = interpreter.get_tensor(output_details[0]["index"])
+    pred_int = prediction
+    pred_int = np.round(pred_int, 4) #rounds pred_int to 4 points
+    prediction = [round(x, 2) for x in prediction[0]]
+    food_pred_int = prediction
+    if pred_int > 0.5:
+        food_pred = "clean"
+    if pred_int <= 0.5:
+        food_pred = "dirty"
+    return food_pred_int
+current_pred = None
+start = time.time()
+
+
+
+previous_prediction = None
+food_number=food_clean()
+water_number=if_water()
+
