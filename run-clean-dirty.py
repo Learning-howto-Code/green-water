@@ -133,8 +133,9 @@ def log(pred):
         start_time = time.time()
         return 
     
+    time_on = now - start_time
+
     if pred != current_pred: #runs when prediction changes, gets time from
-        time_on = now - start_time
         current_pred = pred
         start_time = time.time() #rests start time
     time_on = np.round(time_on, 3) # rounds to 2 numbers after the decimal

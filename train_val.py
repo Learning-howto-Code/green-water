@@ -3,8 +3,8 @@ import random
 import shutil
 
 # Set your paths here
-train_dir = "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/train/clean"
-val_dir   = "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/test/clean"
+train_dir = "/Users/jakehopkins/Downloads/if_water/food_clean/train/food"
+val_dir   = "/Users/jakehopkins/Downloads/if_water/food_clean/test/food"
 val_ratio = 0.25
 # Allowed image extensions
 IMG_EXT = (".jpg", ".jpeg", ".png")

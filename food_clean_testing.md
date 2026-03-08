@@ -56,3 +56,24 @@ ended after 16 epochs
 CONFUSION MATRIX
 [[739   4]
  [  0 759]]
+
+ ## delta, aug, 25 epochs, 4 days of data, seed = 42
+ Test accuracy: 0.8893616795539856
+
+CONFUSION MATRIX
+[[1695  295]
+ [  43 1022]]
+
+Accuracy: 0.8894
+/Users/jakehopkins/Downloads/if_water/binary_aug20260307_092638.keras
+ ## delta, no aug, 25 epochs, 4 days of data, seed = 42
+ Test accuracy: 0.9934533834457397
+
+CONFUSION MATRIX
+[[1973   17]
+ [   3 1062]]
+
+
+Accuracy: 0.9935
+I'm a little worried about over fitting with out data aug 
+/Users/jakehopkins/Downloads/if_water/binary_aug20260307_094109.keras

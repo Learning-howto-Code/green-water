@@ -2,9 +2,22 @@ import cv2 as cv
 import numpy as np
 import os
 import json
+import re
 
 lookback = 3
-file = "delta3.json"
+file = "delta.json"
+
+
+def extract_timestamp(filename):
+    # ID#1, 2026-03-07-08-16-56-867.jpg
+    m = re.match(r'ID#\d+,\s*(\d{4})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d+)', filename)
+    if m:
+        return tuple(int(g) for g in m.groups())
+    # [NNNNN_]img_YYYYMMDD_HHMMSS_NNNN.jpg
+    m = re.search(r'img_(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})_(\d+)', filename)
+    if m:
+        return tuple(int(g) for g in m.groups())
+    return (0, 0, 0, 0, 0, 0, 0)
 # with open("delta.json") as f: 
 #     data = json.load(f)
 #     data = {item["filepath"]: item["diff"] for item in data}
@@ -25,7 +38,7 @@ def diffs():
         dir = dirpath[0]
         print(dir)
         files = [f for f in os.listdir(dir) if f.endswith('.jpg')]
-        files = sorted(files)  # sorts the files by timetamp TIMESTAMPS SKIP A FEW NUMBERS
+        files = sorted(files, key=extract_timestamp)  # sort by embedded timestamp
         #old_filepath = files[0]
         for i in range(len(files)):
             old_idx = max(0, i - lookback)

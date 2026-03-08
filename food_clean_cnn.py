@@ -25,12 +25,12 @@ epochs = 25
 paths="/Users/jakehopkins/Downloads/if_water/food_clean/"
 train_datagen = ImageDataGenerator(
     rescale=1./255,
-    rotation_range=40,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True,
+    # rotation_range=40,
+    # width_shift_range=0.2,
+    # height_shift_range=0.2,
+    # shear_range=0.2,
+    # zoom_range=0.2,
+    # horizontal_flip=True,
     )
 eval_datagen = ImageDataGenerator(rescale=1./255)
 batch_size = 32
