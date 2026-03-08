@@ -7,11 +7,11 @@ import re
 
 # MODEL_PATH = input("enter file path")
 # MODEL_PATH= str(MODEL_PATH)
-MODEL_PATH = "finished_models/best_clean_dirty.keras"
+MODEL_PATH = "/Users/jakehopkins/Downloads/if_water/food_clean_noaug.keras"
 # Define all dataset folders
 DATASET_FOLDERS = {
      #"train":  "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/train",
-     "val": "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/val",
+     "val": "/Users/jakehopkins/Downloads/if_water/food_clean/val",
     #"test": "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/val"
 }
 
