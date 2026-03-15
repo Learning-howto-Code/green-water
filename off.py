@@ -18,3 +18,6 @@ if if_ssh == False:
     neo = Pi5Neo(spi_channel, leds, spi_hz)
     neo.fill_strip(0, 0, 0)
     neo.update_strip()
+    print("SSH not active, turning off LED's")
+else :
+    print("SSH active, not touchng LED's")
