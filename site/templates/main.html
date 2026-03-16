@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div style="background:#87986a; color:#fff; padding:10px 18px; border-radius:8px; margin-bottom:10px;">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
     <title>Data Collection</title>
     <style>
         body {
@@ -62,20 +71,31 @@
     </script>
 </head>
 <body>
-    <h1>Data Collection</h1>
-    <img class="stream" src="/stream.mjpg" width="640" height="480" alt="Live Camera Feed">
-    <form method="POST">
-        <button name="key" value="gb">Garbage Disposal</button>
-        <button name="key" value="t">Toilet</button>
-    </form>
+  <div id="flash-container">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for message in messages %}
-          <div style="background:#87986a; color:#fff; padding:10px 18px; border-radius:8px; margin-bottom:10px;">
-            {{ message }}
-          </div>
+          <div class="flash-banner">{{ message }}</div>
         {% endfor %}
       {% endif %}
     {% endwith %}
+  </div>
+
+  <h1>Data Collection</h1>
+  <img class="stream" src="/stream.mjpg" width="640" height="480" alt="Live Camera Feed">
+  <form method="POST">
+      <button name="key" value="gb">Garbage Disposal</button>
+      <button name="key" value="t">Toilet</button>
+  </form>
+  <script>
+  window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".flash-banner").forEach((el) => {
+      setTimeout(() => {
+        el.classList.add("hide");
+        setTimeout(() => el.remove(), 400);
+      }, 5000);
+    });
+  });
+</script>
 </body>
 </html>
