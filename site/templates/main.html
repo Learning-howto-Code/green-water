@@ -68,5 +68,14 @@
         <button name="key" value="gb">Garbage Disposal</button>
         <button name="key" value="t">Toilet</button>
     </form>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div style="background:#87986a; color:#fff; padding:10px 18px; border-radius:8px; margin-bottom:10px;">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 </body>
 </html>
