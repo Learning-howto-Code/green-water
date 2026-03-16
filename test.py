@@ -22,7 +22,7 @@ neo.update_strip()  # commit/send to LEDs
 time.sleep(0.5)
 
 done = False
-folder_time = time.strftime("%m%d%H:%M")
+folder_time = time.strftime("%m:%d_%H:%M")
 base_dir="/home/jake/Downloads/if-water-cnn/data/sink"
 out_dir = os.path.join(base_dir, folder_time)
 os.makedirs(out_dir, exist_ok=True)
