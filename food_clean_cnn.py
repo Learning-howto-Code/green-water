@@ -9,31 +9,37 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import json
-from tensorflow.keras.utils import Sequence, load_img, img_to_array
+from tensorflow.keras.utils import Sequence, load_img, img_to_array # imports all the libaries
 
+#sets seeds for reproducibility
 np.random.seed(42)
 tf.random.set_seed(42)
 random.seed(42)
 
+#gets predefied diffs
 with open("delta.json") as f:
     diff_map = json.load(f)
     diff_map = {item["filepath"]: item["diff"] for item in diff_map}
 
+# sets amount of epochs. Doesn't really matter because of early stopping
 epochs = 25
 
-# Data Generators
+# data path
 paths="/Users/jakehopkins/Downloads/if_water/food_clean/"
+#data aug
 train_datagen = ImageDataGenerator(
     rescale=1./255,
-    # rotation_range=40,
-    # width_shift_range=0.2,
-    # height_shift_range=0.2,
-    # shear_range=0.2,
-    # zoom_range=0.2,
-    # horizontal_flip=True,
+    rotation_range=40,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
     )
+#calls img data gens
 eval_datagen = ImageDataGenerator(rescale=1./255)
-batch_size = 32
+# bigger batch size = faster but worse model
+batch_size = 64
 image_size = (224, 224)
 class_mode = 'binary'
 
@@ -133,9 +139,9 @@ metrics=['accuracy']
 )
 early_stop = tf.keras.callbacks.EarlyStopping(
     monitor='val_loss',
-    patience=3,
+    patience=5,
     start_from_epoch=3,
-    min_delta=0.01,
+    min_delta=0.001,
     restore_best_weights=True
 )
 
@@ -148,7 +154,14 @@ history = model.fit(
 )
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-model.save(f"binary_aug{timestamp}.keras")
+name = f"food_clean_aug_even_distro_{timestamp}"
+model.save(f"{name}.keras")
+#also saves model as tflite for rpi
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+tflite_model = converter.convert()
+with tf.io.gfile.GFile(name, 'wb') as f:
+    f.write(tflite_model)
+
 test_loss, test_acc = model.evaluate(test_data)
 print("Test accuracy:", test_acc)
 

@@ -4,15 +4,21 @@ from PIL import Image
 import tensorflow as tf
 from sklearn.metrics import confusion_matrix
 import re
+import json
 
 # MODEL_PATH = input("enter file path")
 # MODEL_PATH= str(MODEL_PATH)
-MODEL_PATH = "/Users/jakehopkins/Downloads/if_water/food_clean_noaug.keras"
+MODEL_PATH = "/Users/jakehopkins/Downloads/if_water/food_clean_aug_even_distro_20260309_181802.keras"
+
+# Load delta.json for diff values
+with open("delta.json", "r") as f:
+    delta_data = json.load(f)
+    delta_map = {item["filepath"]: item["diff"] for item in delta_data}
 # Define all dataset folders
 DATASET_FOLDERS = {
-     #"train":  "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/train",
-     "val": "/Users/jakehopkins/Downloads/if_water/food_clean/val",
-    #"test": "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/val"
+     #"#train":  "/Users/jakehopkins/Downloads/if_water/food_clean/train",
+    # "val": "/Users/jakehopkins/Downloads/if_water/food_clean/val",
+    "test": "/Users/jakehopkins/Downloads/if_water/food_clean/test"
 }
 
 IMG_SIZE = (224, 224)
@@ -41,6 +47,12 @@ def predict_image(img_path):
     arr = np.array(img, dtype=np.float32) / 255.0
     if arr.ndim == 2:
         arr = np.expand_dims(arr, axis=-1)
+    
+    # Add diff as 4th channel
+    diff_value = delta_map.get(img_path, 0.0)  # Default to 0.0 if not found
+    diff_channel = np.full((IMG_SIZE[0], IMG_SIZE[1]), diff_value, dtype=np.float32)
+    arr = np.dstack((arr, diff_channel))
+    
     arr = np.expand_dims(arr, axis=0)
 
     output = model.predict(arr, verbose=0)[0]
@@ -80,8 +92,8 @@ def run_folder(folder, label_map):
             path = os.path.join(root, filename)
 
             pred = predict_image(path)
-            pred_idx = int(np.argmax(pred))
-
+            score = float(np.squeeze(pred))
+            pred_idx = 1 if score > 0.5 else 0
             pred_str = np.array2string(
                 pred,
                 precision=6,

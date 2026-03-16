@@ -5,7 +5,7 @@ import json
 import re
 
 lookback = 3
-file = "delta.json"
+file = "delta3.json"
 
 
 def extract_timestamp(filename):
@@ -18,7 +18,7 @@ def extract_timestamp(filename):
     if m:
         return tuple(int(g) for g in m.groups())
     return (0, 0, 0, 0, 0, 0, 0)
-# with open("delta.json") as f: 
+# with open("delta3.json") as f: 
 #     data = json.load(f)
 #     data = {item["filepath"]: item["diff"] for item in data}
 #     print(data["/Users/jakehopkins/Downloads/if_water/food_clean/train/food/00662_img_20260124_130741_659.jpg"])

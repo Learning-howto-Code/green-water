@@ -1,0 +1,16 @@
+:root {
+    --background: #262626;
+}
+body {
+    background-image: url("background.jpeg");
+    background-size: cover; /* Optional: makes it fill the screen */
+    background-repeat: no-repeat; /* Optional: avoids tiling */
+    background-position: center center; /* Optional: centers the image */
+    text-align: center;
+    /* color: white; */
+}
+.controls.text {
+    color: white;
+    font-size: 18px;
+    font-family: sans-serif;
+}
