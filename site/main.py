@@ -65,7 +65,7 @@ def sink_capture():
 def home():
     if request.method == "POST":
         key = request.form.get("key")
-        if key == "wgb":
+        if key == "gb":
             if done == True:
                 flash("Capturing images")
                 toilet_capture()
