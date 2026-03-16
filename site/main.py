@@ -6,6 +6,11 @@ import os
 import time
 import datetime
 
+
+
+app = Flask(__name__)
+app.secret_key = '1'
+
 # Picamera2 setup
 picam2 = Picamera2()
 picam2.configure(picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
@@ -15,9 +20,6 @@ SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPI
 SPI_SPEED_KHZ = 800 #speed of SPI protocol
 
 neo = Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
-
-app = Flask(__name__)
-app.secret_key = '1'
 
 done = True
 def toilet_capture():
@@ -98,4 +100,4 @@ def stream():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True, reload=False)
