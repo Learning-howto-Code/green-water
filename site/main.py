@@ -67,14 +67,14 @@ def home():
         key = request.form.get("key")
         if key == "wgb":
             if done == True:
-                toilet_capture()
                 flash("Capturing images")
+                toilet_capture()
             else:
                 flash("Capture in progress, wait to hit it again") 
         if key == "t":
             if done == True:
-                sink_capture()
                 flash("Capturing images")
+                sink_capture()
             else:
                 flash("Capture in progress, wait to hit it again") 
     return render_template("main.html")
@@ -100,4 +100,4 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True, use_reloader=False)
