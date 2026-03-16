@@ -83,20 +83,20 @@ def home():
 
 
 
-def generate_frames():
-    while True:
-        frame = picam2.capture_array()
-        ret, buffer = cv.imencode('.jpg', frame)
-        if not ret:
-            continue  # skip frame if encoding fails
-        jpg_bytes = buffer.tobytes()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + jpg_bytes + b'\r\n')
+# def generate_frames():
+#     while True:
+#         frame = picam2.capture_array()
+#         ret, buffer = cv.imencode('.jpg', frame)
+#         if not ret:
+#             continue  # skip frame if encoding fails
+#         jpg_bytes = buffer.tobytes()
+#         yield (b'--frame\r\n'
+#                b'Content-Type: image/jpeg\r\n\r\n' + jpg_bytes + b'\r\n')
 
-@app.route('/stream.mjpg')
-def stream():
-    return Response(generate_frames(),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+# @app.route('/stream.mjpg')
+# def stream():
+#     return Response(generate_frames(),
+#                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 if __name__ == '__main__':
