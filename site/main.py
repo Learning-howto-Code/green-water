@@ -68,12 +68,14 @@ def home():
         if key == "gb":
             if done == True:
                 print(done)
+                print("sink")
                 flash("Capturing images")
                 print(done)
                 toilet_capture()
         if key == "t":
             if done == True:
                 print(done)
+                print("toilet")
                 flash("Capturing images")
                 print(done)
                 sink_capture()
