@@ -25,7 +25,7 @@ done = True
 def toilet_capture():
     global done
     done = False
-
+    print("runing toilet function")
     neo.fill_strip(220, 240, 120)
     neo.update_strip()  # commit/send to LEDs
     time.sleep(0.5)
@@ -45,6 +45,7 @@ def sink_capture():
     global done
     done = False
 
+    print("runing sink function")
     neo.fill_strip(220, 240, 120)
     neo.update_strip()  # commit/send to LEDs
     time.sleep(0.5)
@@ -72,6 +73,9 @@ def home():
                 flash("Capturing images")
                 print(done)
                 toilet_capture()
+            else:
+                flash("Capture in progress, wait to hit it again") 
+                print("skipped running funtion")
         if key == "t":
             if done == True:
                 print(done)
@@ -81,6 +85,7 @@ def home():
                 sink_capture()
             else:
                 flash("Capture in progress, wait to hit it again") 
+                print("skipped running funtion")
     return render_template("main.html")
 
 
