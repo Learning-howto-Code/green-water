@@ -67,13 +67,15 @@ def home():
         key = request.form.get("key")
         if key == "gb":
             if done == True:
+                print(done)
                 flash("Capturing images")
+                print(done)
                 toilet_capture()
-            else:
-                flash("Capture in progress, wait to hit it again") 
         if key == "t":
             if done == True:
+                print(done)
                 flash("Capturing images")
+                print(done)
                 sink_capture()
             else:
                 flash("Capture in progress, wait to hit it again") 
