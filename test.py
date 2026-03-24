@@ -1,34 +1,32 @@
-from flask import Flask, flash, render_template, render_template_string, request, Response
-# from picamera2 import Picamera2
-import cv2 as cv
+import re
 import os
-import time
-import datetime
-from pi5neo import Pi5Neo
-from picamera2 import Picamera2
+from datetime import datetime
 
-picam2 = Picamera2()
-config = picam2.create_video_configuration(main={"size": (640, 360)}, buffer_count=4)
-picam2.configure(config)
-picam2.start()
+def chronological_key(filename):
+    # Supports both patterns:
+    # 1) img_20260125_114009_1247.jpg
+    # 2) ID#1, 2026-03-19-17-59-23-334.jpg
+    m1 = re.search(r"(\d{8})_(\d{6})_(\d+)", filename)
+    if m1:
+        date_str, time_str, ms_str = m1.groups()
+        dt = datetime.strptime(f"{date_str}{time_str}", "%Y%m%d%H%M%S")
+        # Normalize to microseconds (max 6 digits).
+        us = int(ms_str[:6].ljust(6, "0"))
+        return dt.replace(microsecond=us)
 
-SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
-SPI_SPEED_KHZ = 800 #speed of SPI protocol
+    m2 = re.search(r"(\d{4})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d+)", filename)
+    if m2:
+        y, mo, d, h, mi, s, ms_str = m2.groups()
+        us = int(ms_str[:6].ljust(6, "0"))
+        return datetime(int(y), int(mo), int(d), int(h), int(mi), int(s), us)
 
-neo = Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
+# Generate sorted filelist for ffmpeg
 
-neo.fill_strip(220, 240, 120)
-neo.update_strip()  # commit/send to LEDs
-time.sleep(0.5)
+folder = "/Users/jakehopkins/Downloads/if_water/movie"
 
-done = False
-folder_time = time.strftime("%m:%d_%H:%M")
-base_dir="/home/jake/Downloads/if-water-cnn/data/sink"
-out_dir = os.path.join(base_dir, folder_time)
-os.makedirs(out_dir, exist_ok=True)
-frame = picam2.capture_array()
-img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
-timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
-img_name = f"{timestamp}.jpg"
-cv.imwrite(os.path.join(out_dir, img_name), img)
-done = True
+images = [f for f in os.listdir(folder) if f.endswith(('.jpg', '.png'))]
+with open("filelist.txt", "w") as f:
+    for img in images:
+        f.write(f"file '{os.path.join(folder, img)}'\n")
+
+# Then run ffmpeg

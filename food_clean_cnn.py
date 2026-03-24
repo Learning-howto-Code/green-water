@@ -22,7 +22,7 @@ with open("delta.json") as f:
     diff_map = {item["filepath"]: item["diff"] for item in diff_map}
 
 # sets amount of epochs. Doesn't really matter because of early stopping
-epochs = 25
+epochs = 50
 
 # data path
 paths="/Users/jakehopkins/Downloads/if_water/food_clean/"
@@ -156,11 +156,12 @@ history = model.fit(
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 name = f"food_clean_aug_even_distro_{timestamp}"
 model.save(f"{name}.keras")
+
 #also saves model as tflite for rpi
-converter = tf.lite.TFLiteConverter.from_keras_model(model)
-tflite_model = converter.convert()
-with tf.io.gfile.GFile(name, 'wb') as f:
-    f.write(tflite_model)
+# converter = tf.lite.TFLiteConverter.from_keras_model(model)
+# tflite_model = converter.convert()
+# with tf.io.gfile.GFile(name, 'wb') as f:
+#     f.write(tflite_model)
 
 test_loss, test_acc = model.evaluate(test_data)
 print("Test accuracy:", test_acc)

@@ -72,7 +72,7 @@ def home():
                 print("sink")
                 flash("Capturing images")
                 print(done)
-                toilet_capture()
+                sink_capture()
             else:
                 flash("Capture in progress, wait to hit it again") 
                 print("skipped running funtion")
@@ -82,7 +82,7 @@ def home():
                 print("toilet")
                 flash("Capturing images")
                 print(done)
-                sink_capture()
+                toilet_capture()
             else:
                 flash("Capture in progress, wait to hit it again") 
                 print("skipped running funtion")
