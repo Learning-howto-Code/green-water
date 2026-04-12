@@ -1,0 +1,2262 @@
+[
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-08-817.jpg",
+    "diff": 0.0
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-15-016.jpg",
+    "diff": 1.3779079861111112
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-16-716.jpg",
+    "diff": 1.4189149305555555
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-17-815.jpg",
+    "diff": 1.4414872685185185
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-18-315.jpg",
+    "diff": 1.3036704282407408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-19-515.jpg",
+    "diff": 1.2832798032407406
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-19-715.jpg",
+    "diff": 1.253621238425926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-20-515.jpg",
+    "diff": 1.2643084490740741
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-20-715.jpg",
+    "diff": 1.2225144675925925
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-23-514.jpg",
+    "diff": 1.298527199074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-23-814.jpg",
+    "diff": 1.2963686342592593
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-24-714.jpg",
+    "diff": 1.293030960648148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-24-814.jpg",
+    "diff": 1.2271846064814815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-25-414.jpg",
+    "diff": 7.542776331018518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-03-18-19-26-114.jpg",
+    "diff": 12.100441261574074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-30-437.jpg",
+    "diff": 12.765478877314814
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-30-537.jpg",
+    "diff": 15.649905960648148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-32-737.jpg",
+    "diff": 15.474269386574074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-33-437.jpg",
+    "diff": 1.387761863425926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-34-336.jpg",
+    "diff": 1.4693475115740742
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-34-936.jpg",
+    "diff": 1.1678602430555556
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-39-336.jpg",
+    "diff": 1.4703399884259258
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-39-735.jpg",
+    "diff": 1.4277864583333333
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-42-035.jpg",
+    "diff": 1.478548900462963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-42-635.jpg",
+    "diff": 1.3502387152777777
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-43-835.jpg",
+    "diff": 1.290720486111111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-45-035.jpg",
+    "diff": 1.2631510416666667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-45-534.jpg",
+    "diff": 1.2575217013888889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-46-234.jpg",
+    "diff": 1.1477821180555556
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-46-434.jpg",
+    "diff": 1.0559809027777778
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-47-734.jpg",
+    "diff": 1.1269155092592593
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-48-734.jpg",
+    "diff": 1.1472945601851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-49-234.jpg",
+    "diff": 1.161015625
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-49-734.jpg",
+    "diff": 1.0961660879629629
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-50-933.jpg",
+    "diff": 1.1030425347222221
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-53-133.jpg",
+    "diff": 1.2095616319444444
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-53-533.jpg",
+    "diff": 1.2055642361111112
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-54-733.jpg",
+    "diff": 1.1993373842592592
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-54-833.jpg",
+    "diff": 1.0704615162037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-55-133.jpg",
+    "diff": 1.072109375
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-56-132.jpg",
+    "diff": 1.0543446180555556
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-57-832.jpg",
+    "diff": 1.1774421296296296
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-57-932.jpg",
+    "diff": 1.1607016782407407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-58-132.jpg",
+    "diff": 1.098912037037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-28-59-732.jpg",
+    "diff": 1.1170543981481482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-00-432.jpg",
+    "diff": 1.1695442708333332
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-01-132.jpg",
+    "diff": 1.1743041087962962
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-01-931.jpg",
+    "diff": 1.125886863425926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-04-531.jpg",
+    "diff": 1.2429123263888888
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-05-331.jpg",
+    "diff": 1.3018634259259259
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-05-731.jpg",
+    "diff": 1.2601605902777777
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-06-331.jpg",
+    "diff": 1.1654788773148148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-07-730.jpg",
+    "diff": 1.170072337962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-09-330.jpg",
+    "diff": 1.2136328125
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-09-730.jpg",
+    "diff": 1.177667824074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-11-830.jpg",
+    "diff": 1.2211921296296295
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-13-329.jpg",
+    "diff": 1.244279513888889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-14-530.jpg",
+    "diff": 1.2734837962962964
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-15-029.jpg",
+    "diff": 1.1701374421296296
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-16-329.jpg",
+    "diff": 1.1544762731481482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-17-829.jpg",
+    "diff": 1.164781539351852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-18-329.jpg",
+    "diff": 1.1653052662037038
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-19-229.jpg",
+    "diff": 1.1432219328703703
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-20-129.jpg",
+    "diff": 1.1197424768518518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-20-528.jpg",
+    "diff": 1.102789351851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-21-928.jpg",
+    "diff": 1.1341956018518518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-22-628.jpg",
+    "diff": 1.1133058449074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-22-828.jpg",
+    "diff": 1.110836226851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-22-928.jpg",
+    "diff": 1.0061950231481482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-23-928.jpg",
+    "diff": 1.038013599537037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-24-928.jpg",
+    "diff": 1.1007161458333334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/clean/ID#1, 2026-03-06-18-29-26-827.jpg",
+    "diff": 1.3284765625
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-55-821.jpg",
+    "diff": 0.0
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-05-119.jpg",
+    "diff": 11.826328125
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-56-920.jpg",
+    "diff": 6.6805222800925925
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-00-920.jpg",
+    "diff": 9.789127604166667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-58-220.jpg",
+    "diff": 11.295678530092593
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-50-422.jpg",
+    "diff": 6.871022858796296
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-45-823.jpg",
+    "diff": 13.713855613425926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-53-721.jpg",
+    "diff": 8.472054398148147
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-05-719.jpg",
+    "diff": 9.708048321759259
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-47-922.jpg",
+    "diff": 12.423935185185185
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-43-123.jpg",
+    "diff": 18.959810474537036
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-50-022.jpg",
+    "diff": 10.067486979166667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-51-621.jpg",
+    "diff": 8.500533854166667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-41-423.jpg",
+    "diff": 18.932790798611112
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-37-824.jpg",
+    "diff": 15.251390335648148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-39-324.jpg",
+    "diff": 38.39564814814815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-43-323.jpg",
+    "diff": 22.023774594907408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-01-920.jpg",
+    "diff": 14.406867766203703
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-49-022.jpg",
+    "diff": 40.11720486111111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-59-220.jpg",
+    "diff": 20.309495081018518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-46-822.jpg",
+    "diff": 11.662131076388889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-42-023.jpg",
+    "diff": 20.32380642361111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-48-322.jpg",
+    "diff": 9.821653645833333
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-58-120.jpg",
+    "diff": 12.280852141203704
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-43-423.jpg",
+    "diff": 17.99515769675926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-49-722.jpg",
+    "diff": 5.047146990740741
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-51-122.jpg",
+    "diff": 9.651805555555555
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-49-522.jpg",
+    "diff": 17.51890335648148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-05-019.jpg",
+    "diff": 18.042238136574074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-50-722.jpg",
+    "diff": 9.855980902777778
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-56-820.jpg",
+    "diff": 5.548721064814814
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-50-322.jpg",
+    "diff": 17.52945601851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-04-019.jpg",
+    "diff": 12.911798321759258
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-03-919.jpg",
+    "diff": 10.985101273148148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-53-221.jpg",
+    "diff": 7.896754918981482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-49-322.jpg",
+    "diff": 12.201704282407407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-41-523.jpg",
+    "diff": 20.491459780092594
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-44-923.jpg",
+    "diff": 12.815517939814814
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-58-520.jpg",
+    "diff": 10.902432002314814
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-39-024.jpg",
+    "diff": 32.55892071759259
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-58-920.jpg",
+    "diff": 14.461370081018519
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-03-719.jpg",
+    "diff": 13.571730324074075
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-57-420.jpg",
+    "diff": 31.111707175925925
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-47-622.jpg",
+    "diff": 10.984557291666667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-46-222.jpg",
+    "diff": 16.915180844907407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-02-119.jpg",
+    "diff": 12.326035879629629
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-44-723.jpg",
+    "diff": 12.649856770833333
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-54-521.jpg",
+    "diff": 13.224124710648148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-02-519.jpg",
+    "diff": 13.432960069444444
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-57-020.jpg",
+    "diff": 13.327424768518519
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-01-020.jpg",
+    "diff": 10.544665798611112
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-03-319.jpg",
+    "diff": 12.729680266203705
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-47-022.jpg",
+    "diff": 8.777094907407408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-43-823.jpg",
+    "diff": 15.275678530092593
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-57-220.jpg",
+    "diff": 12.968916377314814
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-46-322.jpg",
+    "diff": 9.370732060185185
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-02-219.jpg",
+    "diff": 17.880651041666667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-37-624.jpg",
+    "diff": 16.111059027777777
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-44-423.jpg",
+    "diff": 12.82537181712963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-03-619.jpg",
+    "diff": 10.653336226851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-56-321.jpg",
+    "diff": 14.810384837962962
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-45-023.jpg",
+    "diff": 10.1800390625
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-47-122.jpg",
+    "diff": 14.345279224537038
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-00-720.jpg",
+    "diff": 10.354894386574074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-44-023.jpg",
+    "diff": 11.202899305555556
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-54-221.jpg",
+    "diff": 7.636247106481481
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-44-223.jpg",
+    "diff": 16.083679108796296
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-54-021.jpg",
+    "diff": 12.745493344907407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-46-722.jpg",
+    "diff": 9.704881365740741
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-45-623.jpg",
+    "diff": 10.858375289351851
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-14-03-019.jpg",
+    "diff": 10.787958622685185
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-09-117.jpg",
+    "diff": 0.0
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-09-417.jpg",
+    "diff": 1.0457740162037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-09-617.jpg",
+    "diff": 1.1032262731481481
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-09-717.jpg",
+    "diff": 1.121802662037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-10-417.jpg",
+    "diff": 1.1820153356481482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-10-717.jpg",
+    "diff": 1.2002777777777778
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-10-920.jpg",
+    "diff": 1.2315465856481482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-11-117.jpg",
+    "diff": 1.1694502314814814
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-11-317.jpg",
+    "diff": 1.1395992476851853
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-12-416.jpg",
+    "diff": 1.2317259837962964
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-12-616.jpg",
+    "diff": 1.2395847800925925
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-13-116.jpg",
+    "diff": 1.2559071180555557
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-13-516.jpg",
+    "diff": 1.2121354166666667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-13-616.jpg",
+    "diff": 1.2024985532407408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-14-416.jpg",
+    "diff": 1.2246238425925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-14-516.jpg",
+    "diff": 1.194654224537037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-15-116.jpg",
+    "diff": 1.2532132523148147
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-15-216.jpg",
+    "diff": 1.190697337962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-15-816.jpg",
+    "diff": 1.2262456597222222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-16-018.jpg",
+    "diff": 1.1819212962962964
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-16-216.jpg",
+    "diff": 1.2248003472222222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-16-416.jpg",
+    "diff": 1.1691825810185186
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-16-616.jpg",
+    "diff": 1.141478587962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-17-116.jpg",
+    "diff": 1.1706698495370371
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-17-416.jpg",
+    "diff": 1.2123741319444445
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-17-715.jpg",
+    "diff": 1.2080758101851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-18-116.jpg",
+    "diff": 1.1765031828703705
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-18-715.jpg",
+    "diff": 1.212243923611111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-18-815.jpg",
+    "diff": 1.2087485532407407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-19-015.jpg",
+    "diff": 1.2074840856481481
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-20-115.jpg",
+    "diff": 1.227818287037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-20-415.jpg",
+    "diff": 1.2502199074074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-20-615.jpg",
+    "diff": 1.2443547453703703
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-21-215.jpg",
+    "diff": 1.225732060185185
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-21-715.jpg",
+    "diff": 1.2528313078703703
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-21-815.jpg",
+    "diff": 1.2192578125
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-22-315.jpg",
+    "diff": 1.2151432291666666
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-22-615.jpg",
+    "diff": 1.1734013310185185
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-23-015.jpg",
+    "diff": 1.1846383101851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-23-914.jpg",
+    "diff": 1.2177488425925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-24-414.jpg",
+    "diff": 1.2053023726851853
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-25-014.jpg",
+    "diff": 1.4452083333333334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-25-514.jpg",
+    "diff": 17.344202835648147
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-25-614.jpg",
+    "diff": 21.03097222222222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-25-914.jpg",
+    "diff": 13.742256944444444
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-03-18-19-26-215.jpg",
+    "diff": 19.628864293981483
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-30-037.jpg",
+    "diff": 21.12650462962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-30-137.jpg",
+    "diff": 15.857369791666667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-30-237.jpg",
+    "diff": 16.28947337962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-30-837.jpg",
+    "diff": 1.2192679398148147
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-31-037.jpg",
+    "diff": 1.1872410300925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-31-437.jpg",
+    "diff": 1.2133015046296296
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-31-637.jpg",
+    "diff": 1.0390610532407407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-31-937.jpg",
+    "diff": 1.0859027777777779
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-32-037.jpg",
+    "diff": 0.9794762731481481
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-33-037.jpg",
+    "diff": 1.1038483796296297
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-33-137.jpg",
+    "diff": 1.0760575810185184
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-33-737.jpg",
+    "diff": 1.1344227430555556
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-34-536.jpg",
+    "diff": 1.095859375
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-35-036.jpg",
+    "diff": 1.137829861111111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-35-136.jpg",
+    "diff": 1.0693619791666666
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-35-537.jpg",
+    "diff": 1.293453414351852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-35-936.jpg",
+    "diff": 1.1642230902777777
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-36-936.jpg",
+    "diff": 1.194146412037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-37-336.jpg",
+    "diff": 1.2208550347222222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-37-836.jpg",
+    "diff": 1.131746238425926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-37-936.jpg",
+    "diff": 1.0233506944444444
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-38-336.jpg",
+    "diff": 1.0250983796296296
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-38-636.jpg",
+    "diff": 1.002902199074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-38-836.jpg",
+    "diff": 1.0174508101851851
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-39-436.jpg",
+    "diff": 1.0272743055555555
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-39-535.jpg",
+    "diff": 1.0147540509259259
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-40-135.jpg",
+    "diff": 1.0535431134259259
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-40-335.jpg",
+    "diff": 1.0278486689814814
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-40-535.jpg",
+    "diff": 1.0508203125
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-43-035.jpg",
+    "diff": 1.310853587962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-43-135.jpg",
+    "diff": 1.3034635416666667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-43-435.jpg",
+    "diff": 1.2983579282407407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-44-435.jpg",
+    "diff": 1.070324074074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-44-835.jpg",
+    "diff": 1.109849537037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-45-235.jpg",
+    "diff": 1.1170109953703704
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-45-334.jpg",
+    "diff": 0.998744212962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-45-934.jpg",
+    "diff": 1.0188585069444445
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-46-734.jpg",
+    "diff": 1.062996238425926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-47-134.jpg",
+    "diff": 1.1017346643518517
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-47-334.jpg",
+    "diff": 1.0615625
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-47-634.jpg",
+    "diff": 1.003470775462963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-47-934.jpg",
+    "diff": 0.9963671875
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-48-134.jpg",
+    "diff": 0.9909476273148148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-50-034.jpg",
+    "diff": 1.1197019675925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-50-334.jpg",
+    "diff": 1.1290610532407408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-50-434.jpg",
+    "diff": 1.118263888888889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-50-733.jpg",
+    "diff": 0.9576099537037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-50-833.jpg",
+    "diff": 0.9274160879629629
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-51-333.jpg",
+    "diff": 0.9891507523148149
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-51-634.jpg",
+    "diff": 0.98796875
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-51-833.jpg",
+    "diff": 1.0024204282407407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-52-133.jpg",
+    "diff": 0.9822164351851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-52-233.jpg",
+    "diff": 0.9488440393518518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-53-233.jpg",
+    "diff": 1.0452965856481482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-53-833.jpg",
+    "diff": 1.0607957175925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-54-533.jpg",
+    "diff": 1.1114438657407408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-55-033.jpg",
+    "diff": 1.0760344328703704
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-55-632.jpg",
+    "diff": 1.0916869212962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-56-333.jpg",
+    "diff": 1.0912745949074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-56-532.jpg",
+    "diff": 1.0637659143518519
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-56-632.jpg",
+    "diff": 1.0145920138888889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-56-732.jpg",
+    "diff": 0.9050694444444445
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-57-032.jpg",
+    "diff": 0.9301403356481481
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-57-232.jpg",
+    "diff": 0.9597453703703703
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-58-632.jpg",
+    "diff": 1.1054369212962962
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-59-232.jpg",
+    "diff": 1.1415234375
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-28-59-532.jpg",
+    "diff": 1.1426938657407408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-00-232.jpg",
+    "diff": 1.0929325810185184
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-00-532.jpg",
+    "diff": 1.0789496527777778
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-01-331.jpg",
+    "diff": 1.1003689236111112
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-01-432.jpg",
+    "diff": 1.0477213541666666
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-02-131.jpg",
+    "diff": 1.106064814814815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-02-431.jpg",
+    "diff": 1.033527199074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-02-831.jpg",
+    "diff": 1.0668764467592593
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-03-031.jpg",
+    "diff": 1.0184751157407408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-03-131.jpg",
+    "diff": 0.9861877893518518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-03-331.jpg",
+    "diff": 0.9422048611111111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-03-531.jpg",
+    "diff": 0.9527314814814815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-03-931.jpg",
+    "diff": 0.9961863425925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-04-131.jpg",
+    "diff": 0.9774059606481481
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-04-231.jpg",
+    "diff": 0.9776114004629629
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-05-131.jpg",
+    "diff": 1.1877141203703703
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-05-431.jpg",
+    "diff": 1.1507725694444444
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-05-831.jpg",
+    "diff": 1.1566449652777777
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-06-131.jpg",
+    "diff": 1.0406626157407408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-06-930.jpg",
+    "diff": 1.1423958333333333
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-07-030.jpg",
+    "diff": 1.0972974537037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-07-530.jpg",
+    "diff": 1.0756105324074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-08-630.jpg",
+    "diff": 1.1871527777777777
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-09-630.jpg",
+    "diff": 1.1730179398148148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-10-030.jpg",
+    "diff": 1.1366608796296296
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-10-430.jpg",
+    "diff": 1.1189554398148147
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-11-030.jpg",
+    "diff": 1.0573741319444445
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-11-330.jpg",
+    "diff": 1.0471730324074073
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-11-630.jpg",
+    "diff": 1.0415625
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-11-930.jpg",
+    "diff": 0.9992086226851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-12-830.jpg",
+    "diff": 1.0978559027777777
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-13-429.jpg",
+    "diff": 1.0856568287037036
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-13-729.jpg",
+    "diff": 1.0783333333333334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-13-929.jpg",
+    "diff": 1.0345515046296296
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-14-029.jpg",
+    "diff": 0.9561183449074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-14-629.jpg",
+    "diff": 1.0012123842592593
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-15-729.jpg",
+    "diff": 1.0866608796296295
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-15-829.jpg",
+    "diff": 1.0888686342592593
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-16-929.jpg",
+    "diff": 1.1117809606481481
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-17-029.jpg",
+    "diff": 1.070787037037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-17-729.jpg",
+    "diff": 1.1234085648148149
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-18-828.jpg",
+    "diff": 1.0930164930555555
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-19-728.jpg",
+    "diff": 1.1399594907407407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-19-928.jpg",
+    "diff": 1.1076750578703705
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-20-028.jpg",
+    "diff": 1.047705439814815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-20-328.jpg",
+    "diff": 0.9430946180555555
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-20-828.jpg",
+    "diff": 0.9996976273148148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-21-028.jpg",
+    "diff": 1.0058405671296295
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-21-228.jpg",
+    "diff": 0.989597800925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-21-536.jpg",
+    "diff": 0.9684939236111111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-22-428.jpg",
+    "diff": 1.0626692708333334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-23-228.jpg",
+    "diff": 1.0806409143518518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-23-428.jpg",
+    "diff": 1.0650462962962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-23-528.jpg",
+    "diff": 1.0138816550925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-25-327.jpg",
+    "diff": 1.0826634837962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-25-427.jpg",
+    "diff": 1.0905844907407407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/clean/ID#1, 2026-03-06-18-29-25-827.jpg",
+    "diff": 1.1020891203703704
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-40-623.jpg",
+    "diff": 0.0
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-43-723.jpg",
+    "diff": 24.252353877314814
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-53-521.jpg",
+    "diff": 22.126671006944445
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-59-620.jpg",
+    "diff": 21.205925925925925
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-04-120.jpg",
+    "diff": 19.786300636574072
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-44-824.jpg",
+    "diff": 13.540758101851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-38-324.jpg",
+    "diff": 30.240218460648148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-42-323.jpg",
+    "diff": 18.15445601851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-41-223.jpg",
+    "diff": 17.808451967592593
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-02-819.jpg",
+    "diff": 30.965651041666668
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-52-121.jpg",
+    "diff": 17.322488425925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-04-519.jpg",
+    "diff": 18.297925347222222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-39-724.jpg",
+    "diff": 29.028563368055554
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-50-622.jpg",
+    "diff": 10.01898292824074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-48-222.jpg",
+    "diff": 14.088488136574075
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-39-524.jpg",
+    "diff": 33.86058738425926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-04-719.jpg",
+    "diff": 14.234554398148148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-51-221.jpg",
+    "diff": 7.773271122685185
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-46-922.jpg",
+    "diff": 30.77722800925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-52-321.jpg",
+    "diff": 14.279291087962964
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-59-420.jpg",
+    "diff": 11.62425925925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-05-319.jpg",
+    "diff": 12.651351273148148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-38-124.jpg",
+    "diff": 37.50837962962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-49-622.jpg",
+    "diff": 11.553326099537037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-51-022.jpg",
+    "diff": 11.865471643518518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-43-523.jpg",
+    "diff": 38.36430700231482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-38-524.jpg",
+    "diff": 32.13631510416667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-49-222.jpg",
+    "diff": 7.71845775462963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-04-319.jpg",
+    "diff": 17.283203125
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-48-622.jpg",
+    "diff": 31.64591579861111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-39-124.jpg",
+    "diff": 31.14897858796296
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-58-420.jpg",
+    "diff": 11.300235821759259
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-52-721.jpg",
+    "diff": 9.826788194444445
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-59-021.jpg",
+    "diff": 27.227527488425928
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-42-523.jpg",
+    "diff": 20.424097222222223
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-51-421.jpg",
+    "diff": 9.208020833333334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-52-521.jpg",
+    "diff": 7.275439814814815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-38-725.jpg",
+    "diff": 33.03595920138889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-40-424.jpg",
+    "diff": 22.86248119212963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-50-222.jpg",
+    "diff": 11.4655078125
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-48-422.jpg",
+    "diff": 34.495503472222225
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-54-821.jpg",
+    "diff": 23.772802372685184
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-58-620.jpg",
+    "diff": 11.48859519675926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-53-121.jpg",
+    "diff": 9.521640625
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-03-819.jpg",
+    "diff": 13.506801215277777
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-41-024.jpg",
+    "diff": 17.89636140046296
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-57-920.jpg",
+    "diff": 10.193043981481482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-05-519.jpg",
+    "diff": 10.241487268518519
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-51-321.jpg",
+    "diff": 18.17993923611111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-52-221.jpg",
+    "diff": 9.740467303240742
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-40-324.jpg",
+    "diff": 21.220620659722222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-41-123.jpg",
+    "diff": 17.472504340277776
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-39-424.jpg",
+    "diff": 34.37284722222222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-04-619.jpg",
+    "diff": 23.072912326388888
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-40-523.jpg",
+    "diff": 18.945837673611113
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-05-219.jpg",
+    "diff": 28.398741319444444
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-38-024.jpg",
+    "diff": 31.00138888888889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-38-224.jpg",
+    "diff": 41.24907841435185
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-59-720.jpg",
+    "diff": 13.397724247685185
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-40-723.jpg",
+    "diff": 34.425345775462965
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-43-623.jpg",
+    "diff": 39.29679253472222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-39-624.jpg",
+    "diff": 27.384877025462963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-48-122.jpg",
+    "diff": 19.940697337962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-52-021.jpg",
+    "diff": 19.626119791666667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-02-919.jpg",
+    "diff": 28.957518807870372
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-42-223.jpg",
+    "diff": 16.993914930555555
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-00-820.jpg",
+    "diff": 14.036022858796295
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-40-124.jpg",
+    "diff": 26.356688368055554
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-41-323.jpg",
+    "diff": 15.363878761574075
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-01-821.jpg",
+    "diff": 8.713213252314814
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-39-224.jpg",
+    "diff": 34.91029658564815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-48-522.jpg",
+    "diff": 18.42369068287037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-54-921.jpg",
+    "diff": 9.389325810185186
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-41-723.jpg",
+    "diff": 40.29548032407408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-42-623.jpg",
+    "diff": 20.41428240740741
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-51-521.jpg",
+    "diff": 8.838138020833334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-52-421.jpg",
+    "diff": 18.50252025462963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-59-320.jpg",
+    "diff": 21.30972945601852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-05-419.jpg",
+    "diff": 12.74525462962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-38-624.jpg",
+    "diff": 25.515862268518518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-43-223.jpg",
+    "diff": 20.072837094907406
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-57-820.jpg",
+    "diff": 13.08705150462963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-53-021.jpg",
+    "diff": 26.498655960648147
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-43-023.jpg",
+    "diff": 14.478177083333334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-47-822.jpg",
+    "diff": 8.53197193287037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-05-619.jpg",
+    "diff": 8.185633680555556
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-42-423.jpg",
+    "diff": 17.896497395833332
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-51-721.jpg",
+    "diff": 8.00814525462963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-59-121.jpg",
+    "diff": 6.406239872685185
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-04-219.jpg",
+    "diff": 18.446148726851852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-50-122.jpg",
+    "diff": 9.273405671296297
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-48-722.jpg",
+    "diff": 10.040584490740741
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-44-523.jpg",
+    "diff": 16.186105324074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-54-721.jpg",
+    "diff": 8.734411168981481
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-42-823.jpg",
+    "diff": 16.845695891203704
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-41-923.jpg",
+    "diff": 16.58751736111111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-02-319.jpg",
+    "diff": 10.45410011574074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-46-022.jpg",
+    "diff": 16.91746383101852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-45-123.jpg",
+    "diff": 16.502021122685186
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-56-221.jpg",
+    "diff": 12.271427951388889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-38-824.jpg",
+    "diff": 32.34993634259259
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-52-822.jpg",
+    "diff": 13.23435763888889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-55-321.jpg",
+    "diff": 9.325570023148147
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-01-620.jpg",
+    "diff": 32.215700231481485
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-47-422.jpg",
+    "diff": 10.25427806712963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-01-420.jpg",
+    "diff": 11.024312789351852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-03-519.jpg",
+    "diff": 11.354252025462962
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-45-323.jpg",
+    "diff": 10.474868344907408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-55-121.jpg",
+    "diff": 11.168815104166667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-56-021.jpg",
+    "diff": 13.090122974537037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-00-020.jpg",
+    "diff": 13.569058159722223
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-51-921.jpg",
+    "diff": 11.14070457175926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-48-922.jpg",
+    "diff": 9.346293402777778
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-46-622.jpg",
+    "diff": 13.33650318287037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-00-420.jpg",
+    "diff": 11.695153356481482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-54-121.jpg",
+    "diff": 8.166304976851851
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-04-819.jpg",
+    "diff": 16.973135127314816
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-47-222.jpg",
+    "diff": 11.788272569444445
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-03-119.jpg",
+    "diff": 14.345852141203704
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-56-421.jpg",
+    "diff": 17.28748408564815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-49-922.jpg",
+    "diff": 7.187588252314815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-55-521.jpg",
+    "diff": 12.664505208333333
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-45-723.jpg",
+    "diff": 11.694134837962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-55-721.jpg",
+    "diff": 8.288188657407407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-45-523.jpg",
+    "diff": 12.342387152777778
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-59-920.jpg",
+    "diff": 13.995855034722222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-40-923.jpg",
+    "diff": 20.179837962962964
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-01-220.jpg",
+    "diff": 15.326212384259259
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-39-824.jpg",
+    "diff": 28.70831886574074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-50-922.jpg",
+    "diff": 15.933981481481482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-54-321.jpg",
+    "diff": 10.950066550925927
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-46-422.jpg",
+    "diff": 27.965338541666668
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-00-620.jpg",
+    "diff": 14.374878472222223
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-56-620.jpg",
+    "diff": 7.922092013888889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-55-021.jpg",
+    "diff": 14.526494502314815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-56-121.jpg",
+    "diff": 11.420112847222223
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-45-223.jpg",
+    "diff": 12.046802662037036
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-03-419.jpg",
+    "diff": 13.361284722222223
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-47-722.jpg",
+    "diff": 6.381727430555555
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-57-520.jpg",
+    "diff": 14.360707465277779
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-48-823.jpg",
+    "diff": 14.118152488425926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-44-623.jpg",
+    "diff": 12.5673046875
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-51-821.jpg",
+    "diff": 11.893317418981482
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-02-019.jpg",
+    "diff": 10.463605324074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-00-120.jpg",
+    "diff": 14.173447627314815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-42-923.jpg",
+    "diff": 19.704189814814814
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-00-320.jpg",
+    "diff": 7.0338353587962965
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-54-621.jpg",
+    "diff": 9.90960648148148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-58-820.jpg",
+    "diff": 20.640043402777778
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-47-522.jpg",
+    "diff": 10.23890625
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-57-720.jpg",
+    "diff": 8.624150752314815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-01-720.jpg",
+    "diff": 10.258951099537038
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-38-924.jpg",
+    "diff": 29.49300491898148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-55-221.jpg",
+    "diff": 10.02423755787037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-03-219.jpg",
+    "diff": 12.575486111111111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-45-423.jpg",
+    "diff": 29.383097511574075
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-59-820.jpg",
+    "diff": 9.039207175925926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-56-721.jpg",
+    "diff": 15.40314525462963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-46-522.jpg",
+    "diff": 12.591966145833334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-02-619.jpg",
+    "diff": 10.111671006944444
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-50-822.jpg",
+    "diff": 8.276937210648148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-04-919.jpg",
+    "diff": 16.317682291666667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-00-520.jpg",
+    "diff": 8.650756655092593
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-56-520.jpg",
+    "diff": 8.358506944444445
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-14-02-419.jpg",
+    "diff": 12.54306423611111
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-49-822.jpg",
+    "diff": 12.207000868055555
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-55-421.jpg",
+    "diff": 11.46418113425926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-57-120.jpg",
+    "diff": 10.713078703703705
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/train/poop/, 2026-04-11-19-13-47-322.jpg",
+    "diff": 6.964058159722223
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-03-18-19-12-217.jpg",
+    "diff": 0.0
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-03-18-19-15-916.jpg",
+    "diff": 1.3260980902777777
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-03-18-19-18-015.jpg",
+    "diff": 1.3967925347222223
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-03-18-19-18-415.jpg",
+    "diff": 1.395881076388889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-03-18-19-20-315.jpg",
+    "diff": 1.3190248842592593
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-03-18-19-23-714.jpg",
+    "diff": 1.3326359953703704
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-03-18-19-24-014.jpg",
+    "diff": 1.3333333333333333
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-30-737.jpg",
+    "diff": 12.78499855324074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-30-937.jpg",
+    "diff": 12.763255208333334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-31-237.jpg",
+    "diff": 12.766508969907408
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-31-737.jpg",
+    "diff": 1.0985561342592594
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-34-436.jpg",
+    "diff": 1.3756119791666668
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-35-236.jpg",
+    "diff": 1.413175636574074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-36-438.jpg",
+    "diff": 1.503638599537037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-38-236.jpg",
+    "diff": 1.347683738425926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-41-035.jpg",
+    "diff": 1.4135416666666667
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-42-135.jpg",
+    "diff": 1.3697858796296296
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-42-235.jpg",
+    "diff": 1.2636776620370371
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-44-335.jpg",
+    "diff": 1.2569994212962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-49-534.jpg",
+    "diff": 1.501572627314815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-51-233.jpg",
+    "diff": 1.5789612268518518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-52-733.jpg",
+    "diff": 1.499853877314815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-54-333.jpg",
+    "diff": 1.2544140625
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-54-633.jpg",
+    "diff": 1.17765625
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-56-032.jpg",
+    "diff": 1.1771166087962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-57-332.jpg",
+    "diff": 1.1720442708333334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-57-432.jpg",
+    "diff": 1.1579484953703705
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-57-632.jpg",
+    "diff": 1.0700636574074074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-28-58-432.jpg",
+    "diff": 1.0323567708333334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-00-032.jpg",
+    "diff": 1.1722337962962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-01-531.jpg",
+    "diff": 1.2383362268518519
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-05-031.jpg",
+    "diff": 1.4563599537037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-11-730.jpg",
+    "diff": 1.6039163773148148
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-12-530.jpg",
+    "diff": 1.5793677662037038
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-12-930.jpg",
+    "diff": 1.4555049189814815
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-14-829.jpg",
+    "diff": 1.1573003472222223
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-14-929.jpg",
+    "diff": 1.1162745949074073
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-17-329.jpg",
+    "diff": 1.2368272569444445
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-19-628.jpg",
+    "diff": 1.2462847222222222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-21-128.jpg",
+    "diff": 1.315787037037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-22-228.jpg",
+    "diff": 1.257047164351852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/clean/ID#1, 2026-03-06-18-29-26-627.jpg",
+    "diff": 1.448956886574074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-49-422.jpg",
+    "diff": 0.0
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-40-024.jpg",
+    "diff": 29.025146122685186
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-48-022.jpg",
+    "diff": 6.349701967592592
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-58-020.jpg",
+    "diff": 12.850198206018518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-40-224.jpg",
+    "diff": 21.445305266203704
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-42-123.jpg",
+    "diff": 18.53281539351852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-53-321.jpg",
+    "diff": 12.032473958333334
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-41-623.jpg",
+    "diff": 22.675855034722222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-42-723.jpg",
+    "diff": 18.5373046875
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-50-522.jpg",
+    "diff": 9.082964409722223
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-53-621.jpg",
+    "diff": 18.370471643518517
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-45-923.jpg",
+    "diff": 16.83156394675926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-59-520.jpg",
+    "diff": 13.664719328703704
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-55-921.jpg",
+    "diff": 7.143140914351852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-53-421.jpg",
+    "diff": 10.410028935185185
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-14-04-419.jpg",
+    "diff": 11.766491608796295
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-58-320.jpg",
+    "diff": 11.811724537037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-58-720.jpg",
+    "diff": 15.223844039351851
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-37-924.jpg",
+    "diff": 27.460047743055554
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-49-122.jpg",
+    "diff": 9.687967303240741
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-38-424.jpg",
+    "diff": 29.188803530092592
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-52-621.jpg",
+    "diff": 22.28927951388889
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-14-00-220.jpg",
+    "diff": 11.314457465277778
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-37-724.jpg",
+    "diff": 32.36494068287037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-57-620.jpg",
+    "diff": 14.484660011574075
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-44-323.jpg",
+    "diff": 17.025202546296295
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-53-821.jpg",
+    "diff": 14.74589988425926
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-44-123.jpg",
+    "diff": 15.76898292824074
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-14-02-719.jpg",
+    "diff": 14.624214409722223
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-14-01-520.jpg",
+    "diff": 9.076274594907407
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-54-421.jpg",
+    "diff": 13.082977430555555
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-52-921.jpg",
+    "diff": 10.00095775462963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-46-122.jpg",
+    "diff": 13.500979456018518
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-41-823.jpg",
+    "diff": 18.350542534722223
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-43-923.jpg",
+    "diff": 13.635441261574075
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-40-823.jpg",
+    "diff": 19.589859664351852
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-14-01-320.jpg",
+    "diff": 17.817583912037037
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-55-621.jpg",
+    "diff": 13.996480034722222
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-39-924.jpg",
+    "diff": 30.16759837962963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-57-321.jpg",
+    "diff": 11.196786747685184
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-13-53-922.jpg",
+    "diff": 9.27673900462963
+  },
+  {
+    "filepath": "/Users/jakehopkins/Downloads/if_water/poop/val/poop/, 2026-04-11-19-14-01-120.jpg",
+    "diff": 33.30989438657407
+  }
+]

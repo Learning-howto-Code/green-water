@@ -19,7 +19,7 @@ diff_on = False
 
 #gets predefied diffs
 if diff_on == True:
-    with open("delta.json") as f:
+    with open("poop_delta.json") as f:
         diff_map = json.load(f)
         diff_map = {item["filepath"]: item["diff"] for item in diff_map}
 
@@ -27,7 +27,7 @@ if diff_on == True:
 epochs = 50
 
 # data path
-paths="/Users/jakehopkins/Downloads/if_water/food_clean/"
+paths="/Users/jakehopkins/Downloads/if_water/poop/"
 #data aug
 train_datagen = ImageDataGenerator(
     rescale=1./255,
@@ -161,14 +161,8 @@ history = model.fit(
 )
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-name = f"food_clean_aug_even_distro_{timestamp}"
+name = f"poop_aug_even_distro_{timestamp}"
 model.save(f"{name}.keras")
-
-#also saves model as tflite for rpi
-# converter = tf.lite.TFLiteConverter.from_keras_model(model)
-# tflite_model = converter.convert()
-# with tf.io.gfile.GFile(name, 'wb') as f:
-#     f.write(tflite_model)
 
 test_loss, test_acc = model.evaluate(test_data)
 print("Test accuracy:", test_acc)

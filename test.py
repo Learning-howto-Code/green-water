@@ -30,3 +30,4 @@ with open("filelist.txt", "w") as f:
         f.write(f"file '{os.path.join(folder, img)}'\n")
 
 # Then run ffmpeg
+os.system("ffmpeg -f concat -safe 0 -i filelist.txt -r 30 -c:v libx264 -pix_fmt yuv420p video.mp4")

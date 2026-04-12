@@ -3,10 +3,10 @@ import random
 import shutil
 
 # Set your paths here
-base_dir = "/Users/jakehopkins/Downloads/if_water/food_clean/test7/clean"
-train_dir = "/Users/jakehopkins/Downloads/if_water/food_clean/train/clean"
-val_dir   = "/Users/jakehopkins/Downloads/if_water/food_clean/val/clean"
-test_dir = "/Users/jakehopkins/Downloads/if_water/food_clean/test/clean"
+base_dir = "/Users/jakehopkins/Downloads/if_water/temp"
+train_dir = "/Users/jakehopkins/Downloads/if_water/poop/train/clean"
+val_dir   = "/Users/jakehopkins/Downloads/if_water/poop/val/clean"
+test_dir = "/Users/jakehopkins/Downloads/if_water/poop/test/clean"
 val_ratio = 0.15
 test_ratio = 0.25
 train_ratio = 0.6

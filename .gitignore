@@ -17,3 +17,5 @@ video.mp4
 *.keras
 movie/*
 *.png
+__pycache__/
+  *.pyc

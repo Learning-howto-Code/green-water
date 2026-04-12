@@ -17,7 +17,7 @@ train_paths="/Users/jakehopkins/Downloads/if_water/pi_data/train"
 
 val_path= "/Users/jakehopkins/Downloads/if_water/pi_data/val"
 test_path="/Users/jakehopkins/Downloads/if_water/pi_data/test"
-
+# Order goes no_water, water
 
 datagen= ImageDataGenerator(rescale=1./255)
 batch_size = 32
@@ -87,6 +87,6 @@ min_delta=0.01,
 )
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-model.save(f"testing{timestamp}.keras")
+model.save(f"if_water_4-10{timestamp}.keras")
 test_loss, test_acc = model.evaluate(test_data)
 print("Test accuracy:", test_acc)

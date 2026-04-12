@@ -12,12 +12,16 @@ from datetime import datetime
 
 # MODEL_PATH = input("enter file path")
 # MODEL_PATH= str(MODEL_PATH)
-MODEL_PATH ="/Users/jakehopkins/Downloads/if_water/most_recent_model.keras"
+MODEL_PATH ="/Users/jakehopkins/Downloads/if_water/if_water_4-1020260410_182006.keras"
 
+INPUT_DIR = "/Users/jakehopkins/Downloads/tp_4-10"
+MOVIE_DIR = os.path.join(INPUT_DIR, "movie")
+diff_on = False
+# Order goes no_water, water
 DATASET_FOLDERS = {
      #"#train":  "/Users/jakehopkins/Downloads/if_water/food_clean/train",
     # "val": "/Users/jakehopkins/Downloads/if_water/food_clean/val",
-    "test": "/Users/jakehopkins/Downloads/if_water/food_clean/test"
+    "test": INPUT_DIR
 }
 
 IMG_SIZE = (224, 224)
@@ -69,123 +73,129 @@ def predict_image(img_path):
         arr = np.expand_dims(arr, axis=-1)
     
     # Add diff as 4th channel
-    new_file = img
-    new_file_read = cv.cvtColor(np.array(img), cv.COLOR_RGB2BGR)
+    if diff_on == True:
+        new_file = img
+        new_file_read = cv.cvtColor(np.array(img), cv.COLOR_RGB2BGR)
 
-    
-    if old_file is None or old_file.shape != new_file_read.shape:
-        diff = 0
-    else:
-        diff = cv.absdiff(old_file, new_file_read)
-        diff = np.average(diff)
-    old_file = new_file_read.copy()
+        
+        if old_file is None or old_file.shape != new_file_read.shape:
+            diff = 0
+        else:
+            diff = cv.absdiff(old_file, new_file_read)
+            diff = np.average(diff)
+        old_file = new_file_read.copy()
 
 
-    diff_channel = np.full((IMG_SIZE[0], IMG_SIZE[1]), diff, dtype=np.float32)
-    print(f"diff is {diff}")
-    arr = np.dstack((arr, diff_channel))
+        diff_channel = np.full((IMG_SIZE[0], IMG_SIZE[1]), diff, dtype=np.float32)
+        print(f"diff is {diff}")
+        arr = np.dstack((arr, diff_channel))
     
     arr = np.expand_dims(arr, axis=0)
 
     output = model.predict(arr, verbose=0)[0]
     return output
 
-def _get_label_map(root_folder):
-    class_names = sorted(
-        [
-            d
-            for d in os.listdir(root_folder)
-            if os.path.isdir(os.path.join(root_folder, d))
-        ]
+def run_folder(folder):
+    predictions = []
+    
+    # Ensure movie directory exists
+    os.makedirs(MOVIE_DIR, exist_ok=True)
+
+    print(f"Processing images in: {folder}")
+    
+    # Sort files chronologically by timestamp embedded in filename.
+    image_files = sorted(
+        [f for f in os.listdir(folder) if f.lower().endswith((".png", ".jpg", ".jpeg"))],
+        key=lambda f: (chronological_key(f), f)
     )
-    return {name: idx for idx, name in enumerate(class_names)}, class_names
+    
+    if len(image_files) == 0:
+        print(f"WARNING: No images found in '{folder}'")
+        return predictions
+    
+    print(f"Found {len(image_files)} images to process")
+    
+    for filename in image_files: 
+        path = os.path.join(folder, filename)
 
-
-def run_folder(folder, label_map):
-    y_true = []
-    y_pred = []
-
-    for root, _, files in os. walk(folder):
-        print("Walking:", root)
-        folder_name = os.path.basename(root)
-        if folder_name not in label_map: 
-            continue
-
-        true_label = label_map[folder_name]
-
-        # Sort files chronologically by timestamp embedded in filename.
-        image_files = sorted(
-            [f for f in files if f.lower().endswith((".png", ".jpg", ".jpeg"))],
-            key=lambda f: (chronological_key(f), f)
+        pred = predict_image(path)
+        score = float(np.squeeze(pred))
+        pred_str = np.array2string(
+            pred,
+            precision=6,
+            floatmode="fixed",
+            suppress_small=True
         )
-        if len(image_files) == 0:
-            print(f"WARNING: No images loaded for class '{folder_name}'")
-        for filename in image_files: 
-            path = os.path.join(root, filename)
 
-            pred = predict_image(path)
-            score = float(np.squeeze(pred))
-            pred_idx = 1 if score > 0.5 else 0
-            pred_str = np.array2string(
-                pred,
-                precision=6,
-                floatmode="fixed",
-                suppress_small=True
-            )
-
-            y_true.append(true_label)
-            y_pred.append(pred_idx)
-            print(f"{path}: true {true_label}, predicted {pred_str}")
-            if score < 0.5:
-                color_bgr = (0, 255, 0)   # green
-            else:
-                color_bgr = (0, 0, 255)   # red
-            path_read = cv.imread (path)
-            h, w = path_read.shape[:2]
-            pad = 20
-            size = 60
-            x1, y1 = pad, h - pad - size
-            x2, y2 = x1 + size, y1 + size
-            cv.rectangle(path_read, (x1, y1), (x2, y2), color_bgr, thickness=-1)
-            cv.imshow("Prediction", path_read)
-            cv.waitKey(500)  # Display each image for 500 ms
-            cv.imwrite(f"/Users/jakehopkins/Downloads/if_water/movie/{filename}.png", path_read)
-            
-    return y_true, y_pred
+        predictions.append({"filename": filename, "score": score, "prediction": pred_str})
+        print(f"{path}: predicted {pred_str}")
+        
+        if score < 0.5:
+            color_bgr = (0, 255, 0)   # green
+        else:
+            color_bgr = (0, 0, 255)   # red
+        
+        path_read = cv.imread(path)
+        h, w = path_read.shape[:2]
+        pad = 20
+        size = 60
+        x1, y1 = pad, h - pad - size
+        x2, y2 = x1 + size, y1 + size
+        cv.rectangle(path_read, (x1, y1), (x2, y2), color_bgr, thickness=-1)
+        cv.imwrite(f"{MOVIE_DIR}/{filename}.png", path_read)
+        
+    return predictions
 def evaluate_all_datasets(dataset_folders):
     results = {}
     
-    label_map, class_names = _get_label_map(next(iter(dataset_folders.values())))
-
     for name, folder in dataset_folders.items():
         if not os.path.exists(folder):
             print(f"\nWarning: {folder} does not exist, skipping {name} dataset.")
             continue
             
         print(f"\n{'='*50}")
-        print(f"Evaluating {name. upper()} dataset: {folder}")
+        print(f"Processing {name.upper()} dataset: {folder}")
         print('='*50)
         
-        y_true, y_pred = run_folder(folder, label_map)
-        if len(y_true) > 0:
-            cm = confusion_matrix(y_true, y_pred, labels=list(range(len(class_names))))
-            results[name] = {
-                "confusion_matrix":  cm,
-                "y_true": y_true,
-                "y_pred": y_pred
-            }
-            
-            print(f"\n{name. upper()} CONFUSION MATRIX")
-            print(cm)
-            print(f"Class order: {class_names}")
-            
-            # Calculate and display accuracy
-            accuracy = np.sum(np.diag(cm)) / np.sum(cm)
-            print(f"Accuracy: {accuracy:.4f}")
+        predictions = run_folder(folder)
+        if len(predictions) > 0:
+            results[name] = predictions
+            print(f"\nProcessed {len(predictions)} images")
         else: 
             print(f"No images found in {folder}")
     
     return results
+
+def generate_filelist():
+    """Generate filelist.txt for FFmpeg concat demuxer"""
+    if not os.path.exists(MOVIE_DIR):
+        print(f"Error: {MOVIE_DIR} does not exist")
+        return False
+    
+    # Get all PNG files and sort chronologically
+    all_files = os.listdir(MOVIE_DIR)
+    print(f"Files in {MOVIE_DIR}: {len(all_files)} total")
+    
+    png_files = sorted(
+        [f for f in all_files if f.lower().endswith(".png")],
+        key=lambda f: (chronological_key(f), f)
+    )
+    
+    if not png_files:
+        print(f"Error: No PNG files found in {MOVIE_DIR}")
+        print(f"Total files in directory: {len(all_files)}")
+        return False
+    
+    # Rename files to sequential numbering for image2 demuxer
+    for i, png_file in enumerate(png_files):
+        old_path = os.path.join(MOVIE_DIR, png_file)
+        # Create padded filename: frame_0001.png, frame_0002.png, etc.
+        new_filename = f"frame_{i+1:04d}.png"
+        new_path = os.path.join(MOVIE_DIR, new_filename)
+        os.rename(old_path, new_path)
+    
+    print(f"Renamed {len(png_files)} files to sequential order")
+    return True
 
 if __name__ == "__main__":
 
@@ -195,10 +205,16 @@ if __name__ == "__main__":
     print(f"\n{'='*50}")
     print("SUMMARY")
     print('='*50)
-    for name, data in results.items():
-        cm = data["confusion_matrix"]
-        accuracy = np. sum(np.diag(cm)) / np.sum(cm)
-        total_samples = np.sum(cm)
-        print(f"{name.upper()}: {total_samples} samples, Accuracy: {accuracy:.4f}")
-
-os.system("ffmpeg -f concat -safe 0 -i filelist.txt -r 30 -c:v libx264 -pix_fmt yuv420p video.mp4")
+    for name, predictions in results.items():
+        avg_score = np.mean([p["score"] for p in predictions])
+        print(f"{name.upper()}: {len(predictions)} images, Average confidence: {avg_score:.4f}")
+    
+    # Generate filelist for FFmpeg concat
+    print(f"\n{'='*50}")
+    print("Creating video from images")
+    print('='*50)
+    if generate_filelist():
+        # Use image2 demuxer with sequential filenames
+        os.system(f"ffmpeg -framerate 30 -i {MOVIE_DIR}/frame_%04d.png -c:v libx264 -pix_fmt yuv420p {INPUT_DIR}/tp_if_water.mp4")
+    else:
+        print("Skipping video creation - no PNG files to process")
