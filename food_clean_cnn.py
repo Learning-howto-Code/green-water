@@ -1,5 +1,4 @@
-# ignore errors in the imports
-#SSH at (venv) Abrahams-MacBook-Pro:if_water abrahamhopkins$ 
+# run with caffeinate -i
 import random
 import numpy as np
 from keras.layers import *
@@ -15,8 +14,13 @@ from tensorflow.keras.utils import Sequence, load_img, img_to_array # imports al
 np.random.seed(42)
 tf.random.set_seed(42)
 random.seed(42)
-diff_on = False
-
+diff_on = True
+""" w/ diff off
+ Epoch 49/50
+171/171 ━━━━━━━━━━━━━━━━━━━━ 624s 4s/step - accuracy: 0.8362 - loss: 0.3665 - val_accuracy: 0.8505 - val_loss: 0.3194
+64/64 ━━━━━━━━━━━━━━━━━━━━ 461s 7s/step - accuracy: 0.9391 - loss: 0.2811
+Test accuracy: 0.9391112327575684
+"""
 #gets predefied diffs
 if diff_on == True:
     with open("delta.json") as f:
@@ -176,6 +180,7 @@ print("Test accuracy:", test_acc)
 #runs eval from other file to keep training script clean
 
 from utils import plot, matrix, precision_recall
-plot(history, timestamp)
 matrix(model, test_data)
+plot(history, timestamp)
+
 precision_recall(model, test_data)

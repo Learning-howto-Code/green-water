@@ -15,7 +15,7 @@ from tensorflow.keras.utils import Sequence, load_img, img_to_array # imports al
 np.random.seed(42)
 tf.random.set_seed(42)
 random.seed(42)
-diff_on = False
+diff_on = True # when off at epoch 20 = 80% accuracy
 
 #gets predefied diffs
 if diff_on == True:
@@ -44,7 +44,6 @@ eval_datagen = ImageDataGenerator(rescale=1./255)
 batch_size = 64
 image_size = (224, 224)
 class_mode = 'binary'
-
 
 class DiffSequence(Sequence): # custom data gen
     def __init__(self, filepaths, labels, diff_map, datagen, batch_size, image_size, shuffle=True):
@@ -94,7 +93,7 @@ train_base = train_datagen.flow_from_directory(
     target_size=image_size,
     class_mode=class_mode,
     color_mode='rgb',
-    shuffle=False,
+    shuffle=True,
     seed=42
 )
 valid_base = eval_datagen.flow_from_directory(
@@ -103,7 +102,7 @@ valid_base = eval_datagen.flow_from_directory(
     target_size=image_size,
     class_mode=class_mode,
     color_mode='rgb',
-    shuffle=False,
+    shuffle=True,
     seed=42
 )
 test_base = eval_datagen.flow_from_directory(
@@ -112,7 +111,7 @@ test_base = eval_datagen.flow_from_directory(
     target_size=image_size,
     class_mode=class_mode,
     color_mode='rgb',
-    shuffle=False,
+    shuffle=True,
     seed=42
 )
 if diff_on == True:
@@ -126,6 +125,12 @@ else:
 
 dims = 4 if diff_on else 3
 
+print("class_indices:", train_base.class_indices)
+print("class_counts:", np.bincount(train_base.classes))
+x, y = next(train_base)
+print("batch shape:", x.shape, "x min/max:", x.min(), x.max(), "y[:10]:", y[:10])
+print("filenames[:5]:", train_base.filenames[:5])
+print("classes[:5]:", train_base.classes[:5])
 model = Sequential([
 layers.Input(shape=(224, 224, dims)),   # define input once
 layers.Conv2D(16, (3,3), activation='relu'),
@@ -172,4 +177,4 @@ print("Test accuracy:", test_acc)
 from utils import plot, matrix, precision_recall
 plot(history, timestamp)
 matrix(model, test_data)
-precision_recall(model, test_data)
+# precision_recall(model, test_data)
