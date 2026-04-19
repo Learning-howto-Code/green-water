@@ -1,4 +1,5 @@
 import datetime
+import os
 import time
 import numpy as np
 import cv2 as cv
@@ -7,6 +8,17 @@ import tflite_runtime.interpreter as tflite
 from PIL import Image
 from pi5neo import Pi5Neo
 from picamera2 import Picamera2
+import threading
+import http.server
+import socketserver
+
+thread = threading.Thread(
+    target=lambda: socketserver.TCPServer(("", 8000), http.server.SimpleHTTPRequestHandler).serve_forever(),
+    daemon=True  # this is what makes it die with your script
+)
+thread.start()
+
+print("img server running until script is terminated")
 
 seconds = int(200) #how long to run the script for.
 
@@ -46,8 +58,10 @@ def if_water():
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
-
-    img_name = f"logged_data/both_models/ID#{ID}, {timestamp}.jpg"
+    dir = "data/food_4-18"
+    if os.path.exists(dir) == False:
+        os.makedirs(dir)
+    img_name = f"{dir}/ID#{ID}, {timestamp}.jpg"
     cv.imwrite(img_name, img)
     img = cv.resize(img, (224, 224))
 
