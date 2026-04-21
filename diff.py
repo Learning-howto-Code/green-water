@@ -4,8 +4,9 @@ import os
 import json
 import re
 
-lookback = 3
+lookback = 1
 file = "poop_delta.json"
+out_dir = "/Users/jakehopkins/Downloads/if_water/diff/"
 
 
 def extract_timestamp(filename):
@@ -41,31 +42,48 @@ def diffs():
         files = sorted(files, key=extract_timestamp)  # sort by embedded timestamp
         #old_filepath = files[0]
         for i in range(len(files)):
+            
+
             old_idx = max(0, i - lookback)
             old_filepath = os.path.join(dir, files[old_idx])
             new_filepath = os.path.join(dir, files[i])
 
-        
+            
             old = cv.imread(old_filepath)# converts filepath to array thing
             new = cv.imread(new_filepath)
+            if old is  None or new is  None:
+                print("had to skip")
+                continue
+            old = cv.resize(old, (224, 224)) 
+            new = cv.resize(new, (224, 224))
+
         
             diff = cv.absdiff(old, new) #creates a new arrary from 2 arrays
-            diff = np.average(diff) #averages array into one int out of 255
+
+            base = os.path.basename(new_filepath)
+            base = base[:-4]  # Remove ".jpg" extension
+            out_path = os.path.join(out_dir, f"{base}_diff.jpg")
+            cv.imwrite(out_path, diff)
+
+            # cv.imshow("diff", diff)
+            # cv.waitKey(0)
+            # cv.destroyAllWindows()
 
 
-
-                
             old_filepath = new_filepath
 
-            print(f"new filepath {new_filepath}")
-            print(f"old filepath {old_filepath}")
-            print(f"loop number {i}")
-            print(f"difference is {diff} out 255") 
+            # print(f"new filepath {new_filepath}")
+            # print(f"old filepath {old_filepath}")
+            # print(f"loop number {i}")
+            # print(f"difference is {diff} out 255") 
 
             old_data.append({
                 "filepath": new_filepath,
-                "diff": float(diff)
-            })
+                "diff_path": f"{new_filepath}_diff.jpg"
+                })
     with open(file, "w") as f:
         json.dump(old_data, f, indent=2)
+
+
+    
 diffs()

@@ -1,33 +1,32 @@
-import re
 import os
-from datetime import datetime
+import cv2 as cv
+import numpy as np
 
-def chronological_key(filename):
-    # Supports both patterns:
-    # 1) img_20260125_114009_1247.jpg
-    # 2) ID#1, 2026-03-19-17-59-23-334.jpg
-    m1 = re.search(r"(\d{8})_(\d{6})_(\d+)", filename)
-    if m1:
-        date_str, time_str, ms_str = m1.groups()
-        dt = datetime.strptime(f"{date_str}{time_str}", "%Y%m%d%H%M%S")
-        # Normalize to microseconds (max 6 digits).
-        us = int(ms_str[:6].ljust(6, "0"))
-        return dt.replace(microsecond=us)
+old = "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-51-122.jpg"
+new_path = "/Users/jakehopkins/Downloads/if_water/poop/test/poop/, 2026-04-11-19-13-51-621.jpg"
+out_dir = "/Users/jakehopkins/Downloads/if_water/poop/diff/"
+old = cv.imread(old)
+new = cv.imread(new_path)
 
-    m2 = re.search(r"(\d{4})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d+)", filename)
-    if m2:
-        y, mo, d, h, mi, s, ms_str = m2.groups()
-        us = int(ms_str[:6].ljust(6, "0"))
-        return datetime(int(y), int(mo), int(d), int(h), int(mi), int(s), us)
+old = cv.resize(old, (224, 224))
+new = cv.resize(new, (224, 224))
 
-# Generate sorted filelist for ffmpeg
+new_grey = cv.cvtColor(new, cv.COLOR_BGR2GRAY)
 
-folder = "/Users/jakehopkins/Downloads/if_water/movie"
 
-images = [f for f in os.listdir(folder) if f.endswith(('.jpg', '.png'))]
-with open("filelist.txt", "w") as f:
-    for img in images:
-        f.write(f"file '{os.path.join(folder, img)}'\n")
+diff = cv.absdiff(old, new)
+grey_diff = cv.cvtColor(diff, cv.COLOR_BGR2GRAY)
 
-# Then run ffmpeg
-os.system("ffmpeg -f concat -safe 0 -i filelist.txt -r 30 -c:v libx264 -pix_fmt yuv420p video.mp4")
+
+combo = np.concatenate([new_grey, grey_diff], axis=-1)  # shape (1, 224, 224, 6)
+
+# cv.imshow("new", new)
+# cv.imshow("diff", diff)
+cv.imshow("combo", combo)
+
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+base = os.path.basename(new_path)
+out_path = os.path.join(out_dir, f"{base}_diff.jpg")
+cv.imwrite(out_path, diff)
