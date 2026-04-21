@@ -51,6 +51,39 @@ class_mode = 'binary'
 
 
 class DiffSequence(Sequence): # custom data gen
+    """
+    Keras `Sequence` that yields mini-batches of images with an additional per-sample
+    "diff" channel appended to each image tensor.
+
+    This generator is designed for training/evaluation workflows where each image has:
+    1) a class label, and
+    2) an auxiliary scalar value (`diff`) that should be injected into the model input.
+
+    How it works:
+    - Stores file paths, labels, and a `diff_map` lookup (`{filepath: diff_value}`).
+    - Maintains an index array for batching; optionally shuffles indices at initialization
+        and at the end of every epoch.
+    - `__len__` returns the number of batches (ceiling division by `batch_size`).
+    - `__getitem__(idx)`:
+        - Selects file paths/labels for the requested batch index.
+        - Loads each image resized to `image_size`.
+        - Converts image to float32 array.
+        - Applies augmentation/normalization via `datagen` when provided; otherwise scales
+            pixels to `[0, 1]`.
+        - Retrieves the scalar diff value for the image path from `diff_map`; defaults to
+            `0.0` if missing.
+        - Creates a constant single-channel plane of shape `(H, W, 1)` filled with that diff.
+        - Concatenates this plane to the RGB image on the channel axis, producing an input
+            of shape `(H, W, 4)` (for RGB sources).
+        - Returns `(batch_images, batch_labels)` as NumPy arrays.
+
+    Diff handling details:
+    - Each sample receives one scalar diff value.
+    - That scalar is broadcast spatially as a full image-sized channel.
+    - Missing file path keys in `diff_map` are safely handled using `0.0`.
+    - The resulting extra channel enables models to consume image content and diff context
+        jointly in a single tensor input.
+    """
     def __init__(self, filepaths, labels, diff_map, datagen, batch_size, image_size, shuffle=True):
         self.filepaths = np.array(filepaths)
         self.labels = np.array(labels)

@@ -1,6 +1,7 @@
 # ignore errors in the imports
 #SSH at (venv) Abrahams-MacBook-Pro:if_water abrahamhopkins$ 
 import random
+import cv2 as cv
 import numpy as np
 from keras.layers import *
 from keras.models import *
@@ -10,6 +11,7 @@ from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import json
 from tensorflow.keras.utils import Sequence, load_img, img_to_array # imports all the libaries
+from PIL import UnidentifiedImageError
 
 #sets seeds for reproducibility
 np.random.seed(42)
@@ -21,7 +23,7 @@ diff_on = True # when off at epoch 20 = 80% accuracy
 if diff_on == True:
     with open("poop_delta.json") as f:
         diff_map = json.load(f)
-        diff_map = {item["filepath"]: item["diff"] for item in diff_map}
+        diff_map = {item["filepath"]: item["diff_path"] for item in diff_map}
 
 #Doesn't really matter because of early stopping
 epochs = 50
@@ -68,19 +70,35 @@ class DiffSequence(Sequence): # custom data gen
 
         images = []
         for path in batch_paths:
-            img = load_img(path, target_size=self.image_size)
-            arr = img_to_array(img).astype("float32")
+            try:
+                img = load_img(path, target_size=self.image_size, color_mode="rgb")
+                arr = img_to_array(img).astype("float32")
+                diff_path = self.diff_map.get(path)
+            except (UnidentifiedImageError, OSError, ValueError) as exc:
+                print(f"bad image, using zeros: {path} ({exc})")
+                arr = np.zeros((*self.image_size, 3), dtype=np.float32)
+                diff_path = None
+            if diff_path is None:
+                diff_arr = np.zeros((*self.image_size, 3), dtype=np.float32)
+            else:
+                try:
+                    diff_img = load_img(diff_path, target_size=self.image_size, color_mode="rgb")
+                    diff_arr = img_to_array(diff_img).astype("float32")
+                except (UnidentifiedImageError, OSError, ValueError) as exc:
+                    print(f"bad diff image, using zeros: {diff_path} ({exc})")
+                    diff_arr = np.zeros((*self.image_size, 3), dtype=np.float32)
             if self.datagen is not None:
-                arr = self.datagen.random_transform(arr)
+                params = self.datagen.get_random_transform(self.image_size + (3,))
+                arr = self.datagen.apply_transform(arr, params)
+                diff_arr = self.datagen.apply_transform(diff_arr, params)
                 arr = self.datagen.standardize(arr)
+                diff_arr = self.datagen.standardize(diff_arr)
             else:
                 arr = arr / 255.0
-
-            diff = float(self.diff_map.get(path, 0.0))
-            diff_channel = np.full((*self.image_size, 1), diff, dtype=np.float32)
-            arr = np.concatenate([arr, diff_channel], axis=-1)
+                diff_arr = diff_arr / 255.0
+            
+            arr = np.concatenate([arr, diff_arr], axis=-1)
             images.append(arr)
-
         return np.array(images), np.array(batch_labels)
 
     def on_epoch_end(self):
@@ -123,7 +141,7 @@ else:
     valid_data = valid_base
     test_data = test_base
 
-dims = 4 if diff_on else 3
+dims = 6 if diff_on else 3
 
 print("class_indices:", train_base.class_indices)
 print("class_counts:", np.bincount(train_base.classes))
@@ -131,6 +149,7 @@ x, y = next(train_base)
 print("batch shape:", x.shape, "x min/max:", x.min(), x.max(), "y[:10]:", y[:10])
 print("filenames[:5]:", train_base.filenames[:5])
 print("classes[:5]:", train_base.classes[:5])
+
 model = Sequential([
 layers.Input(shape=(224, 224, dims)),   # define input once
 layers.Conv2D(16, (3,3), activation='relu'),
