@@ -68,6 +68,7 @@ def take_pic():
     return img
 old = None
 def diff(diff_map):
+    global old
     if diff_map == True:
         new = img
         if old is None:
