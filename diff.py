@@ -5,8 +5,8 @@ import json
 import re
 
 lookback = 1
-file = "poop_delta.json"
-out_dir = "/Users/jakehopkins/Downloads/if_water/diff/"
+file = "delta.json"
+out_dir = "/Users/jakehopkins/Downloads/if_water/food_diff/"
 
 
 def extract_timestamp(filename):
@@ -35,7 +35,7 @@ def diffs():
             except json.JSONDecodeError:
                 old_data = []
 
-    for dirpath in os.walk("/Users/jakehopkins/Downloads/if_water/poop"):
+    for dirpath in os.walk("/Users/jakehopkins/Downloads/if_water/food_clean/"):
         dir = dirpath[0]
         print(dir)
         files = [f for f in os.listdir(dir) if f.endswith('.jpg')]

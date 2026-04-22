@@ -1,10 +1,3 @@
-"""""
-- Should load clean dirty model
-- turn on cam and light
-- run infernece loop, with output as 1 of 4 classes
-- log to json file what the state, duration, timestamp, and tag that connects to images logged
-"""""
-
 from picamera2 import Picamera2
 from time import sleep
 import time
@@ -13,20 +6,40 @@ import cv2
 import tflite_runtime.interpreter as tflite
 import sys
 import os
-from pi5neo import Pi5Neo
+import pi5neo
 import json
 import subprocess
 import psutil
+
 fps=30
 
-file="logs.json"
-with open(file, "w") as f:
-            json.dump(["start"], f)
+base = "/home/jake/Downloads/if-water-cnn/models/"
 
-interpreter = tflite.Interpreter(model_path="model.tflite")
-interpreter.allocate_tensors()
-input_details = interpreter.get_input_details()
-output_details = interpreter.get_output_details()
+model_path = {
+     "food_model":  base + "food_clean_aug.tflite",
+     "water_model": base + "if_water.tflite",
+     "poop_model": base + "poop_model.tflite"
+}
+
+diff_map = {
+     "food_model": True,
+     "water_model": False,
+     "poop_model": True
+
+}
+
+
+def load_model(model_path):
+    interpreter = tflite.Interpreter(model_path=model_path)
+    interpreter.allocate_tensors()        
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+    return {
+        "interpreter": interpreter,
+        "input_details": input_details,
+        "output_details": output_details
+    }
+
 
 picam2 = Picamera2()
 config = picam2.create_video_configuration(main={"size": (224, 224)}, buffer_count=4)
@@ -37,7 +50,7 @@ picam2.start()
 SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
 SPI_SPEED_KHZ = 800 #speed of SPI protocol
 
-neo = Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
+neo = pi5neo.Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
 
 # Fill the strip with white (R,G,B = 255,255,255)
 neo.fill_strip(255, 255, 255)
@@ -45,25 +58,62 @@ neo.update_strip()  # commit/send to LEDs
 
 
 def take_pic():
+    global img
     frame = picam2.capture_array()
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
     img = cv2.resize(img, (224, 224))
-    # Normalize
     img = img.astype("float32") / 255.0
     # Add batch dimension → (1, 224, 224, 3)
     img = np.expand_dims(img, axis=0)
+    return img
+old = None
+def diff(diff_map):
+    if diff_map == True:
+        new = img
+        if old is None:
+                old = new
+        diff = cv2.absdiff(old,new)
+        print(np.average(diff))
+        old = new
+    else:
+         diff = False
+    return diff
+def water_inference(model_path, diff, diff_map): 
+    model = load_model(model_path["water_model"])
+    diff = diff(diff_map["water_model"])
+    interpreter = model["interpreter"]
+    input_details = model["input_details"]
+    output_details = model["output_details"]
     interpreter.set_tensor(input_details[0]["index"], img)
     interpreter.invoke()
-    # print(f"inference latency {(iend - istart) * 1000} ms")
-    # gets prediciton
-    prediction = interpreter.get_tensor(output_details[0]["index"])
-    # Extract the single float value from the nested array
-    prediction = prediction[0][0]
+    water_prediction = interpreter.get_tensor(output_details[0]["index"])
+    print(water_prediction)
+    return water_prediction
+def food_inference(model_path, diff, diff_map):
+    model = load_model(model_path["food_model"])
+    diff = diff(diff_map["food_model"])
+    interpreter = model["interpreter"]
+    input_details = model["input_details"]
+    output_details = model["output_details"]
+    arr = np.concatenate([img, diff], axis=-1)
+    interpreter.set_tensor(input_details[0]["index"], arr)
+    interpreter.invoke()
+    food_prediction = interpreter.get_tensor(output_details[0]["index"])
+    print("food_prediction:", food_prediction)
+    return food_prediction
+def poop_inference(model_path, diff, diff_map):
+    model = load_model(model_path["poop_model"])
+    diff = diff(diff_map["poop_model"])
+    interpreter = model["interpreter"]
+    input_details = model["input_details"]
+    output_details = model["output_details"]
+    arr = np.concatenate([img, diff], axis=-1)
+    interpreter.set_tensor(input_details[0]["index"], arr)
+    interpreter.invoke()
+    poop_prediction = interpreter.get_tensor(output_details[0]["index"])
+    print("poop_prediction:", poop_prediction)
+    return poop_prediction
 
-    # Print the raw value formatted to 8 decimal places for readability
-    print(f"{prediction:.8f}")
-    return prediction
-water_on= False
 def hardware_data(): # will only run on pi, due to how systems pull the data
     cpu_temp = subprocess.check_output(["vcgencmd", "measure_temp"]).decode("UTF-8") # to 8 decimal points
     cpu_usage = psutil.cpu_percent(interval=1) # measures full cpu load avg'd over one sec
@@ -72,48 +122,98 @@ def hardware_data(): # will only run on pi, due to how systems pull the data
     throtled = subprocess.check_output(["vcgencmd", "get_throttled"]).decode("UTF-8") #VCGENMD is the pi os system, if non zero pi is throttling
     print (f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | FPS: {fps} Throttled: {throtled.strip()}")
     return cpu_temp, cpu_usage, used, throtled
-x= 0
-while x < 1000000000: # runs model 10 times
-    sleep(1/fps)
-    fstart = time.perf_counter()
-    prediction = take_pic()
-    fend = time.perf_counter()
-    print (f"full latency {(fend-fstart)*1000} ms") #acounts for data aquisition and infernce, which seems more usefull
-    
-    # Check for camera backup
-    completed_requests = picam2.completed_requests
-    if completed_requests and completed_requests[-1].get_metadata().get("QueueDuration", 0) > 100000:
-        print("Warning: Camera buffer is backing up!")
 
-    x += 1
-    data = None  # Initialize data to None at the start of the loop
-    # bucket logic
-    if prediction >= 0.6:
-        water_on = True
-        data = {
-            "water_starts": True,
-            "Time": time.strftime("%Y-%m-%d %H:%M:%S")
-        }
-        print("Water Started")
-    elif prediction <= 0.4:
-        water_on = False
-        data = { # data for json
-            "water_stops": True,
-            "Time": time.strftime("%Y-%m-%d %H:%M:%S")
-        }
-        print("Water Stopped")
+old_water= None
+old_food = None
+old_poop = None
+
+while True:
+    take_pic()
+
+    water_prediction = water_inference(model_path, diff, diff_map)
+    if water_prediction > 0.5:
+        print("Water Detected", water_prediction)
+        water_presence = True
     else:
-        print("Either no data to log or model not confident enough.")
+            print("no water detected", water_prediction)
+            water_presence = False
 
-# logs data
-    if data:
-        with open(file, "r") as f:
-            logs = json.load(f)
-            logs = [] # wipes file at run time for testing
-        logs.append(data)
-        with open(file, "w") as f:
-            json.dump(logs, f, indent=4) # adds current log
-    if x % 10 == 0: # runs the hardware logs every 2 seconds
-        hardware_data()
-neo.fill_strip(0, 0, 0)
-neo.update_strip()  # send to LEDs
+    if water_presence == True:
+        food_prediction = food_inference(model_path, diff, diff_map)
+        poop_prediction = poop_inference(model_path, diff, diff_map)
+
+    sleep(.5)
+    old_water = water_presence
+    old_food = food_prediction
+    old_poop = poop_prediction
+    file="logs.json"
+    with open(file, "r") as f:
+                logs = json.load(f)
+    if not logs:
+            logs = ["start"]
+    print(logs)
+
+    if water_presence == True and old_water == False:
+        imgname= f"logged_data/water_start{int(time.time())}.jpg"
+        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        logs.append({
+             "timestamp": time.time(),
+             "confidence": float(water_prediction),
+             "water_start": True,
+             "water_end": False,
+             "filepath": imgname
+        })
+    if water_presence == False and old_water == True:
+        imgname= f"logged_data/water_end{int(time.time())}.jpg"
+        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        logs.append({
+             "timestamp": time.time(),
+             "confidence": float(water_prediction),
+             "water_start": False,
+             "water_end": True,
+             "filepath": imgname
+        })
+
+    if food_prediction >.5  and old_food == False:
+        imgname= f"logged_data/food_start{int(time.time())}.jpg"
+        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        logs.append({
+             "timestamp": time.time(),
+             "confidence": float(food_prediction),
+             "food_start": True,
+             "food_end": False,
+             "filepath": imgname
+        })
+    if food_prediction < 0.5 and old_food == True:
+        imgname= f"logged_data/food_end{int(time.time())}.jpg"
+        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        logs.append({
+             "timestamp": time.time(),
+             "confidence": float(food_prediction),
+             "food_start": False,
+             "food_end": True,
+             "filepath": imgname
+        })
+    if poop_prediction >.5  and old_poop == False:
+        imgname= f"logged_data/poop_start{int(time.time())}.jpg"
+        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        logs.append({
+             "timestamp": time.time(),
+             "confidence": float(poop_prediction),
+             "poop_start": True,
+             "poop_end": False,
+             "filepath": imgname
+        })
+    if poop_prediction < 0.5 and old_poop == True:
+        imgname= f"logged_data/poop_end{int(time.time())}.jpg"
+        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        logs.append({
+             "timestamp": time.time(),
+             "confidence": float(poop_prediction),
+             "poop_start": False,
+             "poop_end": True,
+             "filepath": imgname
+        })
+    with open(file, "w") as f:
+                json.dump(logs, f)
+    

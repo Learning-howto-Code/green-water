@@ -17,7 +17,7 @@ from PIL import UnidentifiedImageError
 np.random.seed(42)
 tf.random.set_seed(42)
 random.seed(42)
-diff_on = True # when off at epoch 20 = 80% accuracy
+diff_on = False # when off at epoch 20 = 80% accuracy
 
 #gets predefied diffs
 if diff_on == True:
@@ -85,7 +85,6 @@ class DiffSequence(Sequence): # custom data gen
                     diff_img = load_img(diff_path, target_size=self.image_size, color_mode="rgb")
                     diff_arr = img_to_array(diff_img).astype("float32")
                 except (UnidentifiedImageError, OSError, ValueError) as exc:
-                    print(f"bad diff image, using zeros: {diff_path} ({exc})")
                     diff_arr = np.zeros((*self.image_size, 3), dtype=np.float32)
             if self.datagen is not None:
                 params = self.datagen.get_random_transform(self.image_size + (3,))
@@ -185,7 +184,7 @@ history = model.fit(
 )
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-name = f"poop_aug_even_distro_{timestamp}"
+name = f"poop_no_diff{timestamp}"
 model.save(f"{name}.keras")
 
 test_loss, test_acc = model.evaluate(test_data)
