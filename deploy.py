@@ -16,7 +16,7 @@ fps=30
 base = "/home/jake/Downloads/if-water-cnn/models/"
 
 model_path = {
-     "food_model":  base + "food_clean_aug.tflite",
+     "food_model":  base + "food_full_diff.tflite",
      "water_model": base + "if_water.tflite",
      "poop_model": base + "poop_model.tflite"
 }

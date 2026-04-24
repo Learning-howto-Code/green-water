@@ -21,7 +21,7 @@ diff_on = False # when off at epoch 20 = 80% accuracy
 
 #gets predefied diffs
 if diff_on == True:
-    with open("food_delta.json") as f:
+    with open("food_full_delta.json") as f:
         diff_map = json.load(f)
         diff_map = {item["filepath"]: item["diff_path"] for item in diff_map}
 
@@ -128,7 +128,7 @@ test_base = eval_datagen.flow_from_directory(
     target_size=image_size,
     class_mode=class_mode,
     color_mode='rgb',
-    shuffle=True,
+    shuffle=False,
     seed=42
 )
 if diff_on == True:
@@ -181,7 +181,7 @@ timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 name = f"food_full_diff{timestamp}"
 model.save(f"{name}.keras")
 
-test_loss, test_acc = model.evaluate(test_data)
+test_loss, test_acc = model.evaluate(test_data, steps=len(test_data), verbose=1)
 print("Test accuracy:", test_acc)
 
 #runs eval from other file to keep training script clean

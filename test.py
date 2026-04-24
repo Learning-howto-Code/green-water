@@ -23,7 +23,7 @@ Test accuracy: 0.9391112327575684
 """
 #gets predefied diffs
 if diff_on == True:
-    with open("delta.json") as f:
+    with open("food_delta.json") as f:
         diff_map = json.load(f)
         diff_map = {item["filepath"]: item["diff"] for item in diff_map}
 
