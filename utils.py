@@ -48,8 +48,10 @@ def matrix(model, test_data):
     y_true = []
     y_pred_probs = []
     
-    for images, labels in test_data:
-        y_true.extend(labels)  # Remove .numpy()
+    for i, (images, labels) in enumerate(test_data):
+        if i >= len(test_data):
+            break
+        y_true.extend(labels)
         predictions = model.predict(images, verbose=0)
         y_pred_probs.extend(predictions)
     
@@ -75,7 +77,9 @@ def precision_recall(model, test_data):
     y_true = []
     y_pred_probs = []
 
-    for images, labels in test_data:
+    for i, (images, labels) in enumerate(test_data):
+        if i >= len(test_data):
+            break
         y_true.extend(labels)
         predictions = model.predict(images, verbose=0)
         y_pred_probs.extend(predictions)
