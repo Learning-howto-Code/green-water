@@ -149,9 +149,8 @@ while True:
     old_poop = poop_prediction
     file="logs.json"
     with open(file, "r") as f:
-                logs = json.load(f)
-    if not logs:
-            logs = ["start"]
+        content = f.read().strip()
+        logs = json.loads(content) if content else ["start"]
     print(logs)
 
     if water_presence == True and old_water == False:
