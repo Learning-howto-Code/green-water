@@ -184,7 +184,7 @@ model.save(f"{name}.keras")
 test_loss, test_acc = model.evaluate(test_data, steps=len(test_data), verbose=1)
 print("Test accuracy:", test_acc)
 
-#runs eval from other file to keep training script clean
+#runs eval from other file to keep training script clecan
 
 from utils import plot, matrix, precision_recall
 matrix(model, test_data)
