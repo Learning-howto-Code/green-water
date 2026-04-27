@@ -129,6 +129,7 @@ old_food = None
 old_poop = None
 
 logs = []
+old_logs = "start"
 while True:
     take_pic()
 
