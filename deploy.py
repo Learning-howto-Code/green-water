@@ -154,7 +154,7 @@ while True:
     print(logs)
     if water_presence == True and old_water == False:
         imgname= f"logged_data/water_start{int(time.time())}.jpg"
-        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(img, imgname) # saves image with timestamp, can be used for future training data
         logs.append({
              "timestamp": time.time(),
              "confidence": float(water_prediction),
@@ -164,7 +164,7 @@ while True:
         })
     if water_presence == False and old_water == True:
         imgname= f"logged_data/water_end{int(time.time())}.jpg"
-        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(img, imgname) # saves image with timestamp, can be used for future training data
         logs.append({
              "timestamp": time.time(),
              "confidence": float(water_prediction),
@@ -175,7 +175,7 @@ while True:
 
     if food_prediction >.5  and old_food == False:
         imgname= f"logged_data/food_start{int(time.time())}.jpg"
-        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(img, imgname) # saves image with timestamp, can be used for future training data
         logs.append({
              "timestamp": time.time(),
              "confidence": float(food_prediction),
@@ -185,7 +185,7 @@ while True:
         })
     if food_prediction < 0.5 and old_food == True:
         imgname= f"logged_data/food_end{int(time.time())}.jpg"
-        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(img, imgname) # saves image with timestamp, can be used for future training data
         logs.append({
              "timestamp": time.time(),
              "confidence": float(food_prediction),
@@ -195,7 +195,7 @@ while True:
         })
     if poop_prediction >.5  and old_poop == False:
         imgname= f"logged_data/poop_start{int(time.time())}.jpg"
-        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(img, imgname) # saves image with timestamp, can be used for future training data
         logs.append({
              "timestamp": time.time(),
              "confidence": float(poop_prediction),
@@ -205,7 +205,7 @@ while True:
         })
     if poop_prediction < 0.5 and old_poop == True:
         imgname= f"logged_data/poop_end{int(time.time())}.jpg"
-        cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(img, imgname) # saves image with timestamp, can be used for future training data
         logs.append({
              "timestamp": time.time(),
              "confidence": float(poop_prediction),
