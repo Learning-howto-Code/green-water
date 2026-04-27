@@ -128,6 +128,7 @@ old_water= None
 old_food = None
 old_poop = None
 
+logs = []
 while True:
     take_pic()
 
@@ -144,15 +145,12 @@ while True:
         poop_prediction = poop_inference(model_path, diff, diff_map)
 
     sleep(.5)
-    old_water = water_presence
-    old_food = food_prediction
-    old_poop = poop_prediction
+    
     file="logs.json"
     with open(file, "r") as f:
         content = f.read().strip()
-        logs = json.loads(content) if content else ["start"]
+        old_logs = json.loads(content) if content else ["start"]
     print(logs)
-
     if water_presence == True and old_water == False:
         imgname= f"logged_data/water_start{int(time.time())}.jpg"
         cv2.imsave(img, imgname) # saves image with timestamp, can be used for future training data
@@ -214,6 +212,12 @@ while True:
              "poop_end": True,
              "filepath": imgname
         })
-    with open(file, "w") as f:
+    old_water = water_presence
+    old_food = food_prediction
+    old_poop = poop_prediction
+
+    if logs != old_logs:
+        with open(file, "w") as f:
                 json.dump(logs, f)
+        old_logs = logs
     
