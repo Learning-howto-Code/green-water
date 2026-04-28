@@ -1,7 +1,7 @@
 from picamera2 import Picamera2
 from time import sleep
 import time
-import datetime
+from datetime import datetime 
 import numpy as np
 import cv2
 import tflite_runtime.interpreter as tflite
@@ -154,7 +154,7 @@ while True:
         old_logs = json.loads(content) if content else ["start"]
     print(logs)
     if water_presence == True and old_water == False:
-        imgname= f"logged_data/water_start{int(datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")())}.jpg"
+        imgname= f"logged_data/water_start{int(datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')())}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         logs.append({
              "timestamp": datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")(),
