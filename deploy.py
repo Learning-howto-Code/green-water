@@ -52,9 +52,8 @@ SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPI
 SPI_SPEED_KHZ = 800 #speed of SPI protocol
 
 neo = pi5neo.Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
-
 # Fill the strip with white (R,G,B = 255,255,255)
-neo.fill_strip(255, 255, 255)
+neo.fill_strip(220, 240, 120)
 neo.update_strip()  # commit/send to LEDs
 
 

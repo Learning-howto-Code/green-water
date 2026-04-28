@@ -6,7 +6,7 @@ import datetime as datetime
 
 dir = "data/4-27"
 picam2 = Picamera2()
-config = picam2.create_video_configuration(main={"size": (640, 640)}, buffer_count=4)
+config = picam2.create_video_configuration(main={"size": (640, 360)}, buffer_count=4)
 picam2.configure(config)
 picam2.start()
 
@@ -17,7 +17,7 @@ SPI_SPEED_KHZ = 800 #speed of SPI protocol
 neo = pi5neo.Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
 
 # Fill the strip with white (R,G,B = 255,255,255)
-neo.fill_strip(255, 200, 100)
+neo.fill_strip(220, 240, 120)
 neo.update_strip()  # commit/send to LEDs
 
 sleep(.5)
