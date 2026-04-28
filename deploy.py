@@ -157,17 +157,17 @@ while True:
         imgname= f"logged_data/water_start{int(datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')())}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
              "confidence": float(water_prediction),
              "water_start": True,
              "water_end": False,
              "filepath": imgname
         })
     if water_presence == False and old_water == True:
-        imgname= f"logged_data/water_end{int(datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")())}.jpg"
+        imgname= f"logged_data/water_end{int(datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')())}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
              "confidence": float(water_prediction),
              "water_start": False,
              "water_end": True,
@@ -175,40 +175,40 @@ while True:
         })
 
     if food_prediction >.5  and old_food == False:
-        imgname= f"logged_data/food_start{int(datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")())}.jpg"
+        imgname= f"logged_data/food_start{int(datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')())}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
              "confidence": float(food_prediction),
              "food_start": True,
              "food_end": False,
              "filepath": imgname
         })
     if food_prediction < 0.5 and old_food == True:
-        imgname= f"logged_data/food_end{int(datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")())}.jpg"
+        imgname= f"logged_data/food_end{int(datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')())}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
              "confidence": float(food_prediction),
              "food_start": False,
              "food_end": True,
              "filepath": imgname
         })
     if poop_prediction >.5  and old_poop == False:
-        imgname= f"logged_data/poop_start{int(datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")())}.jpg"
+        imgname= f"logged_data/poop_start{int(datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')())}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
              "confidence": float(poop_prediction),
              "poop_start": True,
              "poop_end": False,
              "filepath": imgname
         })
     if poop_prediction < 0.5 and old_poop == True:
-        imgname= f"logged_data/poop_end{int(datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")())}.jpg"
+        imgname= f"logged_data/poop_end{int(datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')())}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
              "confidence": float(poop_prediction),
              "poop_start": False,
              "poop_end": True,
