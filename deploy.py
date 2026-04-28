@@ -133,6 +133,9 @@ old_logs = "start"
 while True:
     take_pic()
 
+    food_prediction = None
+    poop_prediction = None
+
     water_prediction = water_inference(model_path, diff, diff_map)
     if water_prediction > 0.5:
         print("Water Detected", water_prediction)
@@ -175,7 +178,7 @@ while True:
              "filepath": imgname
         })
 
-    if food_prediction >.5  and old_food == False:
+    if food_prediction is not None and food_prediction >.5  and old_food == False:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
@@ -186,7 +189,7 @@ while True:
              "food_end": False,
              "filepath": imgname
         })
-    if food_prediction < 0.5 and old_food == True:
+    if food_prediction is not None and food_prediction < 0.5 and old_food == True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname) 
@@ -197,7 +200,7 @@ while True:
              "food_end": True,
              "filepath": imgname
         })
-    if poop_prediction >.5  and old_poop == False:
+    if poop_prediction is not None and poop_prediction >.5  and old_poop == False:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
@@ -208,7 +211,7 @@ while True:
              "poop_end": False,
              "filepath": imgname
         })
-    if poop_prediction < 0.5 and old_poop == True:
+    if poop_prediction is not None and poop_prediction < 0.5 and old_poop == True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
