@@ -89,7 +89,7 @@ def water_inference(model_path, diff, diff_map):
     interpreter.set_tensor(input_details[0]["index"], img)
     interpreter.invoke()
     water_prediction = interpreter.get_tensor(output_details[0]["index"])
-    print(water_prediction, "------------------")
+    print("water_prediction:", water_prediction, "------------------")
     return water_prediction
 def food_inference(model_path, diff, diff_map):
     model = load_model(model_path["food_model"])
@@ -158,7 +158,7 @@ while True:
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(water_prediction),
              "water_start": True,
              "water_end": False,
@@ -169,7 +169,7 @@ while True:
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(water_prediction),
              "water_start": False,
              "water_end": True,
@@ -181,7 +181,7 @@ while True:
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(food_prediction),
              "food_start": True,
              "food_end": False,
@@ -192,7 +192,7 @@ while True:
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname) 
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(food_prediction),
              "food_start": False,
              "food_end": True,
@@ -203,7 +203,7 @@ while True:
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(poop_prediction),
              "poop_start": True,
              "poop_end": False,
@@ -214,7 +214,7 @@ while True:
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
         logs.append({
-             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
+             "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(poop_prediction),
              "poop_start": False,
              "poop_end": True,
