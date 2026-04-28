@@ -27,3 +27,5 @@ while True:
     img_name = f"{dir}/ID#{ID}, {timestamp}.jpg"
     x =+ 1
     cv2.imwrite(img_name,img)
+    print(f"took {img_name}")
+    sleep(.1)
