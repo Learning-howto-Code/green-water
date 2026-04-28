@@ -89,7 +89,7 @@ def water_inference(model_path, diff, diff_map):
     interpreter.set_tensor(input_details[0]["index"], img)
     interpreter.invoke()
     water_prediction = interpreter.get_tensor(output_details[0]["index"])
-    print(water_prediction)
+    print(water_prediction, "------------------")
     return water_prediction
 def food_inference(model_path, diff, diff_map):
     model = load_model(model_path["food_model"])
@@ -101,7 +101,7 @@ def food_inference(model_path, diff, diff_map):
     interpreter.set_tensor(input_details[0]["index"], arr)
     interpreter.invoke()
     food_prediction = interpreter.get_tensor(output_details[0]["index"])
-    print("food_prediction:", food_prediction)
+    print("food_prediction:", food_prediction, "------------------")
     return food_prediction
 def poop_inference(model_path, diff, diff_map):
     model = load_model(model_path["poop_model"])
@@ -113,7 +113,7 @@ def poop_inference(model_path, diff, diff_map):
     interpreter.set_tensor(input_details[0]["index"], arr)
     interpreter.invoke()
     poop_prediction = interpreter.get_tensor(output_details[0]["index"])
-    print("poop_prediction:", poop_prediction)
+    print("poop_prediction:", poop_prediction, "------------------")
     return poop_prediction
 
 def hardware_data(): # will only run on pi, due to how systems pull the data
