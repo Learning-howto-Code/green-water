@@ -164,7 +164,7 @@ while True:
              "filepath": imgname
         })
     if water_presence == False and old_water == True:
-        imgname= f"logged_data/water_end{int(datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')())}.jpg"
+        imgname= f"logged_data/water_end{datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')}.jpg"
         cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')(),
