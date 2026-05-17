@@ -74,7 +74,7 @@ def diff(diff_map):
         if old is None:
                 old = new
         diff = cv2.absdiff(old,new)
-        print(np.average(diff))
+        print(np.average(diff), end="\n\n")
         old = new
     else:
          diff = False
@@ -88,7 +88,7 @@ def water_inference(model_path, diff, diff_map):
     interpreter.set_tensor(input_details[0]["index"], img)
     interpreter.invoke()
     water_prediction = interpreter.get_tensor(output_details[0]["index"])
-    print("water_prediction:", water_prediction, "------------------")
+    print("water_prediction:", water_prediction, "------------------", end="\n\n")
     return water_prediction
 def food_inference(model_path, diff, diff_map):
     model = load_model(model_path["food_model"])
@@ -100,7 +100,7 @@ def food_inference(model_path, diff, diff_map):
     interpreter.set_tensor(input_details[0]["index"], arr)
     interpreter.invoke()
     food_prediction = interpreter.get_tensor(output_details[0]["index"])
-    print("food_prediction:", food_prediction, "------------------")
+    print("food_prediction:", food_prediction, "------------------", end="\n\n")
     return food_prediction
 def poop_inference(model_path, diff, diff_map):
     model = load_model(model_path["poop_model"])
@@ -112,7 +112,7 @@ def poop_inference(model_path, diff, diff_map):
     interpreter.set_tensor(input_details[0]["index"], arr)
     interpreter.invoke()
     poop_prediction = interpreter.get_tensor(output_details[0]["index"])
-    print("poop_prediction:", poop_prediction, "------------------")
+    print("poop_prediction:", poop_prediction, "------------------", end="\n\n")
     return poop_prediction
 
 def hardware_data(): # will only run on pi, due to how systems pull the data
@@ -121,7 +121,7 @@ def hardware_data(): # will only run on pi, due to how systems pull the data
     ram = psutil.virtual_memory()
     used = ram.used / 1024**2 # outputs used ram in MB
     throtled = subprocess.check_output(["vcgencmd", "get_throttled"]).decode("UTF-8") #VCGENMD is the pi os system, if non zero pi is throttling
-    print (f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | FPS: {fps} Throttled: {throtled.strip()}")
+    print(f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | FPS: {fps} Throttled: {throtled.strip()}", end="\n\n")
     return cpu_temp, cpu_usage, used, throtled
 
 old_water= None
@@ -140,10 +140,10 @@ while True:
 
     water_prediction = water_inference(model_path, diff, diff_map)
     if water_prediction > 0.5:
-        print("Water Detected", water_prediction)
+        print("Water Detected", water_prediction, end="\n\n")
         water_presence = True
     else:
-            print("no water detected", water_prediction)
+            print("no water detected", water_prediction, end="\n\n")
             water_presence = False
 
     if water_presence == True:
@@ -156,12 +156,12 @@ while True:
     with open(file, "r") as f:
         content = f.read().strip()
         old_logs = json.loads(content) if content else ["start"]
-    print(logs)
+    print(logs, end="\n\n")
     if water_presence == True and old_water == False:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
-        print("saved img", imgname)
+        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        print("saved img", imgname, end="\n\n")
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(water_prediction),
@@ -172,8 +172,8 @@ while True:
     if water_presence == False and old_water == True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
-        print("saved img", imgname)
+        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        print("saved img", imgname, end="\n\n")
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(water_prediction),
@@ -185,8 +185,8 @@ while True:
     if food_prediction is not None and food_prediction >.5  and old_food == False:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
-        print("saved img", imgname)
+        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        print("saved img", imgname, end="\n\n")
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(food_prediction),
@@ -197,8 +197,8 @@ while True:
     if food_prediction is not None and food_prediction < 0.5 and old_food == True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
-        print("saved img", imgname) 
+        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        print("saved img", imgname, end="\n\n") 
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(food_prediction),
@@ -209,8 +209,8 @@ while True:
     if poop_prediction is not None and poop_prediction >.5  and old_poop == False:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
-        print("saved img", imgname)
+        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        print("saved img", imgname, end="\n\n")
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(poop_prediction),
@@ -221,8 +221,8 @@ while True:
     if poop_prediction is not None and poop_prediction < 0.5 and old_poop == True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
-        print("saved img", imgname)
+        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        print("saved img", imgname, end="\n\n")
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(poop_prediction),
