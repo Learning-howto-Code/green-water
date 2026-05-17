@@ -132,7 +132,11 @@ with open("logs.json", "r") as f:
      content = f.read().strip()
      logs = json.loads(content) if content else []
 old_logs = "start"
+x = 0
 while True:
+    x += 1
+    if x % 5 == 0:
+        hardware_data()
     take_pic()
 
     food_prediction = None
@@ -156,7 +160,7 @@ while True:
     with open(file, "r") as f:
         content = f.read().strip()
         old_logs = json.loads(content) if content else ["start"]
-    print(logs, end="\n\n")
+
     if water_presence == True and old_water == False:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
@@ -235,6 +239,7 @@ while True:
     old_poop = poop_prediction
 
     if logs != old_logs:
+        print(logs, end="\n\n")
         with open(file, "w") as f:
                 json.dump(logs, f)
         old_logs = logs.copy()
