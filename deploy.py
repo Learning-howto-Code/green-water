@@ -135,7 +135,7 @@ old_logs = "start"
 x = 0
 while True:
     x += 1
-    if x % 5 == 0:
+    if x % 5 == 0: # % is mod operator
         hardware_data()
     take_pic()
 
@@ -238,7 +238,7 @@ while True:
     old_food = food_prediction
     old_poop = poop_prediction
 
-    if logs != old_logs:
+    if logs != old_logs or x == 0:
         print(logs, end="\n\n")
         with open(file, "w") as f:
                 json.dump(logs, f)
