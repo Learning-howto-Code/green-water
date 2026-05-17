@@ -23,6 +23,7 @@ sleep(.5)
 ID = 1
 while True:
     img = picam2.capture_array()
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
     img_name = f"{dir}/ID#{ID}, {timestamp}.jpg"
     x =+ 1

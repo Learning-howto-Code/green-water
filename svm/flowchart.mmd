@@ -1,0 +1,12 @@
+flowchart TD
+    A("Get image from upper camera")
+    A --> B("if water cnn")
+    B -->|yes| C("Pass through poop and food cnn")
+    B -->|no| D("Do nothing")
+    C --> E("Validate with valve camera")
+    E-->F("Verify predictions from both cameras over x time")
+    F-->|consitent results|G("Verify no clog with svm")
+    F-->|inconsistent results|H("Dump water, flag and log")
+    G-->|clog detected|H
+    G-->|no clog|I("Open valve to divert water, log")
+    I --> J("Close valve when water stops flowing, emergency stop at x minutes")

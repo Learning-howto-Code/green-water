@@ -128,7 +128,9 @@ old_water= None
 old_food = None
 old_poop = None
 
-logs = []
+with open("logs.json", "r") as f:
+     content = json.loads(f.read().strip()) 
+     logs = json.loads(content) if content else []
 old_logs = "start"
 while True:
     take_pic()
@@ -157,7 +159,8 @@ while True:
     print(logs)
     if water_presence == True and old_water == False:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
-        cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
+        save_img = (img[0] * 255).astype(np.uint8)
+        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -168,7 +171,8 @@ while True:
         })
     if water_presence == False and old_water == True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
-        cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
+        save_img = (img[0] * 255).astype(np.uint8)
+        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -180,7 +184,8 @@ while True:
 
     if food_prediction is not None and food_prediction >.5  and old_food == False:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
-        cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
+        save_img = (img[0] * 255).astype(np.uint8)
+        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -191,7 +196,8 @@ while True:
         })
     if food_prediction is not None and food_prediction < 0.5 and old_food == True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
-        cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
+        save_img = (img[0] * 255).astype(np.uint8)
+        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname) 
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -202,7 +208,8 @@ while True:
         })
     if poop_prediction is not None and poop_prediction >.5  and old_poop == False:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
-        cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
+        save_img = (img[0] * 255).astype(np.uint8)
+        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -213,7 +220,8 @@ while True:
         })
     if poop_prediction is not None and poop_prediction < 0.5 and old_poop == True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
-        cv2.imwrite(imgname, img) # saves image with timestamp, can be used for future training data
+        save_img = (img[0] * 255).astype(np.uint8)
+        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname)
         logs.append({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -229,5 +237,5 @@ while True:
     if logs != old_logs:
         with open(file, "w") as f:
                 json.dump(logs, f)
-        old_logs = logs
+        old_logs = logs.copy()
     
