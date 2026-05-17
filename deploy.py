@@ -1,3 +1,5 @@
+from hmac import new
+
 from picamera2 import Picamera2
 from time import sleep
 import time
@@ -134,6 +136,7 @@ with open("logs.json", "r") as f:
 old_logs = "start"
 x = 0
 while True:
+    new_logs = []
     x += 1
     if x % 5 == 0: # % is mod operator
         hardware_data()
@@ -154,7 +157,6 @@ while True:
         food_prediction = food_inference(model_path, diff, diff_map)
         poop_prediction = poop_inference(model_path, diff, diff_map)
 
-    sleep(.5)
     
     file="logs.json"
     with open(file, "r") as f:
@@ -166,7 +168,7 @@ while True:
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n")
-        logs.append({
+        log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(water_prediction),
              "water_start": True,
@@ -178,7 +180,7 @@ while True:
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n")
-        logs.append({
+        log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(water_prediction),
              "water_start": False,
@@ -191,7 +193,7 @@ while True:
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n")
-        logs.append({
+        log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(food_prediction),
              "food_start": True,
@@ -203,7 +205,7 @@ while True:
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n") 
-        logs.append({
+        log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(food_prediction),
              "food_start": False,
@@ -215,7 +217,7 @@ while True:
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n")
-        logs.append({
+        log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(poop_prediction),
              "poop_start": True,
@@ -227,20 +229,23 @@ while True:
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n")
-        logs.append({
+        log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
              "confidence": float(poop_prediction),
              "poop_start": False,
              "poop_end": True,
              "filepath": imgname
         })
+    logs.append(log_entry)
+    new_logs.append(log_entry)
     old_water = water_presence
     old_food = food_prediction
     old_poop = poop_prediction
 
     if logs != old_logs or x == 0:
-        print(logs, end="\n\n")
+        print(new_logs, end="\n\n")
         with open(file, "w") as f:
-                json.dump(logs, f)
+                json.dump(logs, f, indent=4)
         old_logs = logs.copy()
     
+    time.sleep(.5)
