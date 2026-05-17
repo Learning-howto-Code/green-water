@@ -136,6 +136,7 @@ with open("logs.json", "r") as f:
 old_logs = "start"
 x = 0
 while True:
+    log_entry = None
     new_logs = []
     x += 1
     if x % 5 == 0: # % is mod operator
