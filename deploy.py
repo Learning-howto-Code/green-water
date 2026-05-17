@@ -129,7 +129,7 @@ old_food = None
 old_poop = None
 
 with open("logs.json", "r") as f:
-     content = json.loads(f.read().strip()) 
+     content = json.loads(f.read().strip()) if f.read().strip() else []
      logs = json.loads(content) if content else []
 old_logs = "start"
 while True:
