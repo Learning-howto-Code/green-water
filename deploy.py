@@ -136,9 +136,9 @@ with open("logs.json", "r") as f:
 old_logs = "start"
 x = 0
 while True:
+    x += 1
     log_entry = None
     new_logs = []
-    x += 1
     if x % 5 == 0: # % is mod operator
         hardware_data()
     take_pic()
@@ -244,7 +244,7 @@ while True:
     old_food = food_prediction
     old_poop = poop_prediction
 
-    if logs != old_logs or x == 0:
+    if logs != old_logs or x == 1:
         print(new_logs, end="\n\n")
         with open(file, "w") as f:
                 json.dump(logs, f, indent=4)
