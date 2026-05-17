@@ -245,6 +245,19 @@ while True:
     old_poop = poop_prediction
 
     if logs != old_logs or x == 1:
+        if x == 1:
+            imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
+            save_img = (img[0] * 255).astype(np.uint8)
+            cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+            print("saved img", imgname, end="\n\n")
+            log_entry=({
+                "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
+                "water_confidence": float(water_prediction),
+                "food_confidence": float(food_prediction),
+                "poop_confidence": float(poop_prediction),
+                "filepath": imgname
+                "first_log": True
+            })
         print(new_logs, end="\n\n")
         with open(file, "w") as f:
                 json.dump(logs, f, indent=4)
