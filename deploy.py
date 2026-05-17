@@ -124,9 +124,9 @@ def hardware_data(): # will only run on pi, due to how systems pull the data
     print(f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | FPS: {fps} Throttled: {throtled.strip()}", end="\n\n")
     return cpu_temp, cpu_usage, used, throtled
 
-old_water= None
-old_food = None
-old_poop = None
+old_water= not True
+old_food = not True
+old_poop = not True
 
 with open("logs.json", "r") as f:
      content = f.read().strip()
@@ -161,7 +161,7 @@ while True:
         content = f.read().strip()
         old_logs = json.loads(content) if content else ["start"]
 
-    if water_presence == True and old_water == False:
+    if water_presence == True and old_water is not True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
@@ -173,7 +173,7 @@ while True:
              "water_end": False,
              "filepath": imgname
         })
-    if water_presence == False and old_water == True:
+    if water_presence is not True and old_water == True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
@@ -186,7 +186,7 @@ while True:
              "filepath": imgname
         })
 
-    if food_prediction is not None and food_prediction >.5  and old_food == False:
+    if food_prediction is not None and food_prediction >.5  and old_food is not True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
@@ -210,7 +210,7 @@ while True:
              "food_end": True,
              "filepath": imgname
         })
-    if poop_prediction is not None and poop_prediction >.5  and old_poop == False:
+    if poop_prediction is not None and poop_prediction >.5  and old_poop is not True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
