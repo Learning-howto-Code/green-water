@@ -236,8 +236,9 @@ while True:
              "poop_end": True,
              "filepath": imgname
         })
-    logs.append(log_entry)
-    new_logs.append(log_entry)
+    if log_entry is not None:
+        logs.append(log_entry)
+        new_logs.append(log_entry)
     old_water = water_presence
     old_food = food_prediction
     old_poop = poop_prediction
