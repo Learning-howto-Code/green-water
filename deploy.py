@@ -152,7 +152,7 @@ while True:
             print("no water detected", water_prediction, end="\n\n")
             water_presence = False
 
-    if water_presence == True:
+    if water_presence == True or x ==1:
         food_prediction = food_inference(model_path, diff, diff_map)
         poop_prediction = poop_inference(model_path, diff, diff_map)
 
@@ -256,6 +256,8 @@ while True:
                 "filepath": imgname,
                 "first_log": True
             })
+            logs.append(log_entry)
+            new_logs.append(log_entry)
         print(new_logs, end="\n\n")
         with open(file, "w") as f:
                 json.dump(logs, f, indent=4)
