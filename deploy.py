@@ -1,5 +1,3 @@
-from hmac import new
-
 from picamera2 import Picamera2
 from time import sleep
 import time
@@ -255,7 +253,7 @@ while True:
                 "water_confidence": float(water_prediction),
                 "food_confidence": float(food_prediction),
                 "poop_confidence": float(poop_prediction),
-                "filepath": imgname
+                "filepath": imgname,
                 "first_log": True
             })
         print(new_logs, end="\n\n")
