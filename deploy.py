@@ -165,7 +165,7 @@ while True:
     if water_presence == True and old_water is not True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n")
         log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -177,7 +177,7 @@ while True:
     if water_presence is not True and old_water == True:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(imgname, save_img  ) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n")
         log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -190,7 +190,7 @@ while True:
     if food_prediction is not None and food_prediction >.5  and old_food > .5:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(imgname, save_img  ) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n")
         log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -202,7 +202,7 @@ while True:
     if food_prediction is not None and food_prediction < 0.5 and old_food < .5:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(imgname, save_img  ) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n") 
         log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -214,7 +214,7 @@ while True:
     if poop_prediction is not None and poop_prediction >.5  and old_poop > .5:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(imgname, save_img  ) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n")
         log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -226,7 +226,7 @@ while True:
     if poop_prediction is not None and poop_prediction < 0.5 and old_poop < .5:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
-        cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+        cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
         print("saved img", imgname, end="\n\n")
         log_entry=({
              "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
@@ -246,7 +246,7 @@ while True:
         if x == 1:
             imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
             save_img = (img[0] * 255).astype(np.uint8)
-            cv2.imwrite(imgname, save_img, [cv2.IMWRITE_JPEG_QUALITY, 50]) # saves image with timestamp, can be used for future training data
+            cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
             print("saved img", imgname, end="\n\n")
             log_entry=({
                 "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
