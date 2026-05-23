@@ -246,7 +246,7 @@ while True:
         if x == 2:
             imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
             save_img = (img[0] * 255).astype(np.uint8)
-            cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
+            cv2.imwrite(imgname, save_img) # saves image wcd Dith timestamp, can be used for future training data
             print("saved img", imgname, end="\n\n")
             log_entry=({
                 "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
