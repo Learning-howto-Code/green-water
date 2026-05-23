@@ -211,7 +211,7 @@ while True:
              "food_end": True,
              "filepath": imgname
         })
-    if poop_prediction is not None and poop_prediction >.5  and old_poop > .5:
+    if poop_prediction is not None and poop_prediction >.5  and not old_poop > .5:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img  ) # saves image with timestamp, can be used for future training data
@@ -223,7 +223,7 @@ while True:
              "poop_end": False,
              "filepath": imgname
         })
-    if poop_prediction is not None and poop_prediction < 0.5 and old_poop < .5:
+    if poop_prediction is not None and poop_prediction < 0.5 and not old_poop < .5:
         imgname= f"logged_data/{datetime.now().astimezone().strftime('%Y-%m-%d %H-%M-%S %Z')}.jpg"
         save_img = (img[0] * 255).astype(np.uint8)
         cv2.imwrite(imgname, save_img) # saves image with timestamp, can be used for future training data
