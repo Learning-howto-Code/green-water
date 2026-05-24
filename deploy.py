@@ -252,8 +252,8 @@ while True:
             log_entry=({
                 "timestamp": datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z'),
                 "water_confidence": float(water_prediction),
-                "food_confidence": float(food_prediction),
-                "poop_confidence": float(poop_prediction),
+                "food_confidence": float(food_prediction) if food_prediction is not None else 0.0,
+                "poop_confidence": float(poop_prediction) if poop_prediction is not None else 0.0,
                 "filepath": imgname,
                 "first_log": True
             })
