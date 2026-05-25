@@ -13,7 +13,7 @@ import subprocess
 import psutil
 import threading
 
-img_dir = "test-5-22"
+img_dir = "5-24"
 fps=30
 lookback = 5
 
@@ -84,11 +84,10 @@ def diff(diff_map):
     else:
          diff = False
     return diff
-def water_inference(model_path, diff, diff_map): 
+def water_inference(model_path):
     preds = []
     for i in range(10): # would run for 1/3 seconds
         model = load_model(model_path["water_model"])
-        diff = diff(diff_map["water_model"])
         interpreter = model["interpreter"]
         input_details = model["input_details"]
         output_details = model["output_details"]
@@ -164,7 +163,7 @@ while True:
     poop_prediction = None
 
     # gets water pred from function
-    water_list.append(water_inference(model_path, diff, diff_map))
+    water_list.append(water_inference(model_path))
     food_list.append(food_inference(model_path, diff, diff_map))
     poop_list.append(poop_inference(model_path, diff, diff_map))
 
