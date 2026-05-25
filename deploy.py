@@ -1,3 +1,5 @@
+import tty
+
 from picamera2 import Picamera2
 from time import sleep
 import time
@@ -12,6 +14,7 @@ import json
 import subprocess
 import psutil
 import threading
+import termios
 
 img_dir = "5-25"
 fps=30
@@ -70,7 +73,23 @@ def take_pic():
     img = np.expand_dims(img, axis=0)
     return img
 old = None
+def listener(): # takes picture when x is pressed, used for debug
+    fd = sys.stdin.fileno()
+    old = termios.tcgetattr(fd)
+    try:
+        tty.setraw(fd)
+        while True:
+            ch = sys.stdin.read(1)
+            if ch == 'x':
+                print("\r\ntaking picture", end="\r\n")
+                take_pic()
+            elif ch == '\x03':  # ctrl+c to quit
+                sys.exit(0)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
+t = threading.Thread(target=listener, daemon=True)
+t.start()
 # sets up model calls for all models, returns output from model using img
 def diff(diff_map):
     global old
@@ -79,7 +98,7 @@ def diff(diff_map):
         if old is None:
                 old = new
         diff = cv2.absdiff(old,new)
-        print(f"Diff: {np.average(diff):.6f}", end="\n\n")
+        print(f"Diff: {float(np.average(diff)):.6f}", end="\n\n")
         old = new
     else:
          diff = False
@@ -97,7 +116,7 @@ def water_inference(model_path):
         print(f"water_prediction: {water_prediction:.6f} ------------------", end="\n\n")
         
         preds.append(water_prediction) 
-        print(f"Average water prediction: {np.average(preds):.6f}")
+        print(f"Average water prediction: {float(np.average(preds)):.6f}")
         time.sleep(1/30)
         if i > 4:
             preds = preds[1:] # removes first value to keep avg to last 5 preds
