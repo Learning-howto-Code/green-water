@@ -73,23 +73,7 @@ def take_pic():
     img = np.expand_dims(img, axis=0)
     return img
 old = None
-def listener(): # takes picture when x is pressed, used for debug
-    fd = sys.stdin.fileno()
-    old = termios.tcgetattr(fd)
-    try:
-        tty.setraw(fd)
-        while True:
-            ch = sys.stdin.read(1)
-            if ch == 'x':
-                print("\r\ntaking picture", end="\r\n")
-                take_pic()
-            elif ch == '\x03':  # ctrl+c to quit
-                sys.exit(0)
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
-t = threading.Thread(target=listener, daemon=True)
-t.start()
 # sets up model calls for all models, returns output from model using img
 def diff(diff_map):
     global old
