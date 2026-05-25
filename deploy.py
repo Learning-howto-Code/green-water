@@ -11,9 +11,11 @@ import pi5neo
 import json
 import subprocess
 import psutil
+import threading
 
 img_dir = "test-5-22"
 fps=30
+lookback = 5
 
 base = "/home/jake/Downloads/if-water-cnn/models/"
 
@@ -68,6 +70,8 @@ def take_pic():
     img = np.expand_dims(img, axis=0)
     return img
 old = None
+
+# sets up model calls for all models, returns output from model using img
 def diff(diff_map):
     global old
     if diff_map == True:
@@ -81,15 +85,25 @@ def diff(diff_map):
          diff = False
     return diff
 def water_inference(model_path, diff, diff_map): 
-    model = load_model(model_path["water_model"])
-    diff = diff(diff_map["water_model"])
-    interpreter = model["interpreter"]
-    input_details = model["input_details"]
-    output_details = model["output_details"]
-    interpreter.set_tensor(input_details[0]["index"], img)
-    interpreter.invoke()
-    water_prediction = interpreter.get_tensor(output_details[0]["index"])
-    print("water_prediction:", water_prediction, "------------------", end="\n\n")
+    preds = []
+    for i in range(10): # would run for 1/3 seconds
+        model = load_model(model_path["water_model"])
+        diff = diff(diff_map["water_model"])
+        interpreter = model["interpreter"]
+        input_details = model["input_details"]
+        output_details = model["output_details"]
+        interpreter.set_tensor(input_details[0]["index"], img)
+        interpreter.invoke()
+        water_prediction = interpreter.get_tensor(output_details[0]["index"])
+        print("water_prediction:", water_prediction, "------------------", end="\n\n")
+        
+        preds.append(water_prediction) 
+        print(np.average(preds))
+        time.sleep(1/30)
+        if i > 4:
+            preds = preds[1:] # removes first value to keep avg to last 5 preds
+    
+    water_prediction = np.average(preds)
     return water_prediction
 def food_inference(model_path, diff, diff_map):
     model = load_model(model_path["food_model"])
@@ -115,7 +129,7 @@ def poop_inference(model_path, diff, diff_map):
     poop_prediction = interpreter.get_tensor(output_details[0]["index"])
     print("poop_prediction:", poop_prediction, "------------------", end="\n\n")
     return poop_prediction
-
+# gets data like ram, cpu usage/temp
 def hardware_data(): # will only run on pi, due to how systems pull the data
     cpu_temp = subprocess.check_output(["vcgencmd", "measure_temp"]).decode("UTF-8") # to 8 decimal points
     cpu_usage = psutil.cpu_percent(interval=1) # measures full cpu load avg'd over one sec
@@ -129,11 +143,15 @@ old_water= not True
 old_food = not True
 old_poop = not True
 
+# gets old content from logs file
 with open("logs.json", "r") as f:
      content = f.read().strip()
      logs = json.loads(content) if content else []
 old_logs = "start"
-x = 0
+x = 0 # keeps track of iterations
+water_list = []
+food_list = []
+poop_list = []
 while True:
     x += 1
     log_entry = None
@@ -145,19 +163,28 @@ while True:
     food_prediction = None
     poop_prediction = None
 
-    water_prediction = water_inference(model_path, diff, diff_map)
-    if water_prediction > 0.5:
+    # gets water pred from function
+    water_list.append(water_inference(model_path, diff, diff_map))
+    food_list.append(food_inference(model_path, diff, diff_map))
+    poop_list.append(poop_inference(model_path, diff, diff_map))
+
+    if x > lookback: # lookback changes how far we go back to avg
+        water_list = water_list[1:] # removes first value to keep avg to last 5 preds
+        food_list = food_list[1:]
+        poop_list = poop_list[1:]
+    
+    water_prediction = np.average(water_list)
+    food_prediction = np.average(food_list)
+    poop_prediction = np.average(poop_list)
+
+    if water_prediction > 0.6:
         print("Water Detected", water_prediction, end="\n\n")
         water_presence = True
     else:
             print("no water detected", water_prediction, end="\n\n")
             water_presence = False
 
-    if water_presence == True or x ==1:
-        food_prediction = food_inference(model_path, diff, diff_map)
-        poop_prediction = poop_inference(model_path, diff, diff_map)
-
-    
+      
     file="logs.json"
     with open(file, "r") as f:
         content = f.read().strip()
