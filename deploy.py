@@ -93,7 +93,7 @@ def water_inference(model_path):
         output_details = model["output_details"]
         interpreter.set_tensor(input_details[0]["index"], img)
         interpreter.invoke()
-        water_prediction = interpreter.get_tensor(output_details[0]["index"])
+        water_prediction = float(interpreter.get_tensor(output_details[0]["index"]).flat[0])
         print(f"water_prediction: {water_prediction:.6f} ------------------", end="\n\n")
         
         preds.append(water_prediction) 
@@ -113,7 +113,7 @@ def food_inference(model_path, diff, diff_map):
     arr = np.concatenate([img, diff], axis=-1)
     interpreter.set_tensor(input_details[0]["index"], arr)
     interpreter.invoke()
-    food_prediction = interpreter.get_tensor(output_details[0]["index"])
+    food_prediction = float(interpreter.get_tensor(output_details[0]["index"]).flat[0])
     print(f"food_prediction: {food_prediction:.6f} ------------------", end="\n\n")
     return food_prediction
 def poop_inference(model_path, diff, diff_map):
@@ -125,7 +125,7 @@ def poop_inference(model_path, diff, diff_map):
     arr = np.concatenate([img, diff], axis=-1)
     interpreter.set_tensor(input_details[0]["index"], arr)
     interpreter.invoke()
-    poop_prediction = interpreter.get_tensor(output_details[0]["index"])
+    poop_prediction = float(interpreter.get_tensor(output_details[0]["index"]).flat[0])
     print(f"poop_prediction: {poop_prediction:.6f} ------------------", end="\n\n")
     return poop_prediction
 # gets data like ram, cpu usage/temp
