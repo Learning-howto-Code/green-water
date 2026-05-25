@@ -13,7 +13,7 @@ import subprocess
 import psutil
 import threading
 
-img_dir = "5-24"
+img_dir = "5-25"
 fps=30
 lookback = 5
 
@@ -94,7 +94,7 @@ def water_inference(model_path):
         interpreter.set_tensor(input_details[0]["index"], img)
         interpreter.invoke()
         water_prediction = interpreter.get_tensor(output_details[0]["index"])
-        print("water_prediction:", water_prediction, "------------------", end="\n\n")
+        print(f"water_prediction: {water_prediction:.6f} ------------------", end="\n\n")
         
         preds.append(water_prediction) 
         print(np.average(preds))
@@ -114,7 +114,7 @@ def food_inference(model_path, diff, diff_map):
     interpreter.set_tensor(input_details[0]["index"], arr)
     interpreter.invoke()
     food_prediction = interpreter.get_tensor(output_details[0]["index"])
-    print("food_prediction:", food_prediction, "------------------", end="\n\n")
+    print(f"food_prediction: {food_prediction:.6f} ------------------", end="\n\n")
     return food_prediction
 def poop_inference(model_path, diff, diff_map):
     model = load_model(model_path["poop_model"])
@@ -126,7 +126,7 @@ def poop_inference(model_path, diff, diff_map):
     interpreter.set_tensor(input_details[0]["index"], arr)
     interpreter.invoke()
     poop_prediction = interpreter.get_tensor(output_details[0]["index"])
-    print("poop_prediction:", poop_prediction, "------------------", end="\n\n")
+    print(f"poop_prediction: {poop_prediction:.6f} ------------------", end="\n\n")
     return poop_prediction
 # gets data like ram, cpu usage/temp
 def hardware_data(): # will only run on pi, due to how systems pull the data
@@ -177,10 +177,10 @@ while True:
     poop_prediction = np.average(poop_list)
 
     if water_prediction > 0.6:
-        print("Water Detected", water_prediction, end="\n\n")
+        print(f"Water Detected: {water_prediction:.6f}", end="\n\n")
         water_presence = True
     else:
-            print("no water detected", water_prediction, end="\n\n")
+            print(f"No water detected: {water_prediction:.6f}", end="\n\n")
             water_presence = False
 
       
