@@ -79,7 +79,7 @@ def diff(diff_map):
         if old is None:
                 old = new
         diff = cv2.absdiff(old,new)
-        print(np.average(diff), end="\n\n")
+        print(f"Diff: {np.average(diff):.6f}", end="\n\n")
         old = new
     else:
          diff = False
@@ -97,7 +97,7 @@ def water_inference(model_path):
         print(f"water_prediction: {water_prediction:.6f} ------------------", end="\n\n")
         
         preds.append(water_prediction) 
-        print(np.average(preds))
+        print(f"Average water prediction: {np.average(preds):.6f}")
         time.sleep(1/30)
         if i > 4:
             preds = preds[1:] # removes first value to keep avg to last 5 preds
