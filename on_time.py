@@ -35,12 +35,11 @@ def take_pic():
     img = np.expand_dims(img, axis=0)
     return img
 
-
+interpreter = tflite.Interpreter(model_path=model)
+interpreter.allocate_tensors()        
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
 def run_model(img):
-    interpreter = tflite.Interpreter(model_path=model)
-    interpreter.allocate_tensors()        
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
     interpreter.set_tensor(input_details[0]["index"], img)
     interpreter.invoke()
     water_prediction = float(interpreter.get_tensor(output_details[0]["index"]).flat[0])
@@ -63,12 +62,13 @@ while True:
     if water_prediction > 0.6:
         print(f"water detected: {str(water_prediction)}")
         seconds_on += 1
+    else:
+        print(f"no water detected: {str(water_prediction)}")
 
     if seconds_on % 50 == 0:
         with open("log.txt", "w") as f:
             f.write(f"Seconds on: {str(seconds_on)} out of {str(total_seconds)} seconds\n")
-    else:
-        print(f"no water detected: {str(water_prediction)}")
+    
     total_seconds += 1
     time.sleep(1)
 
