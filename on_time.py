@@ -67,6 +67,8 @@ while True:
     if seconds_on % 50 == 0:
         with open("log.txt", "w") as f:
             f.write(f"Seconds on: {str(seconds_on)} out of {str(total_seconds)} seconds\n")
+    else:
+        print("no water detected")
     total_seconds += 1
     time.sleep(1)
 
