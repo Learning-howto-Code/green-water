@@ -8,6 +8,8 @@ import cv2
 from picamera2 import Picamera2 # type: ignore
 import pi5neo # type: ignore
 import numpy as np
+import psutil
+import subprocess
 
 model = "models/if_water.tflite"
 lookback = 5
@@ -46,6 +48,16 @@ def run_model(img):
 
     return water_prediction
 
+def hardware_data(): # will only run on pi, due to how systems pull the data
+    cpu_temp = subprocess.check_output(["vcgencmd", "measure_temp"]).decode("UTF-8") # to 8 decimal points
+    cpu_usage = psutil.cpu_percent(interval=1) # measures full cpu load avg'd over one sec
+    ram = psutil.virtual_memory()
+    used = ram.used / 1024**2 # outputs used ram in MB
+    throtled = subprocess.check_output(["vcgencmd", "get_throttled"]).decode("UTF-8") #VCGENMD is the pi os system, if non zero pi is throttling
+    print(f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | FPS: {fps} Throttled: {throtled.strip()}", end="\r\n\r\n")
+    return cpu_temp, cpu_usage, used, throtled
+
+
 pred_list = []
 seconds_on = 0
 total_seconds = 0
@@ -69,6 +81,8 @@ while True:
         with open("log.txt", "w") as f:
             f.write(f"Seconds on: {str(seconds_on)} out of {str(total_seconds)} seconds\n")
     
+    if total_seconds % 10 == 0:
+        hardware_data()
     total_seconds += 1
     time.sleep(1)
 
