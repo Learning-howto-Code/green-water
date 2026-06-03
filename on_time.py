@@ -54,7 +54,7 @@ def hardware_data(): # will only run on pi, due to how systems pull the data
     ram = psutil.virtual_memory()
     used = ram.used / 1024**2 # outputs used ram in MB
     throtled = subprocess.check_output(["vcgencmd", "get_throttled"]).decode("UTF-8") #VCGENMD is the pi os system, if non zero pi is throttling
-    print(f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | FPS: {fps} Throttled: {throtled.strip()}", end="\r\n\r\n")
+    print(f"CPU Temp: {cpu_temp.strip()} | CPU Usage: {cpu_usage}% | RAM Used: {used:.2f} MB | FPS: {1} Throttled: {throtled.strip()}", end="\r\n\r\n")
     return cpu_temp, cpu_usage, used, throtled
 
 
