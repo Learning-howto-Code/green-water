@@ -9,7 +9,7 @@ from picamera2 import Picamera2 # type: ignore
 import pi5neo # type: ignore
 import numpy as np
 
-model = "models/if_water.keras"
+model = "models/if_water.tflite"
 lookback = 5
 picam2 = Picamera2()
 config = picam2.create_video_configuration(main={"size": (224, 224)}, buffer_count=4)
@@ -49,6 +49,7 @@ def run_model(img):
 
 pred_list = []
 seconds_on = 0
+total_seconds = 0
 
 while True:
     img = take_pic()
@@ -65,6 +66,7 @@ while True:
 
     if seconds_on % 50 == 0:
         with open("log.txt", "w") as f:
-            f.write(str(seconds_on))
+            f.write(f"Seconds on: {str(seconds_on)} out of {str(total_seconds)} seconds\n")
+    total_seconds += 1
     time.sleep(1)
 
