@@ -61,14 +61,14 @@ while True:
     water_prediction = np.average(pred_list)
 
     if water_prediction > 0.6:
-        print("water detected")
+        print(f"water detected: {str(water_prediction)}")
         seconds_on += 1
 
     if seconds_on % 50 == 0:
         with open("log.txt", "w") as f:
             f.write(f"Seconds on: {str(seconds_on)} out of {str(total_seconds)} seconds\n")
     else:
-        print("no water detected")
+        print(f"no water detected: {str(water_prediction)}")
     total_seconds += 1
     time.sleep(1)
 
