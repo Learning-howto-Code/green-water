@@ -83,6 +83,7 @@ while True:
     
     if total_seconds % 10 == 0:
         hardware_data()
+        print(f"time is {datetime.datetime.now()}")
     total_seconds += 1
     time.sleep(1)
 
