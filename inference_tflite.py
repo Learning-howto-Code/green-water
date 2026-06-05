@@ -5,11 +5,10 @@ import os
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
-img_dir = '/Users/jakehopkins/Downloads/water test'
+img_dir = '/Users/jakehopkins/Downloads/6-5'
 true_label = "water"  # set to "water" or "no water"
 
-if_water_model = '/Users/jakehopkins/Downloads/if_water/temp.tflite'
-
+if_water_model = '/Users/jakehopkins/Downloads/if_water/models/olif_water.tflite'
 interpreter = tflite.Interpreter(model_path=if_water_model)
 interpreter.allocate_tensors()
 input_details = interpreter.get_input_details()
