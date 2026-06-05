@@ -1,155 +1,54 @@
-import os
 import numpy as np
-from PIL import Image
+import cv2 as cv
 import tensorflow as tf
-from sklearn.metrics import confusion_matrix
-import re
-import json
+import os
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
-# MODEL_PATH = input("enter file path")
-# MODEL_PATH= str(MODEL_PATH)
-MODEL_PATH = "/Users/jakehopkins/Downloads/if_water/most_recent_model.keras"
+img_dir = '/Users/jakehopkins/Downloads/water test'
+true_label = "water"  # set to "water" or "no water"
 
-# Load delta.json for diff values
-with open("delta.json", "r") as f:
-    delta_data = json.load(f)
-    delta_map = {item["filepath"]: item["diff"] for item in delta_data}
-# Define all dataset folders
-DATASET_FOLDERS = {
-     #"#train":  "/Users/jakehopkins/Downloads/if_water/food_clean/train",
-    # "val": "/Users/jakehopkins/Downloads/if_water/food_clean/val",
-    "test": "/Users/jakehopkins/Downloads/if_water/food_clean/test"
-}
+keras_model_path = '/Users/jakehopkins/Downloads/if_water/test_if_water_20260605_135419.keras'
 
-IMG_SIZE = (224, 224)
+model = tf.keras.models.load_model(keras_model_path, compile=False)
+print("Model loaded:", keras_model_path)
+print("Input shape:", model.input_shape)
 
-# Load Keras model
-model = tf.keras.models.load_model(MODEL_PATH, compile=False)
+VALID_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
+image_files = [
+    f for f in os.listdir(img_dir)
+    if os.path.splitext(f)[1].lower() in VALID_EXTS
+]
 
-def numeric_key(filename):
-    # Extract the first number in filename for sorting
-    nums = re.findall(r'\d+', filename)
-    return int(nums[0]) if nums else float('inf')
+if not image_files:
+    print(f"No images found in {img_dir}")
+    exit(1)
 
-def _input_mode():
-    # Infer expected input channels from the model input shape
-    shape = model.input_shape
-    channels = shape[-1] if isinstance(shape, (list, tuple)) else 3
-    if channels == 1:
-        return "L"  # grayscale
-    return "RGB"
+y_true = []
+y_pred = []
 
+for fname in image_files:
+    path = os.path.join(img_dir, fname)
+    img = cv.imread(path)
+    if img is None:
+        print(f"Skipping (unreadable): {fname}")
+        continue
 
-def predict_image(img_path):
-    img = Image.open(img_path).convert(_input_mode())
-    img = img.resize(IMG_SIZE)
+    img = cv.resize(img, (224, 224))
+    img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+    img_array = np.expand_dims(np.array(img, dtype=np.float32) / 255.0, axis=0)
 
-    arr = np.array(img, dtype=np.float32) / 255.0
-    if arr.ndim == 2:
-        arr = np.expand_dims(arr, axis=-1)
-    
-    # Add diff as 4th channel
-    diff_value = delta_map.get(img_path, 0.0)  # Default to 0.0 if not found
-    diff_channel = np.full((IMG_SIZE[0], IMG_SIZE[1]), diff_value, dtype=np.float32)
-    arr = np.dstack((arr, diff_channel))
-    
-    arr = np.expand_dims(arr, axis=0)
+    score = float(model(img_array, training=False)[0][0])
+    pred_label = "water" if score > 0.5 else "no water"
+    print(f"{fname}: {score:.4f} → {pred_label}")
 
-    output = model.predict(arr, verbose=0)[0]
-    return output
+    y_true.append(true_label)
+    y_pred.append(pred_label)
 
-def _get_label_map(root_folder):
-    class_names = sorted(
-        [
-            d
-            for d in os.listdir(root_folder)
-            if os.path.isdir(os.path.join(root_folder, d))
-        ]
-    )
-    return {name: idx for idx, name in enumerate(class_names)}, class_names
-
-
-def run_folder(folder, label_map):
-    y_true = []
-    y_pred = []
-
-    for root, _, files in os. walk(folder):
-        print("Walking:", root)
-        folder_name = os.path.basename(root)
-        if folder_name not in label_map: 
-            continue
-
-        true_label = label_map[folder_name]
-
-        # Sort files numerically
-        image_files = sorted(
-            [f for f in files if f.lower().endswith((".png", ".jpg", ".jpeg"))],
-            key=numeric_key
-        )
-        if len(image_files) == 0:
-            print(f"WARNING: No images loaded for class '{folder_name}'")
-        for filename in image_files: 
-            path = os.path.join(root, filename)
-
-            pred = predict_image(path)
-            score = float(np.squeeze(pred))
-            pred_idx = 1 if score > 0.5 else 0
-            pred_str = np.array2string(
-                pred,
-                precision=6,
-                floatmode="fixed",
-                suppress_small=True
-            )
-
-            y_true.append(true_label)
-            y_pred.append(pred_idx)
-            print(f"{path}: true {true_label}, predicted {pred_str}")
-    return y_true, y_pred
-
-def evaluate_all_datasets(dataset_folders):
-    results = {}
-    
-    label_map, class_names = _get_label_map(next(iter(dataset_folders.values())))
-
-    for name, folder in dataset_folders.items():
-        if not os.path.exists(folder):
-            print(f"\nWarning: {folder} does not exist, skipping {name} dataset.")
-            continue
-            
-        print(f"\n{'='*50}")
-        print(f"Evaluating {name. upper()} dataset: {folder}")
-        print('='*50)
-        
-        y_true, y_pred = run_folder(folder, label_map)
-        if len(y_true) > 0:
-            cm = confusion_matrix(y_true, y_pred, labels=list(range(len(class_names))))
-            results[name] = {
-                "confusion_matrix":  cm,
-                "y_true": y_true,
-                "y_pred": y_pred
-            }
-            
-            print(f"\n{name. upper()} CONFUSION MATRIX")
-            print(cm)
-            print(f"Class order: {class_names}")
-            
-            # Calculate and display accuracy
-            accuracy = np.sum(np.diag(cm)) / np.sum(cm)
-            print(f"Accuracy: {accuracy:.4f}")
-        else: 
-            print(f"No images found in {folder}")
-    
-    return results
-
-if __name__ == "__main__":
-    results = evaluate_all_datasets(DATASET_FOLDERS)
-    
-    # Print summary
-    print(f"\n{'='*50}")
-    print("SUMMARY")
-    print('='*50)
-    for name, data in results.items():
-        cm = data["confusion_matrix"]
-        accuracy = np. sum(np.diag(cm)) / np.sum(cm)
-        total_samples = np.sum(cm)
-        print(f"{name.upper()}: {total_samples} samples, Accuracy: {accuracy:.4f}")
+labels = ["water", "no water"]
+cm = confusion_matrix(y_true, y_pred, labels=labels)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
+disp.plot(cmap="Blues")
+plt.title("if_water Keras Confusion Matrix")
+plt.tight_layout()
+plt.show()

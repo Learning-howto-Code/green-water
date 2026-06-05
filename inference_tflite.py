@@ -1,101 +1,66 @@
-import datetime
-import time
 import numpy as np
 import cv2 as cv
-import json
 from tensorflow.lite.python import interpreter as tflite
-from PIL import Image
 import os
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
-img_path="/Users/jakehopkins/Downloads/ID#1, 2026-03-02-16-24-52-298.jpg"
-seconds = int(20) #how long to run the script for.
+img_dir = '/Users/jakehopkins/Downloads/water test'
+true_label = "water"  # set to "water" or "no water"
 
-if_water_model = "if_water.tflite"
-food_clean_model = "food_clean.tflite"
-file = "logs.json"
+if_water_model = '/Users/jakehopkins/Downloads/if_water/temp.tflite'
 
+interpreter = tflite.Interpreter(model_path=if_water_model)
+interpreter.allocate_tensors()
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
 
+print("Input dtype:", input_details[0]['dtype'])
+print("Input shape:", input_details[0]['shape'])
+input_dtype = input_details[0]['dtype']
 
-def if_water():
-    global img, img_array,frame, pred, pred_int, img_path
+VALID_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
+image_files = [
+    f for f in os.listdir(img_dir)
+    if os.path.splitext(f)[1].lower() in VALID_EXTS
+]
+ 
+if not image_files:
+    print(f"No images found in {img_dir}")
+    exit(1)
 
-    img = cv.imread(img_path)
+y_true = []
+y_pred = []
+
+for fname in image_files:
+    path = os.path.join(img_dir, fname)
+    img = cv.imread(path)
+    if img is None:
+        print(f"Skipping (unreadable): {fname}")
+        continue
+
     img = cv.resize(img, (224, 224))
-
-    interpreter = tflite.Interpreter(model_path=if_water_model)
-    interpreter.allocate_tensors()
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-    
-    img_array = np.array(img, dtype=np.float32) / 255.0
-    img_array = np.expand_dims(img_array, axis=0)  # (1, 224, 224, 3)
-    
-    interpreter.set_tensor(input_details[0]["index"], img_array)
-    interpreter.invoke()
-    prediction = interpreter.get_tensor(output_details[0]["index"])
-    pred_int = prediction
-    pred_int = np.round(pred_int, 4) #rounds pred_int to 4 points
-    prediction = [round(x, 2) for x in prediction[0]]
-    if pred_int > 0.5:
-        pred = "water"
-    if pred_int <= 0.5:
-        pred = "no water"
-    return prediction, 
-old_file = None
-current_pred = None
-start = time.time()
-def food_clean():
-    global img, img_array,frame, pred, old_file, img_path
-    if not os.path.exists(img_path):
-        raise FileNotFoundError(f"Image not found: {os.path.abspath(img_path)}")
-
-    img = cv.imread(img_path)
-    img = cv.resize(img, (224, 224))
-
-    if old_file is None:
-        old_file = img
-    new_file = img
-
-    #diff calculation
-    # old = cv.imread(old_file )     
-    #new_img = cv.imread(new_file)
-    diff = cv.absdiff(old_file, new_file)
-    diff = np.average(diff)
-    old_file = new_file
-    print(f"diff is {diff} out 255")
-    
-
-    interpreter = tflite.Interpreter(model_path=food_clean_model)
-    interpreter.allocate_tensors()
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-    
-    # Load and preprocess image
-    diff = np.full((224,224,), diff, dtype=np.float32)
-  # Add diff as an additional channel
-    img_array = np.array(img, dtype=np.float32) / 255.0
-    img_array = np.dstack((img, diff))
-    img_array = np.expand_dims(img_array, axis=0)
+    img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+    if input_dtype == np.uint8:
+        img_array = np.expand_dims(np.array(img, dtype=np.uint8), axis=0)
+    else:
+        img_array = np.expand_dims(np.array(img, dtype=np.float32) / 255.0, axis=0)
 
     interpreter.set_tensor(input_details[0]["index"], img_array)
     interpreter.invoke()
     prediction = interpreter.get_tensor(output_details[0]["index"])
-    pred_int = prediction
-    pred_int = np.round(pred_int, 4) #rounds pred_int to 4 points
-    prediction = [round(x, 2) for x in prediction[0]]
-    food_pred_int = prediction
-    if pred_int < 0.5:
-        food_pred = "clean"
-    if pred_int >= 0.5:
-        food_pred = "dirty"
-    return food_pred_int, food_pred
-current_pred = None
-start = time.time()
+    score = float(prediction[0][0]) if prediction[0].shape else float(prediction[0])
 
+    pred_label = "water" if score > 0.5 else "no water"
+    print(f"{fname}: {score:.4f} → {pred_label}")
 
+    y_true.append(true_label)
+    y_pred.append(pred_label)
 
-previous_prediction = None
-food_number=food_clean()
-food_pred=food_clean()
-water_number=if_water()
-print (f"water prediction: {water_number} ({pred})  |   food prediction: {food_number}")
+labels = ["water", "no water"]
+cm = confusion_matrix(y_true, y_pred, labels=labels)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
+disp.plot(cmap="Blues")
+plt.title("if_water Confusion Matrix")
+plt.tight_layout()
+plt.show()
