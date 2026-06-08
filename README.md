@@ -29,4 +29,3 @@ yes I just drew this on my iPad. KISS, keep it simple stupid
 
 > Note: I have the materials and am not requesting funding for my BOM.
 
-***Claude was used for spell checking and formatting  my BOM for markdown, thats it***
