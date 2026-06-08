@@ -9,7 +9,7 @@ from datetime import datetime
 from keras.preprocessing import image
 import tensorflow as tf
 from tensorflow.keras import layers
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.preprocessing.image import ImageDataGenerator # type: ignore
 
 
 # Filepaths
@@ -18,29 +18,40 @@ val_path= "/Users/jakehopkins/Downloads/if_water/if_water_data/val"
 test_path="/Users/jakehopkins/Downloads/if_water/if_water_data/test"
 # Order goes no_water, water
 
-datagen= ImageDataGenerator(rescale=1./255)
+train_datagen= ImageDataGenerator(
+    rescale=1./255,
+    rotation_range=20,
+    width_shift_range=0.1,
+    height_shift_range=0.2,
+    # shear_range=0.2,
+    # zoom_range=0.2,
+    # horizontal_flip=True,
+    )
+eval_datagen = ImageDataGenerator(rescale=1./255)
 batch_size = 32
 image_size = (224, 224)
 class_mode = 'binary'
 
 # Data Generators
-train_data = datagen.flow_from_directory(
+train_data = train_datagen.flow_from_directory(
     train_paths,
     batch_size=batch_size,
     target_size=image_size,
     class_mode=class_mode,
     color_mode='rgb',
-    seed=42
+    seed=42,
+    shuffle=True
 )
-valid_data = datagen.flow_from_directory(
-val_path,
-batch_size=batch_size,
-target_size=image_size,
-class_mode=class_mode,
-color_mode='rgb',
-seed=42
+val_data = eval_datagen.flow_from_directory(
+    val_path,
+    batch_size=batch_size,
+    target_size=image_size,
+    class_mode=class_mode,
+    color_mode='rgb',
+    seed=42,
+    shuffle=False
 )
-test_data = datagen.flow_from_directory(
+test_data = eval_datagen.flow_from_directory(
     test_path,
     batch_size=batch_size,
     target_size=image_size,
@@ -49,28 +60,29 @@ test_data = datagen.flow_from_directory(
     seed=42,
     shuffle=False,
 )
-data_augmentation = tf.keras.Sequential([
-layers.RandomZoom(0.25),
-layers.RandomTranslation(0, 0.4),
-layers.RandomZoom(height_factor=(-0.4, 0.4), width_factor=(-0.2, 0.2)),#randomyl zooms, alt to cropping
-layers.RandomFlip("horizontal_and_vertical"),
-], name="data_augmentation")
+import numpy as np
+print("Train class distribution:", dict(zip(*np.unique(train_data.classes, return_counts=True))))
+print("Class indices:", train_data.class_indices)
 
-model = Sequential([ 
-layers.Input(shape=(224, 224, 3)),   # define input once
-data_augmentation,
-layers.Conv2D(16, (3,3), activation='relu'),
-layers.MaxPooling2D(),
+model = Sequential([
+layers.Input(shape=(224, 224, 3)),
 layers.Conv2D(32, (3,3), activation='relu'),
+layers.BatchNormalization(),
 layers.MaxPooling2D(),
-layers.Flatten(),
-layers.Dense(64, activation='relu'),
-layers.Dropout(0.5),
+layers.Conv2D(64, (3,3), activation='relu'),
+layers.BatchNormalization(),
+layers.MaxPooling2D(),
+layers.Conv2D(128, (3,3), activation='relu'),
+layers.BatchNormalization(),
+layers.MaxPooling2D(),
+layers.GlobalAveragePooling2D(),  # replaces Flatten — kills the 100k param explosion
+layers.Dense(128, activation='relu'),
+layers.Dropout(0.4),
 layers.Dense(1, activation='sigmoid')
 ])
 
 model.compile(
-optimizer='adam',
+optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5), # default is 1e-3
 loss='binary_crossentropy',
 metrics=['accuracy']
 )
@@ -83,11 +95,12 @@ early_stop = tf.keras.callbacks.EarlyStopping(
 history = model.fit(
     train_data,
     verbose=1,
-    validation_data=valid_data,
-    epochs=8,
+    validation_data=val_data,
+    epochs=15,
     callbacks=[early_stop],
 )
 
+# plot
 plt.figure(figsize=(10, 4))
 plt.subplot(1, 2, 1)
 plt.plot(history.history['accuracy'], label='train')
@@ -103,7 +116,7 @@ plt.tight_layout()
 plt.show()
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-model.save(f"test_if_water_{timestamp}.keras")
+model.save(f"no_BN_if_water{timestamp}.keras")
 test_loss, test_acc = model.evaluate(test_data)
 print("Test accuracy:", test_acc)
 
