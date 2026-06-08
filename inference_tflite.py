@@ -5,7 +5,7 @@ import os
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
-img_dir = '/Users/jakehopkins/Downloads/6-4'
+img_dir ='/Users/jakehopkins/Downloads/6-4(water)'
 true_label = "water"  # set to "water" or "no water"
 
 if_water_model = '/Users/jakehopkins/Downloads/if_water/models/if_water.tflite'

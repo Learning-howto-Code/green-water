@@ -1,6 +1,8 @@
 #RunAWaterModelConstantly
 #logs every second there's water
 #
+import os
+
 import tflite_runtime.interpreter as tflite # type: ignore
 import time
 import datetime
@@ -12,6 +14,8 @@ import psutil
 import subprocess
 
 model = "models/if_water.tflite"
+dir = "data/6-8"
+os.makedirs(dir, exist_ok=True)
 lookback = 5
 picam2 = Picamera2()
 config = picam2.create_video_configuration(main={"size": (224, 224)}, buffer_count=4)
@@ -65,6 +69,7 @@ total_seconds = 0
 while True:
     img = take_pic()
     water_prediction = run_model(img)
+    cv2.imwrite(f"{dir}/img_{total_seconds}.jpg", img)
     pred_list.append(water_prediction)
 
     if len(pred_list) > lookback:
