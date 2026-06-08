@@ -3,10 +3,10 @@ import random
 import shutil
 
 # Set your paths here
-base_dir = "/Users/jakehopkins/Downloads/clean_4-19"
-train_dir = "/Users/jakehopkins/Downloads/if_water/poop/train/clean"
-val_dir   = "/Users/jakehopkins/Downloads/if_water/poop/val/clean"
-test_dir = "/Users/jakehopkins/Downloads/if_water/poop/test/clean"
+base_dir = '/Users/jakehopkins/Downloads/water test'  # Directory containing all images to split
+train_dir = "/Users/jakehopkins/Downloads/if_water/if_water_data/train/water"
+val_dir   = "/Users/jakehopkins/Downloads/if_water/if_water_data/val/water"
+test_dir = "/Users/jakehopkins/Downloads/if_water/if_water_data/test/water"
 val_ratio = 0.15
 test_ratio = 0.25
 train_ratio = 0.6
