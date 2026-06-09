@@ -69,13 +69,13 @@ total_seconds = 0
 while True:
     img = take_pic()
     water_prediction = run_model(img)
-    cv2.imwrite(f"{dir}/img_{total_seconds}.jpg", img)
+    
     pred_list.append(water_prediction)
 
     if len(pred_list) > lookback:
         pred_list = pred_list[1:]
     water_prediction = np.average(pred_list)
-
+    cv2.imwrite(f"{dir}/{water_prediction}.jpg", img)
     if water_prediction > 0.6:
         print(f"water detected: {str(water_prediction)}")
         seconds_on += 1
