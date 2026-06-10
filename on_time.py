@@ -1,6 +1,7 @@
 #RunAWaterModelConstantly
 #logs every second there's water
 #
+from calendar import c
 import os
 
 import tflite_runtime.interpreter as tflite # type: ignore
@@ -75,7 +76,7 @@ while True:
     if len(pred_list) > lookback:
         pred_list = pred_list[1:]
     water_prediction = np.average(pred_list)
-    cv2.imwrite(f"{dir}/{water_prediction}.jpg", img)
+    
     if water_prediction > 0.6:
         print(f"water detected: {str(water_prediction)}")
         seconds_on += 1
@@ -85,7 +86,7 @@ while True:
     if seconds_on % 50 == 0:
         with open("log.txt", "w") as f:
             f.write(f"Seconds on: {str(seconds_on)} out of {str(total_seconds)} seconds\n")
-    
+        cv2.imwrite(f"{dir}/{water_prediction}.jpg", img)
     if total_seconds % 10 == 0:
         hardware_data()
         print(f"time is {datetime.datetime.now()}")
