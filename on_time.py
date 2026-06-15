@@ -66,8 +66,8 @@ def hardware_data(): # will only run on pi, due to how systems pull the data
 pred_list = []
 seconds_on = 0
 total_seconds = 0
-
-while True:
+with open("log.txt", "w") as f:
+    f.write("First log on run")
     img = take_pic()
     water_prediction = run_model(img)
     
