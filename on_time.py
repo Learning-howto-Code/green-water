@@ -68,6 +68,7 @@ seconds_on = 0
 total_seconds = 0
 with open("log.txt", "w") as f:
     f.write("First log on run")
+while True:
     img = take_pic()
     water_prediction = run_model(img)
     
