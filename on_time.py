@@ -68,6 +68,9 @@ seconds_on = 0
 total_seconds = 0
 with open("seconds_on.txt", "w") as f:
     f.write("First log on run")
+    
+cv2.imwrite(f"{dir}/first_run.jpg", img=take_pic())
+print(f"Saved image to {dir}")
 while True:
     img = take_pic()
     water_prediction = run_model(img)
