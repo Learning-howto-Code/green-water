@@ -80,6 +80,7 @@ while True:
     
     if water_prediction > 0.6:
         print(f"water detected: {str(water_prediction)}")
+        print(f"time on is {str(seconds_on)} + 1 seconds")
         seconds_on += 1
     else:
         print(f"no water detected: {str(water_prediction)}")
@@ -87,7 +88,9 @@ while True:
     if seconds_on % 50 == 0:
         with open("seconds_on.txt", "w") as f:
             f.write(f"Seconds on: {str(seconds_on)} out of {str(total_seconds)} seconds\n")
+            print("logging seconds on to file")
         cv2.imwrite(f"{dir}/{water_prediction}.jpg", img)
+        print(f"Saved image to {dir}")
     if total_seconds % 10 == 0:
         hardware_data()
         print(f"time is {datetime.datetime.now()}")
