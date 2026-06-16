@@ -36,11 +36,12 @@ def take_pic():
     global img
     frame = picam2.capture_array()
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #the pi cam takes in BGR
+    raw = img.copy()
     img = cv2.resize(img, (224, 224))
     img = img.astype("float32") / 255.0
     # Add batch dimension → (1, 224, 224, 3)
     img = np.expand_dims(img, axis=0)
-    return img
+    return img, raw
 
 interpreter = tflite.Interpreter(model_path=model)
 interpreter.allocate_tensors()        
@@ -69,10 +70,11 @@ total_seconds = 0
 with open("seconds_on.txt", "w") as f:
     f.write("First log on run")
     
-cv2.imwrite(f"{dir}/first_run.jpg", img=take_pic())
+raw = take_pic()
+cv2.imwrite(f"{dir}/first_run.jpg", raw)
 print(f"Saved image to {dir}")
 while True:
-    img = take_pic()
+    img, raw = take_pic()
     water_prediction = run_model(img)
     
     pred_list.append(water_prediction)
@@ -92,7 +94,7 @@ while True:
         with open("seconds_on.txt", "w") as f:
             f.write(f"Seconds on: {str(seconds_on)} out of {str(total_seconds)} seconds\n")
             print("logging seconds on to file")
-        cv2.imwrite(f"{dir}/{water_prediction}.jpg", img)
+        cv2.imwrite(f"{dir}/{water_prediction}.jpg", raw)
         print(f"Saved image to {dir}")
     if total_seconds % 10 == 0:
         hardware_data()
