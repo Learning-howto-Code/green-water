@@ -70,7 +70,7 @@ total_seconds = 0
 with open("seconds_on.txt", "w") as f:
     f.write("First log on run")
     
-raw = take_pic()
+img, raw = take_pic()
 cv2.imwrite(f"{dir}/first_run.jpg", raw)
 print(f"Saved image to {dir}")
 while True:
