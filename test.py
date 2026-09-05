@@ -1,0 +1,60 @@
+from picamera2 import Picamera2 # type: ignore
+from time import sleep
+import time
+from datetime import date
+import numpy as np
+import cv2 as cv
+import tflite_runtime.interpreter as tflite # type: ignore
+import sys
+import os
+import pi5neo as Pi5Neo # type: ignore
+import json
+import subprocess
+import psutil
+#vars
+dir = f"data/{date.today}"
+model = "models/if_water.tflite"
+
+#turns on light
+SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
+SPI_SPEED_KHZ = 800 #speed of SPI protocol
+
+neo = Pi5Neo(SPI_DEVICE, 24, SPI_SPEED_KHZ) #Pins 5v=2, GND=6, DIN=19
+
+neo.fill_strip(255, 255, 255)
+neo.update_strip()  # commit/send to LEDs
+
+#instantiates camera
+picam2 = Picamera2()
+config = picam2.create_video_configuration(
+    inference={"size": (224, 224)}, buffer_count=4,
+    full=["size", (640, 480)])
+picam2.configure(config)
+picam2.start()
+
+#load model
+interpreter = tflite.Interpreter(model)
+interpreter.allocate_tensors()
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+
+def take_pic():
+    frame = picam2.capture_array()
+    img = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
+    img = cv.resize(img, (224, 224))
+    img = img.astype("float32") / 255.0
+    img = np.expand_dims(img, axis=0)
+    return img
+def water_inference(img):
+    interpreter.set_tensor(input_details[0]["index"], img)
+    interpreter.invoke()
+    prediction = interpreter.get_tensor(output_details[0]["index"])
+    return prediction
+
+try:
+    while True:
+        print(water_inference())
+finally:
+    neo.clear_strip()
+    neo.close()
+    picam2.close()
