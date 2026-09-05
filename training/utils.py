@@ -14,6 +14,8 @@ import os
 import cv2 as cv
 import numpy as np
 
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root
+
 def plot(history, timestamp):
     acc = history.history.get('accuracy', [])
     val_acc = history.history.get('val_accuracy', [])
@@ -105,18 +107,19 @@ def diffs():
 
     global new_filepath, diff
     old_data = []
-    if os.path.exists("delta.json"):
-        with open("delta.json", "r") as f:
+    delta_path = os.path.join(ROOT, "delta.json")
+    if os.path.exists(delta_path):
+        with open(delta_path, "r") as f:
             try:
                 loaded = json.load(f)
                 old_data = loaded if isinstance(loaded, list) else [] # test case for empty file
             except json.JSONDecodeError:
                 old_data = []
-    for dirpath in os.walk("/Users/jakehopkins/Downloads/if_water/food_clean"):
+    for dirpath in os.walk("/Users/jakehopkins/Downloads/if_water/data/food_clean"):
         dir = dirpath[0]
         print(dir)
         files = [f for f in os.listdir(dir) if f.endswith('.jpg')]
-        old_filepath = "/Users/jakehopkins/Downloads/if_water/food_clean/test/clean/img_20260125_113927_2.jpg"
+        old_filepath = "/Users/jakehopkins/Downloads/if_water/data/food_clean/test/clean/img_20260125_113927_2.jpg"
         for i in range(len(files)):
             files = [f for f in os.listdir(dir) if f.endswith('.jpg')]
             files = sorted(files)  # sorts the files by timetamp TIMESTAMPS SKIP A FEW NUMBERS
@@ -139,11 +142,11 @@ def diffs():
                 "filepath": new_filepath,
                 "diff": float(diff)
             })
-    with open("delta.json", "w") as f:
-        json.dump(old_data, f, indent=2)   
+    with open(os.path.join(ROOT, "delta.json"), "w") as f:
+        json.dump(old_data, f, indent=2)
 
 def prod_plot():
-    with open("logs.json") as f:
+    with open(os.path.join(ROOT, "logs.json")) as f:
         data = json.load(f)
     
     timestamps = []

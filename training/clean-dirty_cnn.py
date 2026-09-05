@@ -14,9 +14,9 @@ from sklearn.metrics import confusion_matrix, classification_report
 
 
 # Filepaths
-train_paths="/Users/jakehopkins/Downloads/if_water/Clean_Dirty/train"
-val_path= "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/val"
-test_path="/Users/jakehopkins/Downloads/if_water/Clean_Dirty/test"
+train_paths="/Users/jakehopkins/Downloads/if_water/data/Clean_Dirty/train"
+val_path= "/Users/jakehopkins/Downloads/if_water/data/Clean_Dirty/val"
+test_path="/Users/jakehopkins/Downloads/if_water/data/Clean_Dirty/test"
 
 
 img_size = (224, 224)

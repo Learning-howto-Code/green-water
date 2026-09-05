@@ -1,5 +1,5 @@
 input_path = "/Users/jakehopkins/Downloads/production_water.MOV"
-output_dir = "/Users/jakehopkins/Downloads/if_water/production/water"
+output_dir = "/Users/jakehopkins/Downloads/if_water/data/production/water"
 
 import cv2
 import os

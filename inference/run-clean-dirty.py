@@ -22,9 +22,10 @@ print("img server running until script is terminated")
 
 seconds = int(200) #how long to run the script for.
 
-if_water_model = "if_water.tflite"
-food_clean_model = "food_clean.tflite"
-file = "logs.json"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root
+if_water_model = os.path.join(ROOT, "if_water.tflite")
+food_clean_model = os.path.join(ROOT, "food_clean.tflite")
+file = os.path.join(ROOT, "logs.json")
 
 #hardware setup
 picam2 = Picamera2()
@@ -58,7 +59,7 @@ def if_water():
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB) #the pi cam takes in BGR
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + f"-{datetime.datetime.now().microsecond // 1000:03d}"
-    dir = "data/food_4-18"
+    dir = os.path.join(ROOT, "data/food_4-18")
     if os.path.exists(dir) == False:
         os.makedirs(dir)
     img_name = f"{dir}/ID#{ID}, {timestamp}.jpg"

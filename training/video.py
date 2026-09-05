@@ -19,8 +19,8 @@ MOVIE_DIR = os.path.join(INPUT_DIR, "movie")
 diff_on = False
 # Order goes no_water, water
 DATASET_FOLDERS = {
-     #"#train":  "/Users/jakehopkins/Downloads/if_water/food_clean/train",
-    # "val": "/Users/jakehopkins/Downloads/if_water/food_clean/val",
+     #"#train":  "/Users/jakehopkins/Downloads/if_water/data/food_clean/train",
+    # "val": "/Users/jakehopkins/Downloads/if_water/data/food_clean/val",
     "test": INPUT_DIR
 }
 

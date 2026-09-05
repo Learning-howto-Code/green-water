@@ -14,8 +14,9 @@ import numpy as np
 import psutil
 import subprocess
 
-model = "models/if_water.tflite"
-dir = "data/6-15"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root
+model = os.path.join(ROOT, "models/if_water.tflite")
+dir = os.path.join(ROOT, "data/6-15")
 os.makedirs(dir, exist_ok=True)
 lookback = 5
 picam2 = Picamera2()
@@ -67,7 +68,7 @@ def hardware_data(): # will only run on pi, due to how systems pull the data
 pred_list = []
 seconds_on = 0
 total_seconds = 0
-with open("seconds_on.txt", "w") as f:
+with open(os.path.join(ROOT, "seconds_on.txt"), "w") as f:
     f.write("First log on run")
     
 img, raw = take_pic()
@@ -91,7 +92,7 @@ while True:
         print(f"no water detected: {str(water_prediction)}")
 
     if seconds_on % 50 == 0:
-        with open("seconds_on.txt", "w") as f:
+        with open(os.path.join(ROOT, "seconds_on.txt"), "w") as f:
             f.write(f"Seconds on: {str(seconds_on)} out of {str(total_seconds)} seconds\n")
             print("logging seconds on to file")
         cv2.imwrite(f"{dir}/{water_prediction}.jpg", raw)

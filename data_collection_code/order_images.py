@@ -2,8 +2,8 @@ import os
 import shutil
 from datetime import datetime
 
-SOURCE_DIR = "/Users/jakehopkins/Downloads/if_water/Clean_Dirty/train/food"
-DEST_DIR = '/Users/jakehopkins/Downloads/if_water/Clean_Dirty/train/food ordered'
+SOURCE_DIR = "/Users/jakehopkins/Downloads/if_water/data/Clean_Dirty/train/food"
+DEST_DIR = '/Users/jakehopkins/Downloads/if_water/data/Clean_Dirty/train/food ordered'
 
 os.makedirs(DEST_DIR, exist_ok=True)
 
