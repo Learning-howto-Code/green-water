@@ -53,20 +53,20 @@ def water_inference(img):
 def save_img(img, prediction):
     os.makedirs(dir, exist_ok=True)
     time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")[:-3]   # ms
-    filename = f"{dir}/{time}_pred_{prediction[0][0]:.4f}.jpg"
+    filename = f"{dir}/{time} | {prediction}.jpg"
     cv.imwrite(filename, img)
 
 try:
     while True:
         img = take_pic()
         prediction = water_inference(img)
-        if prediction > 0.5: # means guesses water
+        if prediction < 0.5: # means guesses water
             color= (0, 255, 0) # green
         else:
             color = (0, 0, 255) # red
         pre = cv.cvtColor(pre, cv.COLOR_BGR2RGB)
         h = pre.shape[0]
-        cv.rectangle(pre, (0, 0), (h, h), color, 2)
+        cv.rectangle(pre, (0, 0), (100, 100), color, -1)
         save_img(pre, prediction)
         print("taking pic")
         time.sleep(1)
