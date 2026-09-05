@@ -37,8 +37,10 @@ input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
 def take_pic():
+    global pre
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
+    pre = img
     img = cv.resize(img, (224, 224))
     img = img.astype("float32") / 255.0
     img = np.expand_dims(img, axis=0)
@@ -58,11 +60,17 @@ try:
     while True:
         img = take_pic()
         prediction = water_inference(img)
-        save_img(img, prediction)
+        if prediction > 0.5: # means guesses water
+            color= (0, 255, 0) # green
+        else:
+            color = (0, 0, 255) # red
+        h = img.shape[0]
+        cv.rectangle(pre, (0, 0), (h, h), color, 2)
+        save_img(pre, prediction)
         print("taking pic")
         time.sleep(1)
 finally:
     picam2.close()
     neo.clear_strip()
     neo.update_strip()
-    print("cleanly shut down")
+    print("\n cleanly shut down")
