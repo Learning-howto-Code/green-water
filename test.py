@@ -64,9 +64,8 @@ try:
             color= (0, 255, 0) # green
         else:
             color = (0, 0, 255) # red
-        pre = cv.cvtColor(pre, cv.COLOR_BGR2RGB)
         h = pre.shape[0]
-        cv.rectangle(pre, (0, 0), (100, 100), color, -1)
+        cv.rectangle(pre, (0, 0), (50, 50), color, -1)
         save_img(pre, prediction)
         print("taking pic")
         time.sleep(1)
