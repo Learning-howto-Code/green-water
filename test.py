@@ -48,15 +48,21 @@ def water_inference(img):
     interpreter.invoke()
     prediction = interpreter.get_tensor(output_details[0]["index"])
     return prediction
+def save_img(img, prediction):
+    os.makedirs(dir, exist_ok=True)
+    time = date.today().strftime("%Y-%m-%d")
+    filename = f"{dir}/{time}_pred_{prediction[0][0]:.2f}.jpg"
+    cv.imwrite(filename, img)
 
 try:
     while True:
-        print(water_inference(take_pic()))
+        img = take_pic()
+        prediction = water_inference(img)
+        save_img(img, prediction)
         print("taking pic")
         time.sleep(1)
 finally:
     picam2.close()
     neo.clear_strip()
     neo.update_strip()
-    neo.close()
     print("cleanly shut down")
