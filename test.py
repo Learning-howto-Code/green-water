@@ -1,7 +1,7 @@
 from picamera2 import Picamera2 # type: ignore
 from time import sleep
 import time
-from datetime import date
+from datetime import date, datetime
 import numpy as np
 import cv2 as cv
 import tflite_runtime.interpreter as tflite # type: ignore
@@ -52,8 +52,8 @@ def water_inference(img):
     return prediction
 def save_img(img, prediction):
     os.makedirs(dir, exist_ok=True)
-    time = date.today().strftime("%Y-%m-%d")
-    filename = f"{dir}/{time}_pred_{prediction[0][0]:.2f}.jpg"
+    time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")[:-3]   # ms
+    filename = f"{dir}/{time}_pred_{prediction[0][0]:.4f}.jpg"
     cv.imwrite(filename, img)
 
 try:
@@ -64,7 +64,8 @@ try:
             color= (0, 255, 0) # green
         else:
             color = (0, 0, 255) # red
-        h = img.shape[0]
+        pre = cv.cvtColor(pre, cv.COLOR_BGR2RGB)
+        h = pre.shape[0]
         cv.rectangle(pre, (0, 0), (h, h), color, 2)
         save_img(pre, prediction)
         print("taking pic")
