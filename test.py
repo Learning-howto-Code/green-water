@@ -1,130 +1,68 @@
-# ignore errors in the imports
-#SSH at (venv) Abrahams-MacBook-Pro:if_water abrahamhopkins$ 
+from picamera2 import Picamera2 # type: ignore
+from time import sleep
+import time
+from datetime import date
 import numpy as np
-import matplotlib.pyplot as plt
-import keras
-from keras.layers import *
-from keras.models import *
-from datetime import datetime
-from keras.preprocessing import image
-import tensorflow as tf
-from tensorflow.keras import layers
-from tensorflow.keras.preprocessing.image import ImageDataGenerator # type: ignore
+import cv2 as cv
+import tflite_runtime.interpreter as tflite # type: ignore
+import sys
+import os
+import pi5neo  # type: ignore
+import json
+import subprocess
+import psutil
+#vars
+dir = f"data/{date.today()}"
+model = "models/if_water.tflite"
 
+#turns on light
+SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
+SPI_SPEED_KHZ = 800 #speed of SPI protocol
 
-# Filepaths
-train_paths="/Users/jakehopkins/Downloads/if_water/if_water_data/train"
-val_path= "/Users/jakehopkins/Downloads/if_water/if_water_data/val"
-test_path="/Users/jakehopkins/Downloads/if_water/if_water_data/test"
-# Order goes no_water, water
+neo = pi5neo.Pi5Neo(SPI_DEVICE, 24, SPI_SPEED_KHZ) #Pins 5v=2, GND=6, DIN=19
 
-datagen= ImageDataGenerator(rescale=1./255)
-batch_size = 32
-image_size = (224, 224)
-class_mode = 'binary'
+neo.fill_strip(255, 255, 255)
+neo.update_strip()  # commit/send to LEDs
+print("light on")
+#instantiates camera
+picam2 = Picamera2()
+config = picam2.create_video_configuration(main={"size": (224, 224)}, buffer_count=4)
+picam2.configure(config)
+picam2.start()
 
-# Data Generators
-train_data = datagen.flow_from_directory(
-    train_paths,
-    batch_size=batch_size,
-    target_size=image_size,
-    class_mode=class_mode,
-    color_mode='rgb',
-    seed=42,
-    shuffle=True
-)
-val_data = datagen.flow_from_directory(
-    val_path,
-    batch_size=batch_size,
-    target_size=image_size,
-    class_mode=class_mode,
-    color_mode='rgb',
-    seed=42,
-    shuffle=False
-)
-test_data = datagen.flow_from_directory(
-    test_path,
-    batch_size=batch_size,
-    target_size=image_size,
-    class_mode=class_mode,
-    color_mode='rgb',
-    seed=42,
-    shuffle=False,
-)
-import numpy as np
-print("Train class distribution:", dict(zip(*np.unique(train_data.classes, return_counts=True))))
-print("Class indices:", train_data.class_indices)
+#load model
+interpreter = tflite.Interpreter(model)
+interpreter.allocate_tensors()
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
 
-data_augmentation = tf.keras.Sequential([
-layers.RandomZoom(0.1),
-layers.RandomTranslation(0.1, 0.1),
-layers.RandomFlip("horizontal"),
-], name="data_augmentation")
+def take_pic():
+    frame = picam2.capture_array()
+    img = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
+    img = cv.resize(img, (224, 224))
+    img = img.astype("float32") / 255.0
+    img = np.expand_dims(img, axis=0)
+    return img
+def water_inference(img):
+    interpreter.set_tensor(input_details[0]["index"], img)
+    interpreter.invoke()
+    prediction = interpreter.get_tensor(output_details[0]["index"])
+    return prediction
+def save_img(img, prediction):
+    os.makedirs(dir, exist_ok=True)
+    time = date.today().strftime("%Y-%m-%d")
+    filename = f"{dir}/{time}_pred_{prediction[0][0]:.2f}.jpg"
+    cv.imwrite(filename, img)
 
-model = Sequential([
-layers.Input(shape=(224, 224, 3)),
-data_augmentation,
-layers.Conv2D(32, (3,3), activation='relu'),
-layers.BatchNormalization(),
-layers.MaxPooling2D(),
-layers.Conv2D(64, (3,3), activation='relu'),
-layers.BatchNormalization(),
-layers.MaxPooling2D(),
-layers.Conv2D(128, (3,3), activation='relu'),
-layers.BatchNormalization(),
-layers.MaxPooling2D(),
-layers.GlobalAveragePooling2D(),  # replaces Flatten — kills the 100k param explosion
-layers.Dense(128, activation='relu'),
-layers.Dropout(0.4),
-layers.Dense(1, activation='sigmoid')
-])
-
-model.compile(
-optimizer='adam',
-loss='binary_crossentropy',
-metrics=['accuracy']
-)
-early_stop = tf.keras.callbacks.EarlyStopping(
-    monitor='val_loss',
-    patience=3,
-    start_from_epoch=3,
-    min_delta=0.01,
-)
-history = model.fit(
-    train_data,
-    verbose=1,
-    validation_data=val_data,
-    epochs=15,
-    callbacks=[early_stop],
-)
-
-plt.figure(figsize=(10, 4))
-plt.subplot(1, 2, 1)
-plt.plot(history.history['accuracy'], label='train')
-plt.plot(history.history['val_accuracy'], label='val')
-plt.title('Accuracy')
-plt.legend()
-plt.subplot(1, 2, 2)
-plt.plot(history.history['loss'], label='train')
-plt.plot(history.history['val_loss'], label='val')
-plt.title('Loss')
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-model.save(f"new_aug_if_water{timestamp}.keras")
-test_loss, test_acc = model.evaluate(test_data)
-print("Test accuracy:", test_acc)
-
-y_pred = (model.predict(test_data) > 0.5).astype(int).flatten()
-y_true = test_data.classes
-class_names = list(test_data.class_indices.keys())  # ['no_water', 'water']
-
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-cm = confusion_matrix(y_true, y_pred)
-disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=class_names)
-disp.plot(cmap="Blues")
-plt.title("if_water Confusion Matrix")
-plt.tight_layout()
-plt.show()
+try:
+    while True:
+        img = take_pic()
+        prediction = water_inference(img)
+        save_img(img, prediction)
+        print("taking pic")
+        time.sleep(1)
+finally:
+    picam2.close()
+    neo.clear_strip()
+    neo.update_strip()
+    print("cleanly shut down")

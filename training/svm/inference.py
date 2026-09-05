@@ -6,7 +6,7 @@ from PIL import Image
 import tensorflow as tf
 
 MODEL_PATH = "/Users/jakehopkins/Downloads/if_water/food_full_diff20260425_162603.keras"
-IMAGE_FOLDER = "/Users/jakehopkins/Downloads/if_water/food_clean/train/clean"
+IMAGE_FOLDER = "/Users/jakehopkins/Downloads/if_water/data/food_clean/train/clean"
 IMG_SIZE = (224, 224)
 diff_on = True
 

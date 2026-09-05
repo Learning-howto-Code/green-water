@@ -4,12 +4,10 @@ import sys
 
 #Pins 5v=2, GND=6, DIN=19
 
-SPI_DEVICE = '/dev/spidev0.01' # Rpi protocol to get the timing right for the GPIOs
+SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
 SPI_SPEED_KHZ = 800 #speed of SPI protocol
 
 neo = Pi5Neo(SPI_DEVICE, 24, SPI_SPEED_KHZ)
-
-neo.set_brightness(50) #~20% brightness
 
 neo.fill_strip(255, 255, 255)
 neo.update_strip()  # commit/send to LEDs

@@ -1,5 +1,6 @@
 # ignore errors in the imports
 #SSH at (venv) Abrahams-MacBook-Pro:if_water abrahamhopkins$ 
+import os
 import random
 import cv2 as cv
 import numpy as np
@@ -17,11 +18,12 @@ from PIL import UnidentifiedImageError
 np.random.seed(42)
 tf.random.set_seed(42)
 random.seed(42)
-diff_on = True # when off at epoch 20 = 80% accuracy
+diff_on = False # when off at epoch 20 = 80% accuracy
 
 #gets predefied diffs
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root
 if diff_on == True:
-    with open("food_full_delta.json") as f:
+    with open(os.path.join(ROOT, "poop_delta.json")) as f:
         diff_map = json.load(f)
         diff_map = {item["filepath"]: item["diff_path"] for item in diff_map}
 
@@ -29,7 +31,7 @@ if diff_on == True:
 epochs = 50
 
 # data path
-paths="/Users/jakehopkins/Downloads/if_water/food_clean/"
+paths="/Users/jakehopkins/Downloads/if_water/data/poop/"
 #data aug
 train_datagen = ImageDataGenerator(
     rescale=1./255,
@@ -128,7 +130,7 @@ test_base = eval_datagen.flow_from_directory(
     target_size=image_size,
     class_mode=class_mode,
     color_mode='rgb',
-    shuffle=False,
+    shuffle=True,
     seed=42
 )
 if diff_on == True:
@@ -142,6 +144,12 @@ else:
 
 dims = 6 if diff_on else 3
 
+print("class_indices:", train_base.class_indices)
+print("class_counts:", np.bincount(train_base.classes))
+x, y = next(train_base)
+print("batch shape:", x.shape, "x min/max:", x.min(), x.max(), "y[:10]:", y[:10])
+print("filenames[:5]:", train_base.filenames[:5])
+print("classes[:5]:", train_base.classes[:5])
 
 model = Sequential([
 layers.Input(shape=(224, 224, dims)),   # define input once
@@ -178,15 +186,15 @@ history = model.fit(
 )
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-name = f"food_full_diff{timestamp}"
+name = f"poop_no_diff{timestamp}"
 model.save(f"{name}.keras")
 
-test_loss, test_acc = model.evaluate(test_data, steps=len(test_data), verbose=1)
+test_loss, test_acc = model.evaluate(test_data)
 print("Test accuracy:", test_acc)
 
-#runs eval from other file to keep training script clecan
+#runs eval from other file to keep training script clean
 
 from utils import plot, matrix, precision_recall
-matrix(model, test_data)
 plot(history, timestamp)
-precision_recall(model, test_data)
+matrix(model, test_data)
+# precision_recall(model, test_data)

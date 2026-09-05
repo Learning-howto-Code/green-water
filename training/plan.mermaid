@@ -1,0 +1,10 @@
+flowchart TD
+    A1["Run models for 24 hours"]
+    B1["Record every frame where water was detected,plus 5s buffer before and after"]
+    C1["Add red/green circles to show model preds"]
+    C1.1["Show valve actuation state"]
+    D1["Stitch with ffmpeg"]
+    A1-->B1
+    B1-->C1
+    C1-->C1.1
+    C1.1-->D1

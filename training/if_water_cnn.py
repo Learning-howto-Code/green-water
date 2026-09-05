@@ -13,9 +13,9 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator # type: igno
 
 
 # Filepaths
-train_paths="/Users/jakehopkins/Downloads/if_water/if_water_data/train"
-val_path= "/Users/jakehopkins/Downloads/if_water/if_water_data/val"
-test_path="/Users/jakehopkins/Downloads/if_water/if_water_data/test"
+train_paths="/Users/jakehopkins/Downloads/if_water/data/if_water_data/train"
+val_path= "/Users/jakehopkins/Downloads/if_water/data/if_water_data/val"
+test_path="/Users/jakehopkins/Downloads/if_water/data/if_water_data/test"
 # Order goes no_water, water
 
 train_datagen= ImageDataGenerator(

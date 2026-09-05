@@ -1,10 +1,12 @@
+import os
 import pi5neo
 from picamera2 import Picamera2
 from time import sleep
-import cv2 
+import cv2
 import datetime as datetime
 
-dir = "data/4-27"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root
+dir = os.path.join(ROOT, "data/4-27")
 picam2 = Picamera2()
 config = picam2.create_video_configuration(main={"size": (640, 360)}, buffer_count=4)
 picam2.configure(config)

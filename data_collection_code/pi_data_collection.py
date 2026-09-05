@@ -5,7 +5,7 @@ import os
 import cv2
 from tqdm import tqdm
 # Image folder
-img_folder = "/home/jake/Downloads/if_water/Clean_Dirty/no_water"
+img_folder = "/home/jake/Downloads/if_water/data/Clean_Dirty/no_water"
 
 Frames=3500
 brightness=1

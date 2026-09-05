@@ -5,12 +5,12 @@ README_move_fraction.md
 /train/*
 /test/*
 venv/*
-/Clean_Dirty/*
+/data/Clean_Dirty/*
 pi_data/
-phone_data/*
-food_clean/*
+/data/phone_data/*
+/data/food_clean/*
 delta.json
-food_clean_extra_clean/*
+/data/food_clean_extra_clean/*
 *.jpg
 *.mp4
 video.mp4
