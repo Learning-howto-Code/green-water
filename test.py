@@ -103,6 +103,7 @@ try:
             change = False
         old = state
         lookback(prediction, change)
+        save_img(img, prediction)
         time.sleep(5)
 finally:
     writeq.put(None)   # tell writer to finish
