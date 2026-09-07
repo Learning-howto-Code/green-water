@@ -1,7 +1,7 @@
 from picamera2 import Picamera2 # type: ignore
 from time import sleep
 import time
-from datetime import date
+from datetime import date, datetime
 import numpy as np
 import cv2 as cv
 import tflite_runtime.interpreter as tflite # type: ignore
@@ -37,26 +37,31 @@ input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
 def take_pic():
+    global pre
     frame = picam2.capture_array()
     img = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
+    pre = img.copy()
     img = cv.resize(img, (224, 224))
     img = img.astype("float32") / 255.0
     img = np.expand_dims(img, axis=0)
-    return img
+    return img, pre
 def water_inference(img):
     interpreter.set_tensor(input_details[0]["index"], img)
     interpreter.invoke()
-    prediction = interpreter.get_tensor(output_details[0]["index"])
+    prediction = float(interpreter.get_tensor(output_details[0]["index"]).flat[0])
+
     return prediction
-def save_img(img, prediction):
+def save_img(pre, prediction):
     os.makedirs(dir, exist_ok=True)
-    time = date.today().strftime("%Y-%m-%d")
-    filename = f"{dir}/{time}_pred_{prediction[0][0]:.2f}.jpg"
-    cv.imwrite(filename, img)
+    pre = cv.cvtColor(pre, cv.COLOR_RGB2BGR)
+    stamp = datetime.now().strftime("%H-%M-%S-%f")[:-3]
+    filename = f"{dir}/{stamp}_pred_{float(prediction[0]):.4f}.jpg"
+    print(f"'Saving image' {filename}")
+    cv.imwrite(filename, pre)
 
 try:
     while True:
-        img = take_pic()
+        img, pre = take_pic()
         prediction = water_inference(img)
         save_img(img, prediction)
         print("taking pic")
