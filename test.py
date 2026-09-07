@@ -23,6 +23,7 @@ neo = pi5neo.Pi5Neo(SPI_DEVICE, 24, SPI_SPEED_KHZ) #Pins 5v=2, GND=6, DIN=19
 
 neo.fill_strip(255, 255, 255)
 neo.update_strip()  # commit/send to LEDs
+time.sleep(1)
 print("light on")
 #instantiates camera
 picam2 = Picamera2()
@@ -30,6 +31,7 @@ config = picam2.create_video_configuration(main={"size": (224, 224)}, buffer_cou
 picam2.configure(config)
 picam2.start()
 
+time.sleep(1)
 #load model
 interpreter = tflite.Interpreter(model)
 interpreter.allocate_tensors()
@@ -53,9 +55,8 @@ def water_inference(img):
     return prediction
 def save_img(pre, prediction):
     os.makedirs(dir, exist_ok=True)
-    pre = cv.cvtColor(pre, cv.COLOR_RGB2BGR)
     stamp = datetime.now().strftime("%H-%M-%S-%f")[:-3]
-    filename = f"{dir}/{stamp}_pred_{float(prediction[0]):.4f}.jpg"
+    filename = f"{dir}/{stamp}_pred_{float(prediction):.4f}.jpg"
     print(f"'Saving image' {filename}")
     cv.imwrite(filename, pre)
 
@@ -63,7 +64,7 @@ try:
     while True:
         img, pre = take_pic()
         prediction = water_inference(img)
-        save_img(img, prediction)
+        save_img(pre, prediction)
         print("taking pic")
         time.sleep(1)
 finally:
