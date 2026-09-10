@@ -13,7 +13,7 @@ import subprocess
 import psutil
 #vars
 dir = f"data/{date.today()}"
-model = "models/if_water.tflite"
+model = 'models/water_testing.tflite'
 
 #turns on light
 SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
@@ -21,13 +21,13 @@ SPI_SPEED_KHZ = 800 #speed of SPI protocol
 
 neo = pi5neo.Pi5Neo(SPI_DEVICE, 24, SPI_SPEED_KHZ) #Pins 5v=2, GND=6, DIN=19
 
-neo.fill_strip(255, 255, 255)
+neo.fill_strip(220, 240, 120)
 neo.update_strip()  # commit/send to LEDs
 time.sleep(1)
 print("light on")
 #instantiates camera
 picam2 = Picamera2()
-config = picam2.create_video_configuration(main={"size": (224, 224), "format":"RGB888"}, buffer_count=4)
+config = picam2.create_video_configuration(main={"size": (1120, 1120), "format":"RGB888"}, buffer_count=4)
 picam2.configure(config)
 picam2.start()
 
@@ -52,12 +52,13 @@ def water_inference(img):
     prediction = float(interpreter.get_tensor(output_details[0]["index"]).flat[0])
 
     return prediction
-def save_img(pre, prediction):
+def save_img(pre, prediction, diff):
     os.makedirs(dir, exist_ok=True)
     stamp = datetime.now().strftime("%H-%M-%S-%f")[:-3]
     filename = f"{dir}/{stamp}_pred_{float(prediction):.4f}.jpg"
     print(f"'Saving image' {filename}")
     cv.imwrite(filename, pre)
+    cv.imwrite(filename, diff)
 old = None
 def find_diff(img):
     global old
@@ -67,7 +68,6 @@ def find_diff(img):
     diff = cv.absdiff(old,new)
     print(f"Diff: {float(np.average(diff)):.6f}", end="\r\n\r\n")
     old = new
-    diff = False
     return diff
 def normalize(img, diff):
      img = img.astype("float32") / 255.0
@@ -82,7 +82,7 @@ try:
         diff = find_diff(img)
         img = normalize(img, diff)
         prediction = water_inference(img)
-        save_img(pre, prediction)
+        save_img(pre, prediction, diff)
         print(f"\n prediction: {prediction}")
         time.sleep(1)
 finally:
