@@ -15,7 +15,7 @@ import psutil
 
 
 
-img_dir = "5-25"
+img_dir = "data/2026-09-10"
 fps=30
 lookback = 5
 

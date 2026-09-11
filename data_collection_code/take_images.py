@@ -6,7 +6,7 @@ import cv2
 import datetime as datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root
-dir = os.path.join(ROOT, "data/4-27")
+dir = os.path.join(ROOT, "data/2026-09-10")
 picam2 = Picamera2()
 config = picam2.create_video_configuration(main={"size": (640, 360)}, buffer_count=4)
 picam2.configure(config)

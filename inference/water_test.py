@@ -56,6 +56,7 @@ def save_img(pre, prediction, diff):
     os.makedirs(dir, exist_ok=True)
     stamp = datetime.now().strftime("%H-%M-%S-%f")[:-3]
     filename = f"{dir}/{stamp}_pred_{float(prediction):.4f}.jpg"
+    diff_name = f"{dir}/{stamp}_diff_{float(np.average(diff)):.6f}.jpg"
     print(f"'Saving image' {filename}")
     cv.imwrite(filename, pre)
     cv.imwrite(filename, diff)
