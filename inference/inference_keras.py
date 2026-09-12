@@ -5,10 +5,10 @@ import os
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
-img_dir = '/Users/jakehopkins/Downloads/if_water/data/if_water_data/test/no_water'
-true_label = "no water"  # set to "water" or "no water"
+img_dir = '/Users/jakehopkins/Downloads/9-12/5'
+true_label = "water"  # set to "water" or "no water"
 
-keras_model_path = '/Users/jakehopkins/Downloads/if_water/food_full_diff20260908_185144.keras'
+keras_model_path = '/Users/jakehopkins/Downloads/if_water/if_water_testing.keras'
 model = tf.keras.models.load_model(keras_model_path, compile=False)
 print("Model loaded:", keras_model_path)
 print("Input shape:", model.input_shape)

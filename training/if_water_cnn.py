@@ -16,12 +16,13 @@ from PIL import UnidentifiedImageError
 np.random.seed(42)
 tf.random.set_seed(42)
 random.seed(42)
-diff_on = True # when off at epoch 20 = 80% accuracy
+diff_on = True
+name = 'water_more_data'
 
 #gets predefined diffs
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root
 if diff_on == True:
-    with open(os.path.join(ROOT, "water_delta.json")) as f:
+    with open(os.path.join(ROOT, "test_delta.json")) as f:
         diff_map = json.load(f)
         diff_map = {item["filepath"]: item["diff_path"] for item in diff_map}
 
@@ -169,24 +170,40 @@ early_stop = tf.keras.callbacks.EarlyStopping(
     restore_best_weights=True
 )
 
-history = model.fit(
-    train_data,
+current_ckpt= tf.keras.callbacks.ModelCheckpoint(
+    filenpath=f'{name}.keras',
+    save_best_only=False,
     verbose=1,
-    validation_data=valid_data,
-    epochs=epochs,
-    callbacks=[early_stop]
+)
+best_ckpt= tf.keras.callbacks.ModelCheckpoint(
+    filepath = f'{name}.keras',
+    monitor='val_loss',
+    save_best_only=True,
+    verbose=1,
 )
 
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-name = f"food_full_diff{timestamp}"
-model.save(f"{name}.keras")
+try:
+    history = model.fit(
+        train_data,
+        verbose=1,
+        validation_data=valid_data,
+        epochs=epochs,
+        callbacks=[early_stop, current_ckpt, best_ckpt]
+    )
+except KeyboardInterrupt:
+    history = model.history
 
-test_loss, test_acc = model.evaluate(test_data, steps=len(test_data), verbose=1)
-print("Test accuracy:", test_acc)
 
-#runs eval from other file to keep training script clecan
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    name = f"{name}{timestamp}"
+    model.save(f"{name}.keras")
 
-from utils import plot, matrix, precision_recall
-matrix(model, test_data)
-plot(history, timestamp)
-precision_recall(model, test_data)
+    test_loss, test_acc = model.evaluate(test_data, steps=len(test_data), verbose=1)
+    print("Test accuracy:", test_acc)
+
+    #runs eval from other file to keep training script clecan
+
+    from utils import plot, matrix, precision_recall
+    matrix(model, test_data)
+    plot(history, timestamp)
+    precision_recall(model, test_data)

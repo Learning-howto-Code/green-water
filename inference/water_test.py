@@ -27,7 +27,7 @@ time.sleep(1)
 print("light on")
 #instantiates camera
 picam2 = Picamera2()
-config = picam2.create_video_configuration(main={"size": (1120, 1120), "format":"RGB888"}, buffer_count=4)
+config = picam2.create_video_configuration(main={"size": (448, 448), "format":"RGB888"}, buffer_count=4)
 picam2.configure(config)
 picam2.start()
 
@@ -59,7 +59,7 @@ def save_img(pre, prediction, diff):
     diff_name = f"{dir}/{stamp}_diff_{float(np.average(diff)):.6f}.jpg"
     print(f"'Saving image' {filename}")
     cv.imwrite(filename, pre)
-    cv.imwrite(filename, diff)
+    cv.imwrite(diff_name, diff)
 old = None
 def find_diff(img):
     global old

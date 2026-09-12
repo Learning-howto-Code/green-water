@@ -6,8 +6,8 @@ import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root
 lookback = 1
-file = os.path.join(ROOT, "water_delta.json")
-out_dir = '/Users/jakehopkins/Downloads/temp'
+file = 'test_delta.json'
+out_dir = '/Users/jakehopkins/Downloads/if_water/data/if_water_diff'
 
 
 def extract_timestamp(filename):
@@ -66,17 +66,8 @@ def diffs():
             out_path = os.path.join(out_dir, f"{base}_diff.jpg")
             cv.imwrite(out_path, diff)
 
-            # cv.imshow("diff", diff)
-            # cv.waitKey(0)
-            # cv.destroyAllWindows()
-
-
             old_filepath = new_filepath
 
-            # print(f"new filepath {new_filepath}")
-            # print(f"old filepath {old_filepath}")
-            # print(f"loop number {i}")
-            # print(f"difference is {diff} out 255") 
 
             old_data.append({
                 "filepath": new_filepath,
