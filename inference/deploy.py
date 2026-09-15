@@ -15,7 +15,7 @@ import psutil
 
 
 
-img_dir = "5-25"
+img_dir = '/Users/jakehopkins/Downloads/9-no-water'
 fps=30
 lookback = 5
 
