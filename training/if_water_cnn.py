@@ -17,7 +17,7 @@ np.random.seed(42)
 tf.random.set_seed(42)
 random.seed(42)
 diff_on = True
-name = 'water_more_data'
+name = 'e_test'
 
 #gets predefined diffs
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root
@@ -50,6 +50,7 @@ class_mode = 'binary'
 
 class DiffSequence(Sequence): # custom data gen
     def __init__(self, filepaths, labels, diff_map, datagen, batch_size, image_size, shuffle=True):
+        super().__init__(workers=8, use_multiprocessing=False, max_queue_size=16) #parrelize prepping next batches
         self.filepaths = np.array(filepaths)
         self.labels = np.array(labels)
         self.diff_map = diff_map
@@ -171,12 +172,12 @@ early_stop = tf.keras.callbacks.EarlyStopping(
 )
 
 current_ckpt= tf.keras.callbacks.ModelCheckpoint(
-    filenpath=f'{name}.keras',
+    filepath=f'{name}.keras',
     save_best_only=False,
     verbose=1,
 )
 best_ckpt= tf.keras.callbacks.ModelCheckpoint(
-    filepath = f'{name}.keras',
+    filepath = f'best_{name}.keras',
     monitor='val_loss',
     save_best_only=True,
     verbose=1,
@@ -192,18 +193,17 @@ try:
     )
 except KeyboardInterrupt:
     history = model.history
-
-
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     name = f"{name}{timestamp}"
     model.save(f"{name}.keras")
 
-    test_loss, test_acc = model.evaluate(test_data, steps=len(test_data), verbose=1)
-    print("Test accuracy:", test_acc)
 
-    #runs eval from other file to keep training script clecan
+test_loss, test_acc = model.evaluate(test_data, steps=len(test_data), verbose=1)
+print("Test accuracy:", test_acc)
 
-    from utils import plot, matrix, precision_recall
-    matrix(model, test_data)
-    plot(history, timestamp)
-    precision_recall(model, test_data)
+#runs eval from other file to keep training script clecan
+
+from utils import plot, matrix, precision_recall
+matrix(model, test_data)
+plot(history, timestamp)
+precision_recall(model, test_data)

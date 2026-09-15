@@ -6,9 +6,8 @@ import re
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
-img_dir ='/Users/jakehopkins/Downloads/9-12/5_no_water'
-true_label = "no water"  # set to "water" or "no water"
-
+img_dir ='/Users/jakehopkins/Downloads/9-water'
+true_label = "water"  # set to "water" or "no water"
 keras_model_path = '/Users/jakehopkins/Downloads/if_water/water_more_data20260912_145101.keras'
 model = tf.keras.models.load_model(keras_model_path, compile=False)
 print("Model loaded:", keras_model_path)
@@ -29,14 +28,6 @@ print("Diff channels:", "on" if diff_on else "off")
 match_jpeg_roundtrip = True
 
 VALID_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
-image_files = [
-    f for f in os.listdir(img_dir)
-    if os.path.splitext(f)[1].lower() in VALID_EXTS
-]
-
-if not image_files:
-    print(f"No images found in {img_dir}")
-    exit(1)
 
 
 def extract_timestamp(filename):
@@ -51,32 +42,54 @@ def extract_timestamp(filename):
     return (0, 0, 0, 0, 0, 0, 0)
 
 
-# same ordering diff.py used to pick frame pairs
-image_files = sorted(image_files, key=extract_timestamp)
+def collect_groups(root):
+    """One sorted file list per directory, so diffs never pair across dirs.
+
+    A flat directory yields a single group; nested ones yield a group per
+    leaf. Mirrors how diff.py walks the tree.
+    """
+    groups = []
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames.sort()  # deterministic descent
+        files = [f for f in filenames
+                 if os.path.splitext(f)[1].lower() in VALID_EXTS]
+        if files:
+            groups.append((dirpath, sorted(files, key=extract_timestamp)))
+    return sorted(groups)
+
+
+groups = collect_groups(img_dir)
+
+if not groups:
+    print(f"No images found in {img_dir}")
+    exit(1)
+
+total = sum(len(f) for _, f in groups)
+print(f"Found {total} images in {len(groups)} director{'y' if len(groups) == 1 else 'ies'}")
 
 _cache = {}
 
 
-def load_resized(fname):
+def load_resized(path):
     """Decoded BGR frame at model resolution, or None if unreadable."""
-    if fname not in _cache:
-        img = cv.imread(os.path.join(img_dir, fname))
-        _cache[fname] = None if img is None else cv.resize(img, image_size)
-    return _cache[fname]
+    if path not in _cache:
+        img = cv.imread(path)
+        _cache[path] = None if img is None else cv.resize(img, image_size)
+    return _cache[path]
 
 
-def make_diff(idx):
-    """absdiff against the frame `lookback` back, mirroring diff.py."""
-    new = load_resized(image_files[idx])
-    old = load_resized(image_files[max(0, idx - lookback)])
+def make_diff(dirpath, files, idx):
+    """absdiff against the frame `lookback` back within this dir, as diff.py does."""
+    new = load_resized(os.path.join(dirpath, files[idx]))
+    old = load_resized(os.path.join(dirpath, files[max(0, idx - lookback)]))
     if new is None or old is None:
-        return None
+        return None, 0.0
     diff = cv.absdiff(old, new)
     if match_jpeg_roundtrip:
         ok, buf = cv.imencode(".jpg", diff)
         if ok:
             diff = cv.imdecode(buf, cv.IMREAD_COLOR)
-    mini_diff = np.average(diff)
+    mini_diff = float(np.average(diff))
     return cv.cvtColor(diff, cv.COLOR_BGR2RGB), mini_diff
 
 
@@ -84,34 +97,43 @@ y_true = []
 y_pred = []
 zero_filled = 0
 
-for i, fname in enumerate(image_files):
-    img = load_resized(fname)
-    if img is None:
-        print(f"Skipping (unreadable): {fname}")
-        continue
+for dirpath, files in groups:
+    if len(groups) > 1:
+        print(f"\n--- {os.path.relpath(dirpath, img_dir)} ({len(files)} images)")
+    # cache only needs the previous frame of the current dir
+    _cache.clear()
 
-    img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-    arr = np.array(img, dtype=np.float32) / 255.0
+    for i, fname in enumerate(files):
+        path = os.path.join(dirpath, fname)
+        img = load_resized(path)
+        if img is None:
+            print(f"Skipping (unreadable): {fname}")
+            continue
 
-    if diff_on:
-        diff, mini_diff = make_diff(i)
-        if diff is None:
-            # training fell back to zeros here too
-            diff_arr = np.zeros((*image_size, 3), dtype=np.float32)
-            zero_filled += 1
+        img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+        arr = np.array(img, dtype=np.float32) / 255.0
+
+        if diff_on:
+            diff, mini_diff = make_diff(dirpath, files, i)
+            if diff is None:
+                # training fell back to zeros here too
+                diff_arr = np.zeros((*image_size, 3), dtype=np.float32)
+                zero_filled += 1
+            else:
+                diff_arr = np.array(diff, dtype=np.float32) / 255.0
+            arr = np.concatenate([arr, diff_arr], axis=-1)
         else:
-            diff_arr = np.array(diff, dtype=np.float32) / 255.0
-        arr = np.concatenate([arr, diff_arr], axis=-1)
+            mini_diff = None
 
-    img_array = np.expand_dims(arr, axis=0)
+        img_array = np.expand_dims(arr, axis=0)
 
-    score = float(model(img_array, training=False)[0][0])
-    pred_label = "water" if score > 0.5 else "no water"
-    print(f"{fname}: {score:.4f} → {pred_label}")
-    print(mini_diff)
+        score = float(model(img_array, training=False)[0][0])
+        pred_label = "water" if score > 0.5 else "no water"
+        suffix = f"  diff={mini_diff:.4f}" if mini_diff is not None else ""
+        print(f"{fname}: {score:.4f} → {pred_label}{suffix}")
 
-    y_true.append(true_label)
-    y_pred.append(pred_label)
+        y_true.append(true_label)
+        y_pred.append(pred_label)
 
 if zero_filled:
     print(f"WARNING: {zero_filled} frames got a zero diff (no usable previous frame)")

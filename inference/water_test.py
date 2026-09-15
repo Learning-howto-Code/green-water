@@ -76,15 +76,21 @@ def normalize(img, diff):
      img = np.concatenate([img, diff], axis=-1)
      img = np.expand_dims(img, axis=0)
      return img
-
+time_on = 0
 try:
     while True:
         img, pre = take_pic()
         diff = find_diff(img)
         img = normalize(img, diff)
         prediction = water_inference(img)
-        save_img(pre, prediction, diff)
         print(f"\n prediction: {prediction}")
+        if prediction > 0.6:
+            # water is predicted as present
+            print(f"water predicted: {prediction}")
+            time_on += 1
+            with open("time.txt", 'w') as f:
+                 f.wrte(str(time_on))
+                 save_img(pre, prediction, diff)
         time.sleep(1)
 finally:
     picam2.close()

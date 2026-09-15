@@ -71,7 +71,7 @@ def diffs():
 
             old_data.append({
                 "filepath": new_filepath,
-                "diff_path": f"{out_dir}{base}_diff.jpg"
+                "diff_path": os.path.join(out_dir, f"{base}_diff.jpg")
                 })
     with open(file, "w") as f:
         json.dump(old_data, f, indent=2)
