@@ -12,8 +12,10 @@ import json
 import subprocess
 import psutil
 #vars
-dir = f"data/{date.today()}"
-model = 'models/water_testing.tflite'
+
+iw_model = 'models/water_testing.tflite'
+f_model = 'models/food_full_diff.tflite'
+p_model='models/poop_model.tflite'
 
 #turns on light
 SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
@@ -32,11 +34,21 @@ picam2.configure(config)
 picam2.start()
 
 time.sleep(1)
-#load model
-interpreter = tflite.Interpreter(model)
-interpreter.allocate_tensors()
-input_details = interpreter.get_input_details()
-output_details = interpreter.get_output_details()
+iw_interpreter = tflite.Interpreter(iw_model)
+iw_interpreter.allocate_tensors()
+iw_input_details = iw_interpreter.get_input_details()
+iw_output_details = iw_interpreter.get_output_details()
+
+f_interpreter = tflite.Interpreter(f_model)
+f_interpreter.allocate_tensors()
+f_input_details = f_interpreter.get_input_details()
+f_output_details = f_interpreter.get_output_details()
+
+p_interpreter = tflite.Interpreter(p_model)
+p_interpreter.allocate_tensors()
+p_input_details = p_interpreter.get_input_details()
+p_output_details = p_interpreter.get_output_details()
+
 
 def take_pic():
     global pre
@@ -47,12 +59,26 @@ def take_pic():
     img = cv.resize(img, (224, 224))
     return img, pre
 def water_inference(img):
-    interpreter.set_tensor(input_details[0]["index"], img)
-    interpreter.invoke()
-    prediction = float(interpreter.get_tensor(output_details[0]["index"]).flat[0])
+    
+    iw_interpreter.set_tensor(iw_input_details[0]["index"], img)
+    iw_interpreter.invoke()
+    iw_prediction = float(iw_interpreter.get_tensor(iw_output_details[0]["index"]).flat[0])
 
-    return prediction
+    return iw_prediction
+def food_inference(img):
+    f_interpreter.set_tensor(f_input_details[0]["index"], img)
+    f_interpreter.invoke()
+    f_prediction = float(f_interpreter.get_tensor(f_output_details[0]["index"]).flat[0])
+
+    return f_prediction
+def poop_inference(img):
+    p_interpreter.set_tensor(p_input_details[0]["index"], img)
+    p_interpreter.invoke()
+    p_prediction = float(p_interpreter.get_tensor(p_output_details[0]["index"]).flat[0])
+
+    return p_prediction
 def save_img(pre, prediction, diff):
+    dir = f"data/{date.today()}"
     os.makedirs(dir, exist_ok=True)
     stamp = datetime.now().strftime("%H-%M-%S-%f")[:-3]
     filename = f"{dir}/{stamp}_pred_{float(prediction):.4f}.jpg"
@@ -85,12 +111,16 @@ try:
         prediction = water_inference(img)
         print(f"\n prediction: {prediction}")
         if prediction > 0.6:
-            # water is predicted as present
-            print(f"water predicted: {prediction}")
-            time_on += 1
-            with open("time.txt", 'w') as f:
-                 f.wrte(str(time_on))
-                 save_img(pre, prediction, diff)
+            f_prediction = food_inference(img)
+            p_prediction = poop_inference(img)
+            if f_prediction >0.7 or p_prediction > 0.7:
+                print("predicted dirty")
+            else:
+                print('water predicted clean')
+                time_on += 1
+                with open("time.txt", 'w') as f:
+                    f.write(str(time_on))
+                    save_img(pre, prediction, diff)
         time.sleep(1)
 finally:
     picam2.close()
