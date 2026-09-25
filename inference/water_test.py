@@ -1,3 +1,5 @@
+from tkinter import W
+
 from picamera2 import Picamera2 # type: ignore
 from time import sleep
 import time
@@ -11,11 +13,13 @@ import pi5neo  # type: ignore
 import json
 import subprocess
 import psutil
+import csv
 #vars
 
 iw_model = 'models/water_testing.tflite'
 f_model = 'models/food_full_diff.tflite'
 p_model='models/poop_model.tflite'
+log = 'log.csv'
 
 #turns on light
 SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
@@ -108,19 +112,25 @@ try:
         img, pre = take_pic()
         diff = find_diff(img)
         img = normalize(img, diff)
-        prediction = water_inference(img)
-        print(f"\n prediction: {prediction}")
-        if prediction > 0.6:
+        w_prediction = water_inference(img)
+        print(f"\n prediction: {w_prediction}")
+
+        if w_prediction > 0.6: #water is present
             f_prediction = food_inference(img)
             p_prediction = poop_inference(img)
-            if f_prediction >0.7 or p_prediction > 0.7:
+
+            with open(log,'a' ) as f:
+                writer = csv.writer(f)
+                writer.writerow([datetime.now().strftime("%H:%M:%S"), w_prediction, f_prediction, p_prediction])
+
+            if f_prediction >0.7 or p_prediction > 0.7: # predicts dirty
                 print("predicted dirty")
             else:
                 print('water predicted clean')
                 time_on += 1
                 with open("time.txt", 'w') as f:
                     f.write(str(time_on))
-                    save_img(pre, prediction, diff)
+                    save_img(pre, w_prediction, diff)
         time.sleep(1)
 finally:
     picam2.close()
