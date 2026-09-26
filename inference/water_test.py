@@ -90,6 +90,7 @@ def save_img(pre, prediction, diff):
     print(f"'Saving image' {filename}")
     cv.imwrite(filename, pre)
     cv.imwrite(diff_name, diff)
+    return filename
 old = None
 def find_diff(img):
     global old
@@ -118,10 +119,10 @@ try:
         if w_prediction > 0.6: #water is present
             f_prediction = food_inference(img)
             p_prediction = poop_inference(img)
-
+            filename=save_img(pre, w_prediction, diff)
             with open(log,'a' ) as f:
                 writer = csv.writer(f)
-                writer.writerow([datetime.now().strftime("%H:%M:%S"), w_prediction, f_prediction, p_prediction])
+                writer.writerow([datetime.now().strftime("%H:%M:%S"), w_prediction, f_prediction, p_prediction, filename])
 
             if f_prediction >0.7 or p_prediction > 0.7: # predicts dirty
                 print("predicted dirty")
@@ -130,7 +131,7 @@ try:
                 time_on += 1
                 with open("time.txt", 'w') as f:
                     f.write(str(time_on))
-                    save_img(pre, w_prediction, diff)
+                    
         time.sleep(1)
 finally:
     picam2.close()
