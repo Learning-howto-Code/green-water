@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "functions": {
+    "api/slice.py": {
+      "maxDuration": 60,
+      "memory": 1024,
+      "excludeFiles": "{node_modules,src,public,dist,.astro,nonplanar_slicer/tests}/**"
+    }
+  }
+}

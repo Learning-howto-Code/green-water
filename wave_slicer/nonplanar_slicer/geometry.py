@@ -225,3 +225,14 @@ def wall_stats(p: WallParams, layers: list[Layer]) -> WallStats:
         xy_waves=total / effective_wavelength(p, p.xy_wavelength),
         ramp_layers=effective_ramp_layers(p),
     )
+
+
+def wall_warnings(p: WallParams, stats: WallStats) -> list[str]:
+    warnings = []
+    if stats.min_thickness < 0.5 * p.layer_height:
+        warnings.append("very thin spots: lower phase shift or amplitude")
+    if stats.max_thickness > 0.8 * p.line_width:
+        warnings.append("thick spots may under-extrude")
+    if stats.max_slope_deg > 30:
+        warnings.append("steep slope: nozzle may hit the wall")
+    return warnings

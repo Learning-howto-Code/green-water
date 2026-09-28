@@ -1,0 +1,307 @@
+---
+import { wallGroups, printerFields } from "../controls";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Non-planar G-code generator for 3D printed walls with wave patterns" />
+    <title>Wave Wall Slicer</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <aside id="panel">
+      <header>
+        <h1>Wave Wall Slicer</h1>
+        <p>Non-planar G-code for walls with wave patterns.</p>
+      </header>
+
+      <fieldset class="choices">
+        <legend>Shape</legend>
+        <div class="seg" data-key="shape">
+          <label><input type="radio" name="shape" value="circle" checked /> Circle</label>
+          <label><input type="radio" name="shape" value="line" /> Line</label>
+        </div>
+      </fieldset>
+
+      {
+        wallGroups.map((group) => (
+          <fieldset>
+            <legend>{group.title}</legend>
+            {group.hint && <p class="hint">{group.hint}</p>}
+            {group.title !== "Size" && (
+              <div class="seg" data-key={group.title === "Z wave" ? "z_waveform" : "xy_waveform"}>
+                <label>
+                  <input type="radio" name={group.title} value="sine" checked /> Sine
+                </label>
+                <label>
+                  <input type="radio" name={group.title} value="triangle" /> Triangle
+                </label>
+              </div>
+            )}
+            {group.sliders.map((s) => (
+              <label class="slider" data-only={s.only}>
+                <span class="name">{s.label}</span>
+                <output>{s.value}</output>
+                <span class="unit">{s.unit}</span>
+                <input type="range" data-group="wall" name={s.key} min={s.min} max={s.max} step={s.step} value={s.value} />
+              </label>
+            ))}
+            {group.title === "Z wave" && (
+              <label class="check">
+                <input type="checkbox" name="flat_top" data-group="wall" checked /> Flat top
+              </label>
+            )}
+          </fieldset>
+        ))
+      }
+
+      <details>
+        <summary>Printer settings</summary>
+        <div class="grid">
+          {
+            printerFields.map((s) => (
+              <label class="num">
+                <span>
+                  {s.label} {s.unit && <small>({s.unit})</small>}
+                </span>
+                <input type="number" data-group="printer" name={s.key} min={s.min} max={s.max} step={s.step} value={s.value} />
+              </label>
+            ))
+          }
+        </div>
+      </details>
+
+      <button id="download" type="button">Download G-code</button>
+      <p id="download-status" role="status"></p>
+    </aside>
+
+    <main>
+      <div id="viewer"></div>
+      <div id="stats" aria-live="polite"></div>
+      <div id="busy" hidden>Slicing…</div>
+      <button id="fit" type="button" title="Reset view">Reset view</button>
+    </main>
+
+    <script>
+      import { Viewer } from "../viewer";
+      import { debounce, escapeHtml } from "../util";
+
+      const viewer = new Viewer(document.getElementById("viewer")!);
+      const statsEl = document.getElementById("stats")!;
+      const busyEl = document.getElementById("busy")!;
+      const statusEl = document.getElementById("download-status")!;
+      const downloadBtn = document.getElementById("download") as HTMLButtonElement;
+
+      function readSettings() {
+        const wall: Record<string, unknown> = {};
+        const printer: Record<string, unknown> = {};
+        document.querySelectorAll<HTMLInputElement>("input[data-group]").forEach((el) => {
+          const target = el.dataset.group === "wall" ? wall : printer;
+          target[el.name] = el.type === "checkbox" ? el.checked : Number(el.value);
+        });
+        document.querySelectorAll<HTMLElement>(".seg").forEach((seg) => {
+          const checked = seg.querySelector<HTMLInputElement>("input:checked");
+          if (checked) wall[seg.dataset.key!] = checked.value;
+        });
+        return { wall, printer };
+      }
+
+      function syncVisibility() {
+        const shape = (document.querySelector("input[name=shape]:checked") as HTMLInputElement).value;
+        document.querySelectorAll<HTMLElement>("[data-only]").forEach((el) => {
+          el.hidden = el.dataset.only !== shape;
+        });
+      }
+
+      function fmt(n: number, d = 2) {
+        return Number(n.toFixed(d)).toString();
+      }
+
+      let controller: AbortController | null = null;
+      let lastShape = "";
+
+      async function refresh() {
+        const settings = readSettings();
+        controller?.abort();
+        controller = new AbortController();
+        busyEl.hidden = false;
+        try {
+          const res = await fetch("/api/slice", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mode: "preview", ...settings }),
+            signal: controller.signal,
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error ?? res.statusText);
+          const refit = settings.wall.shape !== lastShape;
+          lastShape = settings.wall.shape as string;
+          viewer.show(data.layers, data.total_layers, refit);
+          const s = data.stats;
+          statsEl.innerHTML = `
+            <dl>
+              <dt>Layers</dt><dd>${s.layers}</dd>
+              <dt>Layer thickness</dt><dd>${fmt(s.min_thickness, 3)}–${fmt(s.max_thickness, 3)} mm</dd>
+              <dt>Max slope</dt><dd>${fmt(s.max_slope_deg, 1)}°</dd>
+              <dt>Waves (Z / XY)</dt><dd>${fmt(s.z_waves)} / ${fmt(s.xy_waves)}</dd>
+              <dt>Ramp</dt><dd>${s.ramp_layers} layers</dd>
+            </dl>
+            ${data.warnings.map((w: string) => `<p class="warn">${escapeHtml(w)}</p>`).join("")}`;
+          busyEl.hidden = true;
+        } catch (err) {
+          if ((err as Error).name === "AbortError") return;
+          statsEl.innerHTML = `<p class="warn">${escapeHtml((err as Error).message)}</p>`;
+          busyEl.hidden = true;
+        }
+      }
+
+      const refreshSoon = debounce(refresh, 120);
+
+      document.querySelectorAll<HTMLInputElement>("#panel input").forEach((el) => {
+        el.addEventListener("input", () => {
+          const out = el.parentElement?.querySelector("output");
+          if (out) out.textContent = el.value;
+          syncVisibility();
+          if (el.dataset.group !== "printer") refreshSoon();
+        });
+      });
+
+      downloadBtn.addEventListener("click", async () => {
+        downloadBtn.disabled = true;
+        statusEl.textContent = "Generating G-code…";
+        try {
+          const res = await fetch("/api/slice", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mode: "gcode", ...readSettings() }),
+          });
+          if (!res.ok) throw new Error((await res.json()).error ?? res.statusText);
+          const summary = JSON.parse(res.headers.get("X-Summary") ?? "{}");
+          const blob = await res.blob();
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = "wave_wall.gcode";
+          a.click();
+          URL.revokeObjectURL(a.href);
+          statusEl.textContent =
+            summary.filament_g !== undefined
+              ? `${fmt(summary.filament_mm / 1000)} m / ${fmt(summary.filament_g, 1)} g filament, about ${Math.round(summary.time_min)} min`
+              : "Downloaded.";
+        } catch (err) {
+          statusEl.textContent = `Failed: ${(err as Error).message}`;
+        } finally {
+          downloadBtn.disabled = false;
+        }
+      });
+
+      document.getElementById("fit")!.addEventListener("click", () => viewer.fit());
+
+      syncVisibility();
+      refresh();
+    </script>
+
+    <style is:global>
+      :root {
+        --bg: #f4f5f7;
+        --panel: #ffffff;
+        --text: #1d2330;
+        --muted: #667085;
+        --line: #e2e5ea;
+        --accent: #2f6fdf;
+        --warn: #b54708;
+        --warn-bg: #fff4e5;
+        color-scheme: light dark;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0f1216;
+          --panel: #171b21;
+          --text: #e6e8eb;
+          --muted: #98a2b3;
+          --line: #2a3039;
+          --accent: #6b9cff;
+          --warn: #fdb022;
+          --warn-bg: #3a2a0c;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        height: 100dvh;
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      #panel {
+        overflow-y: auto;
+        padding: 16px;
+        background: var(--panel);
+        border-right: 1px solid var(--line);
+      }
+      header h1 { font-size: 20px; margin: 0; }
+      header p, .hint { color: var(--muted); margin: 4px 0 8px; }
+      fieldset { border: 0; border-top: 1px solid var(--line); margin: 12px 0 0; padding: 10px 0 0; }
+      legend { font-weight: 600; padding: 0 6px 0 0; }
+      .seg { display: flex; gap: 6px; margin-bottom: 8px; }
+      .seg label {
+        flex: 1; text-align: center; padding: 6px; border: 1px solid var(--line);
+        border-radius: 6px; cursor: pointer; user-select: none;
+      }
+      .seg input { position: absolute; opacity: 0; pointer-events: none; }
+      .seg label:has(input:checked) { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+      .seg label:has(input:focus-visible) { outline: 2px solid var(--accent); }
+      .slider {
+        display: grid; grid-template-columns: 1fr auto auto; column-gap: 4px;
+        align-items: baseline; margin: 6px 0;
+      }
+      .slider[hidden] { display: none; }
+      .slider output { font-variant-numeric: tabular-nums; font-weight: 600; }
+      .slider .unit { color: var(--muted); min-width: 2ch; }
+      .slider input { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); }
+      .check { display: flex; gap: 6px; align-items: center; margin-top: 6px; }
+      details { border-top: 1px solid var(--line); margin-top: 12px; padding-top: 10px; }
+      summary { font-weight: 600; cursor: pointer; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+      .num { display: flex; flex-direction: column; gap: 2px; color: var(--muted); font-size: 12px; }
+      .num input {
+        font: inherit; font-size: 14px; padding: 4px 6px; border-radius: 6px;
+        border: 1px solid var(--line); background: var(--bg); color: var(--text);
+      }
+      #download {
+        width: 100%; margin-top: 16px; padding: 10px; border: 0; border-radius: 8px;
+        background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer;
+      }
+      #download:disabled { opacity: 0.6; cursor: progress; }
+      #download-status { color: var(--muted); min-height: 1.4em; }
+      main { position: relative; min-height: 0; }
+      #viewer { position: absolute; inset: 0; }
+      #stats {
+        position: absolute; top: 12px; right: 12px; max-width: 300px;
+        background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+      }
+      #stats dl { display: grid; grid-template-columns: auto auto; gap: 2px 12px; margin: 0; }
+      #stats dt { color: var(--muted); }
+      #stats dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+      .warn { margin: 8px 0 0; padding: 6px 8px; border-radius: 6px; background: var(--warn-bg); color: var(--warn); }
+      #busy {
+        position: absolute; top: 12px; left: 12px; padding: 4px 10px; border-radius: 999px;
+        background: var(--panel); border: 1px solid var(--line); color: var(--muted);
+      }
+      #fit {
+        position: absolute; bottom: 12px; right: 12px; padding: 6px 12px; border-radius: 6px;
+        border: 1px solid var(--line); background: var(--panel); color: var(--text); font: inherit; cursor: pointer;
+      }
+      @media (max-width: 760px) {
+        body { display: flex; flex-direction: column-reverse; height: auto; }
+        main { height: 60vh; flex: none; }
+        #panel { border-right: 0; border-top: 1px solid var(--line); overflow: visible; }
+        #stats { max-width: calc(100% - 24px); font-size: 12px; }
+      }
+    </style>
+  </body>
+</html>

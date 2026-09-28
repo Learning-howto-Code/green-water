@@ -11,7 +11,7 @@ from matplotlib.widgets import Button, CheckButtons, RadioButtons, Slider
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
 from .gcode import PrinterParams, build_gcode
-from .geometry import SHAPES, WAVEFORMS, WallParams, generate_layers, wall_stats
+from .geometry import SHAPES, WAVEFORMS, WallParams, generate_layers, wall_stats, wall_warnings
 
 # (field, label, min, max, step)
 SLIDERS = [
@@ -129,13 +129,7 @@ class SlicerApp:
         self.ax.view_init(elev=elev, azim=azim)
         self.ax.set_title(f"{wall.shape} wall, {len(layers)} layers (showing every {step})")
 
-        warnings = []
-        if stats.min_thickness < 0.5 * wall.layer_height:
-            warnings.append("! very thin spots: lower phase shift or amplitude")
-        if stats.max_thickness > 0.8 * wall.line_width:
-            warnings.append("! thick spots may under-extrude")
-        if stats.max_slope_deg > 30:
-            warnings.append("! steep slope: nozzle may hit the wall")
+        warnings = ["! " + w for w in wall_warnings(wall, stats)]
         text = (
             f"layers            {stats.layers}\n"
             f"layer thickness   {stats.min_thickness:.3f} - {stats.max_thickness:.3f} mm\n"
