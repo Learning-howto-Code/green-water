@@ -1,8 +1,17 @@
-import cv2 as cv
 import time
-img = cv.imread("/Users/jakehopkins/Downloads/16-18-58-775_pred_0.0003.jpg")
-cv.imshow("pre", img)
-img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-cv.imshow("after", img)
-cv.waitKey(0)              # blocks until any keypress, keeps windows alive
-cv.destroyAllWindows()
+import zmq
+
+context = zmq.Context()
+socket = context.socket(zmq.REP)
+socket.bind("tcp://*:5555")
+
+while True:
+    #  Wait for next request from client
+    message = socket.recv()
+    print("Received request: %s" % message)
+
+    #  Do some 'work'
+    time.sleep(1)
+
+    #  Send reply back to client
+    socket.send(b"World")
