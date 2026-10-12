@@ -1,18 +1,17 @@
+#subnet ip for pi5: 10.10.10.1
 import time
 import zmq
-
+import cv2 as cv
 context = zmq.Context()
-socket = context.socket(zmq.REP)
+socket = context.socket(zmq.REQ)
 socket.bind("tcp://*:5555")
 x=1
 while True:
-    #  Wait for next request from client
-    message = socket.recv()
-    print(f"Received request: {message}")
-
-    #  Do some 'work'
-    time.sleep(1)
-
-    #  Send reply back to client
-    socket.send_string("Sending from pi5 message number"+x)
+    socket.send_string(f"need image {x}")
+    jpeg, stamp = socket.recv()
+    print(stamp)
+    jpg = cv.imdecode(jpeg, cv.IMREAD_COLOR)
+    cv.imshow("image", jpg)
+    cv.waitKey(1)
+    cv.destroyAllWindows
     x+=1
