@@ -14,12 +14,20 @@ import json
 import subprocess
 import psutil
 import csv
+import numpy as np
+import cv2 as cv
+import time
+import zmq
 #vars
 
 iw_model = 'models/water_testing.tflite'
 f_model = 'models/food_full_diff.tflite'
 p_model='models/poop_model.tflite'
 log = 'log.csv'
+
+context = zmq.Context()
+socket = context.socket(zmq.REQ)
+socket.connect("tcp://10.10.10.2:5555")
 
 #turns on light
 SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
@@ -91,6 +99,14 @@ def save_img(pre, prediction, diff):
     cv.imwrite(filename, pre)
     cv.imwrite(diff_name, diff)
     return filename
+def get_img():
+    socket.send_string(f"need image {x}")
+    jpg, stamp = socket.recv_multipart()
+    print(stamp)
+    jpg = np.frombuffer(jpg, np.uint8)
+    img_pi3 = cv.imdecode(jpg, cv.IMREAD_COLOR)
+    return img_pi3
+
 old = None
 def find_diff(img):
     global old
