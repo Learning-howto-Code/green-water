@@ -14,7 +14,7 @@ solenoid.on()
 solenoid.off()
     
 x=1
-def get_img():
+def get_img(): # sends string, expects image and time
     socket.send_string(f"need image {x}")
     jpg, stamp = socket.recv_multipart()
     print(stamp)
@@ -22,13 +22,22 @@ def get_img():
     jpg = cv.imdecode(jpg, cv.IMREAD_COLOR)
     return jpg
 state = "closed"
-def move_valve(state):
+def move_valve(state):# sends string, expects string
     socket.send_string(state)
-    state = socket.recv_string()
-while True:
+    print("send state")
+    state = socket.recv_string() 
+    print("recieved state:", state)
+while True:# as REQ must send first
+    move_valve(state) # first sends state on run, expects string back
     jpg=get_img()
-    cv.imshow("image", jpg)
-    cv.waitKey(1)
-    cv.destroyAllWindows
+    cv.imwrite(f"data/{x}.jpg", jpg)
+    print("saved image")
+    # cv.imshow("image", jpg)
+    # cv.waitKey(1)
+    # cv.destroyAllWindows
     x+=1
     time.sleep(1)
+    if state == "closed":
+        state = "open"
+    else:
+        state = "closed"

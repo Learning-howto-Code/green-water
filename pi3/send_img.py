@@ -29,14 +29,14 @@ sock.bind("tcp://*:5555")
 
 time.sleep(1)#must wait for everything to start up, otherwise colors are wonky
 
-def take_img():
+def take_img():# sends image and time
     print("taking image")
     img = picam2.capture_array()
     img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
     img = cv.rotate(img, cv.ROTATE_180)
     success, jpg = cv.imencode('.jpg', img)
     stamp = str(datetime.now().strftime("%H-%M-%S-%f")[:-3])
-    return jpg, stamp
+    return img, stamp
 # open ranges from 135-145
 #closed ranges from 235-238
 def valve_check():
@@ -51,9 +51,9 @@ def valve_check():
         valve_true="Error"
     return valve_true
 timer = time.monotonic()
-def move_valve(state):
+def move_valve(state):# sends string
     valve_true = valve_check()
-    if (time.monotonic) - timer > (4*60*60):
+    if (time.monotonic()) - timer > (4*60*60):
         # valve needs to close
         solenoid.off()
         state = "closed" 
@@ -66,18 +66,28 @@ def move_valve(state):
     time.sleep(1)
     valve_true = valve_check()
     if valve_true != state:
-        return f"Error{valve_true}"
+        sock.send_string(f"Error {valve_true}")
+        return f"Error {valve_true}"
     else:
+        sock.send_string(valve_true)
         return valve_true
 
 try:
     while True:
-        sock.recv()#waits for request
-        jpg, stamp = take_img()
-        sock.send_multipart([jpg.tobytes(), stamp.encode()])
+        message = sock.recv().decode()#waits for request
+        if "image" in message:
+            img, stamp = take_img()
+            success, jpg = cv.imencode('.jpg', img)
+            sock.send_multipart([jpg.tobytes(), stamp.encode()])
+        if "open"in message or "closed" in message:
+            move_valve(message)
+        time.sleep(.5)
+        
 finally:
     sock.close()
     picam2.close()
+    pixels.deinit()
+    solenoid.off()
 
 
 

@@ -106,7 +106,7 @@ def get_img():
     jpg = np.frombuffer(jpg, np.uint8)
     img_pi3 = cv.imdecode(jpg, cv.IMREAD_COLOR)
     return img_pi3
-
+x=1
 old = None
 def find_diff(img):
     global old
@@ -140,13 +140,14 @@ try:
                 writer = csv.writer(f)
                 writer.writerow([datetime.now().strftime("%H:%M:%S"), w_prediction, f_prediction, p_prediction, filename])
 
-            if f_prediction >0.7 or p_prediction > 0.7: # predicts dirty
+            if f_prediction >0.8 or p_prediction > 0.8: # predicts dirty
                 print("predicted dirty")
             else:
                 print('water predicted clean')
                 time_on += 1
                 with open("time.txt", 'w') as f:
                     f.write(str(time_on))
+                    filename=save_img(pre, w_prediction, diff)
                     
         time.sleep(1)
 finally:
