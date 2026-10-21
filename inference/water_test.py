@@ -1,3 +1,5 @@
+from tkinter import W
+
 from picamera2 import Picamera2 # type: ignore
 from time import sleep
 import time
@@ -11,9 +13,21 @@ import pi5neo  # type: ignore
 import json
 import subprocess
 import psutil
+import csv
+import numpy as np
+import cv2 as cv
+import time
+import zmq
 #vars
-dir = f"data/{date.today()}"
-model = 'models/water_testing.tflite'
+
+iw_model = 'models/water_testing.tflite'
+f_model = 'models/food_full_diff.tflite'
+p_model='models/poop_model.tflite'
+log = 'log.csv'
+
+context = zmq.Context()
+socket = context.socket(zmq.REQ)
+socket.connect("tcp://10.10.10.2:5555")
 
 #turns on light
 SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
@@ -32,11 +46,21 @@ picam2.configure(config)
 picam2.start()
 
 time.sleep(1)
-#load model
-interpreter = tflite.Interpreter(model)
-interpreter.allocate_tensors()
-input_details = interpreter.get_input_details()
-output_details = interpreter.get_output_details()
+iw_interpreter = tflite.Interpreter(iw_model)
+iw_interpreter.allocate_tensors()
+iw_input_details = iw_interpreter.get_input_details()
+iw_output_details = iw_interpreter.get_output_details()
+
+f_interpreter = tflite.Interpreter(f_model)
+f_interpreter.allocate_tensors()
+f_input_details = f_interpreter.get_input_details()
+f_output_details = f_interpreter.get_output_details()
+
+p_interpreter = tflite.Interpreter(p_model)
+p_interpreter.allocate_tensors()
+p_input_details = p_interpreter.get_input_details()
+p_output_details = p_interpreter.get_output_details()
+
 
 def take_pic():
     global pre
@@ -47,12 +71,26 @@ def take_pic():
     img = cv.resize(img, (224, 224))
     return img, pre
 def water_inference(img):
-    interpreter.set_tensor(input_details[0]["index"], img)
-    interpreter.invoke()
-    prediction = float(interpreter.get_tensor(output_details[0]["index"]).flat[0])
+    
+    iw_interpreter.set_tensor(iw_input_details[0]["index"], img)
+    iw_interpreter.invoke()
+    iw_prediction = float(iw_interpreter.get_tensor(iw_output_details[0]["index"]).flat[0])
 
-    return prediction
+    return iw_prediction
+def food_inference(img):
+    f_interpreter.set_tensor(f_input_details[0]["index"], img)
+    f_interpreter.invoke()
+    f_prediction = float(f_interpreter.get_tensor(f_output_details[0]["index"]).flat[0])
+
+    return f_prediction
+def poop_inference(img):
+    p_interpreter.set_tensor(p_input_details[0]["index"], img)
+    p_interpreter.invoke()
+    p_prediction = float(p_interpreter.get_tensor(p_output_details[0]["index"]).flat[0])
+
+    return p_prediction
 def save_img(pre, prediction, diff):
+    dir = f"data/{date.today()}"
     os.makedirs(dir, exist_ok=True)
     stamp = datetime.now().strftime("%H-%M-%S-%f")[:-3]
     filename = f"{dir}/{stamp}_pred_{float(prediction):.4f}.jpg"
@@ -60,6 +98,15 @@ def save_img(pre, prediction, diff):
     print(f"'Saving image' {filename}")
     cv.imwrite(filename, pre)
     cv.imwrite(diff_name, diff)
+    return filename
+def get_img():
+    socket.send_string(f"need image {x}")
+    jpg, stamp = socket.recv_multipart()
+    print(stamp)
+    jpg = np.frombuffer(jpg, np.uint8)
+    img_pi3 = cv.imdecode(jpg, cv.IMREAD_COLOR)
+    return img_pi3
+x=1
 old = None
 def find_diff(img):
     global old
@@ -82,15 +129,26 @@ try:
         img, pre = take_pic()
         diff = find_diff(img)
         img = normalize(img, diff)
-        prediction = water_inference(img)
-        print(f"\n prediction: {prediction}")
-        if prediction > 0.6:
-            # water is predicted as present
-            print(f"water predicted: {prediction}")
-            time_on += 1
-            with open("time.txt", 'w') as f:
-                 f.wrte(str(time_on))
-                 save_img(pre, prediction, diff)
+        w_prediction = water_inference(img)
+        print(f"\n prediction: {w_prediction}")
+
+        if w_prediction > 0.6: #water is present
+            f_prediction = food_inference(img)
+            p_prediction = poop_inference(img)
+            filename=save_img(pre, w_prediction, diff)
+            with open(log,'a' ) as f:
+                writer = csv.writer(f)
+                writer.writerow([datetime.now().strftime("%H:%M:%S"), w_prediction, f_prediction, p_prediction, filename])
+
+            if f_prediction >0.8 or p_prediction > 0.8: # predicts dirty
+                print("predicted dirty")
+            else:
+                print('water predicted clean')
+                time_on += 1
+                with open("time.txt", 'w') as f:
+                    f.write(str(time_on))
+                    filename=save_img(pre, w_prediction, diff)
+                    
         time.sleep(1)
 finally:
     picam2.close()

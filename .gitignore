@@ -19,3 +19,4 @@ movie/*
 *.png
 __pycache__/
   *.pyc
+*.csv  
