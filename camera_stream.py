@@ -7,7 +7,6 @@ import cv2
 import tflite_runtime.interpreter as tflite # type: ignore
 import sys
 import os
-import pi5neo as Pi5Neo # type: ignore
 import json
 import subprocess
 import psutil

@@ -6,7 +6,8 @@ import cv2 as cv
 import json
 import tflite_runtime.interpreter as tflite
 from PIL import Image
-from pi5neo import Pi5Neo
+import board
+import neopixel_spi as neopixel
 from picamera2 import Picamera2
 import threading
 import http.server
@@ -33,13 +34,12 @@ config = picam2.create_video_configuration(main={"size": (640, 360)}, buffer_cou
 picam2.configure(config)
 picam2.start()
 
-SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
-SPI_SPEED_KHZ = 800 #speed of SPI protocol
+pixels = neopixel.NeoPixel_SPI(
+    board.SPI(), 30, brightness=1.0, auto_write=False, pixel_order=neopixel.GRB
+)
 
-neo = Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
-
-neo.fill_strip(220, 240, 120)
-neo.update_strip()  # commit/send to LEDs
+pixels.fill((220, 240, 120))
+pixels.show()  # commit/send to LEDs
 time.sleep(0.5)
 
 def get_ID():
@@ -192,5 +192,5 @@ for x in range(seconds*30): #for 30 fps
         print(food_pred_int)
         previous_prediction = food_pred
 time.sleep(0.5)
-neo.fill_strip(0, 0, 0)
-neo.update_strip()  # commit/send to LEDs
+pixels.fill((0, 0, 0))
+pixels.show()  # commit/send to LEDs

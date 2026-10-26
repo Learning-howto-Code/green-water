@@ -9,15 +9,14 @@ def is_ssh_active() -> bool: # returns true if ssh is active
     return False# else returns false
 if_ssh = is_ssh_active()
 if if_ssh == False:
-    from pi5neo import Pi5Neo
+    import board
+    import neopixel_spi as neopixel
 
-    spi_channel = "/dev/spidev0.0"
-    spi_hz = 800
-    leds = 24
-
-    neo = Pi5Neo(spi_channel, leds, spi_hz)
-    neo.fill_strip(0, 0, 0)
-    neo.update_strip()
+    pixels = neopixel.NeoPixel_SPI(
+        board.SPI(), 24, brightness=1.0, auto_write=False, pixel_order=neopixel.GRB
+    )
+    pixels.fill((0, 0, 0))
+    pixels.show()
     print("SSH not active, turning off LED's")
 else :
     print("SSH active, not touchng LED's")

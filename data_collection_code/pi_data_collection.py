@@ -1,6 +1,7 @@
 from picamera2 import Picamera2
 from time import sleep, strftime, time
-from pi5neo import Pi5Neo
+import board
+import neopixel_spi as neopixel
 import os
 import cv2
 from tqdm import tqdm
@@ -11,15 +12,14 @@ Frames=3500
 brightness=1
 
 # SPI setup for NeoPixel
-SPI_DEVICE = '/dev/spidev0.0'
-SPI_SPEED_KHZ = 800
-pin = 30
-neo = Pi5Neo(SPI_DEVICE, pin, SPI_SPEED_KHZ)
+pixels = neopixel.NeoPixel_SPI(
+    board.SPI(), 30, brightness=brightness, auto_write=False, pixel_order=neopixel.GRB
+)
  
 
 def take_pic():
-    neo.fill_strip(220*brightness, 240*brightness, 120*brightness) #sets LED's to white and a little dimmer
-    neo.update_strip() #sets color
+    pixels.fill((220, 240, 120)) #sets LED's to white and a little dimmer
+    pixels.show() #sets color
     print("light on")
     picam2 = Picamera2()
     config = picam2.create_video_configuration(main={"size": (640, 360)}, lores={"size": (640, 360)}, display="lores")
@@ -42,5 +42,5 @@ def take_pic():
 
 
 take_pic()
-neo.fill_strip(0, 0, 0) #sets LED's to white and a little dimmer
-neo.update_strip() #sets color
+pixels.fill((0, 0, 0)) #turns LED's off
+pixels.show() #sets color

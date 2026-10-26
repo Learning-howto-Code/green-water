@@ -1,5 +1,6 @@
 import os
-import pi5neo
+import board
+import neopixel_spi as neopixel
 from picamera2 import Picamera2
 from time import sleep
 import cv2
@@ -13,13 +14,11 @@ picam2.configure(config)
 picam2.start()
 
 #sets up led ring
-SPI_DEVICE = '/dev/spidev0.0' # Rpi protocol to get the timing right for the GPIOs
-SPI_SPEED_KHZ = 800 #speed of SPI protocol
-
-neo = pi5neo.Pi5Neo(SPI_DEVICE, 30, SPI_SPEED_KHZ)
-# Fill the strip with white (R,G,B = 255,255,255)
-neo.fill_strip(220, 240, 120)
-neo.update_strip()  # commit/send to LEDs
+pixels = neopixel.NeoPixel_SPI(
+    board.SPI(), 30, brightness=1.0, auto_write=False, pixel_order=neopixel.GRB
+)
+pixels.fill((220, 240, 120))
+pixels.show()  # commit/send to LEDs
 
 sleep(.5)
 ID = 1

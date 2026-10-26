@@ -20,3 +20,5 @@ movie/*
 __pycache__/
   *.pyc
 *.csv  
+*.env
+.env

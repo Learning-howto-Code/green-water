@@ -1,36 +1,30 @@
-import zmq
-import time
-import gpiozero
+from datetime import datetime
+import neopixel_spi as neopixel # type: ignore
 import board
-import neopixel_spi as neopixel
 from picamera2 import Picamera2
 import cv2 as cv
-from datetime import datetime
-
-spi = board.SPI()
+import time
+from libcamera import controls # type: ignore
 pixels = neopixel.NeoPixel_SPI(
-    spi, 24, brightness=0.2, auto_write=False, pixel_order=neopixel.RGB
+    board.SPI(), 24, brightness=0.2, auto_write=False, pixel_order=neopixel.RGB
 )
 pixels.fill((220, 240, 120))
-pixels.brightness = 0.2
-pixels.show()
-print("light")
-#sets up camera
+pixels.brightness=.2
+pixels.show()  # commit/send to LEDs
+
 picam2 = Picamera2()
-config = picam2.create_video_configuration(main={"size": (640, 360)}, buffer_count=4)
+config = picam2.create_video_configuration(main={"size": (1280, 720)}, buffer_count=4)
 picam2.configure(config)
 picam2.start()
-time.sleep(2)
-x=1
-def take_img():
-    global x
+picam2.set_controls({"AfMode": controls.AfModeEnum.Manual, "LensPosition": 0.0})  # 8.0 = 1/8 m = 12.5 cm
+
+
+
+time.sleep(1)
+for i in range(5):
     img = picam2.capture_array()
-    cv.imwrite(f"data/{x}.jpg", img)
-    x+=1
-time.sleep(3)
-for i in range(100):
-    take_img()
-    time.sleep(1)
-pixels.fill((0, 0, 0))
-pixels.show()
-pixels.deinit()
+    img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+    img = cv.rotate(img, cv.ROTATE_180)
+    stamp = str(datetime.now().strftime("%H-%M-%S-%f")[:-3])
+    cv.imwrite(f"data/{stamp}.jpg", img)
+    time.sleep(.2)
